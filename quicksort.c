@@ -28,3 +28,21 @@ void quickSort(int v[], int tamVet){
         quickSortR(v, 0, tamVet-1);
     }
 }
+
+
+int main(){
+    int v[10] = {8,7,3,6,2,4,1,5,10,9};
+
+    printf("array desordenado: ");
+    for(int x=0;x<10;x++){
+        printf("%d ", v[x]);
+    }
+
+    printf("\narray ordenado a partir do quicksort: ");
+    quickSort(v, 10);
+
+    for(int x=0;x<10;x++){
+        printf("%d ", v[x]);
+    }
+
+}
