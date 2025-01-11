@@ -33,7 +33,7 @@ void quickSort(int v[], int tamVet){
 int main(){
     int v[10] = {8,7,3,6,2,4,1,5,10,9};
 
-    printf("array desordenado: ");
+    printf("array desordenado: ");  
     for(int x=0;x<10;x++){
         printf("%d ", v[x]);
     }
