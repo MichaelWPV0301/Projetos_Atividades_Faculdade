@@ -48,6 +48,96 @@
     <a name="circuit" val="main"/>
     <a name="clabelfont" val="SansSerif plain 12"/>
     <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(610,420)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(610,460)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(620,180)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="width" val="8"/>
+    </comp>
+    <comp lib="0" loc="(620,220)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="width" val="8"/>
+    </comp>
+    <comp lib="0" loc="(750,360)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="0" loc="(820,430)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+    </comp>
+    <comp lib="0" loc="(820,490)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+    </comp>
+    <comp lib="0" loc="(860,190)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="8"/>
+    </comp>
+    <comp loc="(220,170)" name="somador1"/>
+    <comp loc="(760,420)" name="somador1"/>
+    <comp loc="(790,190)" name="somador"/>
+    <wire from="(610,420)" to="(730,420)"/>
+    <wire from="(610,460)" to="(730,460)"/>
+    <wire from="(620,180)" to="(760,180)"/>
+    <wire from="(620,220)" to="(760,220)"/>
+    <wire from="(730,430)" to="(730,460)"/>
+    <wire from="(740,410)" to="(750,410)"/>
+    <wire from="(750,360)" to="(750,410)"/>
+    <wire from="(760,180)" to="(760,190)"/>
+    <wire from="(760,200)" to="(760,220)"/>
+    <wire from="(760,420)" to="(820,420)"/>
+    <wire from="(760,430)" to="(820,430)"/>
+    <wire from="(790,190)" to="(860,190)"/>
+    <wire from="(820,420)" to="(820,430)"/>
+    <wire from="(820,430)" to="(820,490)"/>
+  </circuit>
+  <circuit name="somador">
+    <a name="circuit" val="somador"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(590,210)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="width" val="8"/>
+    </comp>
+    <comp lib="0" loc="(600,320)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="width" val="8"/>
+    </comp>
+    <comp lib="0" loc="(620,210)" name="Splitter">
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="0" loc="(630,320)" name="Splitter">
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="0" loc="(970,190)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="8"/>
+    </comp>
+    <comp lib="0" loc="(970,190)" name="Splitter">
+      <a name="facing" val="west"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <wire from="(590,210)" to="(620,210)"/>
+    <wire from="(600,320)" to="(630,320)"/>
+  </circuit>
+  <circuit name="somador1">
+    <a name="circuit" val="somador1"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
     <comp lib="0" loc="(1040,260)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="facing" val="west"/>
@@ -106,15 +196,31 @@
     <wire from="(930,510)" to="(930,600)"/>
     <wire from="(980,490)" to="(1050,490)"/>
   </circuit>
-  <circuit name="circuitoSomador">
-    <a name="circuit" val="circuitoSomador"/>
+  <circuit name="meioSomador">
+    <a name="circuit" val="meioSomador"/>
     <a name="circuitnamedboxfixedsize" val="true"/>
     <a name="simulationFrequency" val="1.0"/>
-    <comp lib="0" loc="(280,290)" name="Pin">
+    <comp lib="0" loc="(540,190)" name="Pin">
       <a name="appearance" val="NewPins"/>
     </comp>
-    <comp lib="0" loc="(280,360)" name="Pin">
+    <comp lib="0" loc="(540,290)" name="Pin">
       <a name="appearance" val="NewPins"/>
     </comp>
+    <comp lib="0" loc="(790,230)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+    </comp>
+    <comp lib="0" loc="(810,360)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+    </comp>
+  </circuit>
+  <circuit name="oi">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="oi"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
   </circuit>
 </project>
