@@ -82,6 +82,7 @@
       <a name="output" val="true"/>
       <a name="width" val="8"/>
     </comp>
+    <comp loc="(220,170)" name="somador1"/>
     <comp loc="(760,420)" name="somador1"/>
     <comp loc="(790,190)" name="somador"/>
     <wire from="(610,420)" to="(730,420)"/>
