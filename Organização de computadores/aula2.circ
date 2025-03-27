@@ -55,5 +55,211 @@
     <a name="circuit" val="main"/>
     <a name="circuitnamedboxfixedsize" val="true"/>
     <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(440,260)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="input1"/>
+      <a name="width" val="8"/>
+    </comp>
+    <comp lib="0" loc="(440,310)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="set"/>
+    </comp>
+    <comp lib="0" loc="(730,260)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="memoria"/>
+      <a name="output" val="true"/>
+      <a name="width" val="8"/>
+    </comp>
+    <comp loc="(650,260)" name="registrador_8bits"/>
+    <wire from="(440,260)" to="(620,260)"/>
+    <wire from="(440,310)" to="(620,310)"/>
+    <wire from="(620,270)" to="(620,310)"/>
+    <wire from="(650,260)" to="(730,260)"/>
+  </circuit>
+  <circuit name="registrador_8bits">
+    <a name="circuit" val="registrador_8bits"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(330,500)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="width" val="8"/>
+    </comp>
+    <comp lib="0" loc="(370,500)" name="Splitter">
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="0" loc="(480,870)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(860,540)" name="Splitter">
+      <a name="facing" val="west"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="0" loc="(930,540)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="8"/>
+    </comp>
+    <comp loc="(620,380)" name="memoria_um_bit"/>
+    <comp loc="(620,440)" name="memoria_um_bit"/>
+    <comp loc="(620,500)" name="memoria_um_bit"/>
+    <comp loc="(620,570)" name="memoria_um_bit"/>
+    <comp loc="(620,640)" name="memoria_um_bit"/>
+    <comp loc="(620,700)" name="memoria_um_bit"/>
+    <comp loc="(620,760)" name="memoria_um_bit"/>
+    <comp loc="(620,830)" name="memoria_um_bit"/>
+    <wire from="(330,500)" to="(370,500)"/>
+    <wire from="(390,420)" to="(490,420)"/>
+    <wire from="(390,430)" to="(590,430)"/>
+    <wire from="(390,440)" to="(510,440)"/>
+    <wire from="(390,450)" to="(500,450)"/>
+    <wire from="(390,460)" to="(490,460)"/>
+    <wire from="(390,470)" to="(480,470)"/>
+    <wire from="(390,480)" to="(470,480)"/>
+    <wire from="(390,490)" to="(460,490)"/>
+    <wire from="(460,490)" to="(460,830)"/>
+    <wire from="(460,830)" to="(590,830)"/>
+    <wire from="(470,480)" to="(470,760)"/>
+    <wire from="(470,760)" to="(590,760)"/>
+    <wire from="(480,470)" to="(480,700)"/>
+    <wire from="(480,700)" to="(590,700)"/>
+    <wire from="(480,870)" to="(540,870)"/>
+    <wire from="(490,380)" to="(490,420)"/>
+    <wire from="(490,380)" to="(590,380)"/>
+    <wire from="(490,460)" to="(490,640)"/>
+    <wire from="(490,640)" to="(590,640)"/>
+    <wire from="(500,450)" to="(500,550)"/>
+    <wire from="(500,550)" to="(590,550)"/>
+    <wire from="(510,440)" to="(510,500)"/>
+    <wire from="(510,500)" to="(590,500)"/>
+    <wire from="(540,390)" to="(540,450)"/>
+    <wire from="(540,390)" to="(590,390)"/>
+    <wire from="(540,450)" to="(540,510)"/>
+    <wire from="(540,450)" to="(590,450)"/>
+    <wire from="(540,510)" to="(540,580)"/>
+    <wire from="(540,510)" to="(590,510)"/>
+    <wire from="(540,580)" to="(540,650)"/>
+    <wire from="(540,580)" to="(590,580)"/>
+    <wire from="(540,650)" to="(540,710)"/>
+    <wire from="(540,650)" to="(590,650)"/>
+    <wire from="(540,710)" to="(540,770)"/>
+    <wire from="(540,710)" to="(590,710)"/>
+    <wire from="(540,770)" to="(540,840)"/>
+    <wire from="(540,770)" to="(590,770)"/>
+    <wire from="(540,840)" to="(540,870)"/>
+    <wire from="(540,840)" to="(590,840)"/>
+    <wire from="(590,430)" to="(590,440)"/>
+    <wire from="(590,550)" to="(590,570)"/>
+    <wire from="(620,380)" to="(830,380)"/>
+    <wire from="(620,440)" to="(810,440)"/>
+    <wire from="(620,500)" to="(800,500)"/>
+    <wire from="(620,570)" to="(790,570)"/>
+    <wire from="(620,640)" to="(780,640)"/>
+    <wire from="(620,700)" to="(790,700)"/>
+    <wire from="(620,760)" to="(800,760)"/>
+    <wire from="(620,830)" to="(830,830)"/>
+    <wire from="(780,590)" to="(780,640)"/>
+    <wire from="(780,590)" to="(840,590)"/>
+    <wire from="(790,570)" to="(790,580)"/>
+    <wire from="(790,580)" to="(840,580)"/>
+    <wire from="(790,600)" to="(790,700)"/>
+    <wire from="(790,600)" to="(840,600)"/>
+    <wire from="(800,500)" to="(800,570)"/>
+    <wire from="(800,570)" to="(840,570)"/>
+    <wire from="(800,610)" to="(800,760)"/>
+    <wire from="(800,610)" to="(840,610)"/>
+    <wire from="(810,440)" to="(810,560)"/>
+    <wire from="(810,560)" to="(840,560)"/>
+    <wire from="(830,380)" to="(830,550)"/>
+    <wire from="(830,550)" to="(840,550)"/>
+    <wire from="(830,620)" to="(830,830)"/>
+    <wire from="(830,620)" to="(840,620)"/>
+    <wire from="(860,540)" to="(930,540)"/>
+  </circuit>
+  <circuit name="memoria_um_bit">
+    <a name="circuit" val="memoria_um_bit"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(1040,250)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+    </comp>
+    <comp lib="0" loc="(400,240)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(410,390)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="1" loc="(600,230)" name="NAND Gate"/>
+    <comp lib="1" loc="(690,370)" name="NAND Gate"/>
+    <comp lib="1" loc="(940,250)" name="NAND Gate"/>
+    <comp lib="1" loc="(960,430)" name="NAND Gate"/>
+    <wire from="(400,240)" to="(430,240)"/>
+    <wire from="(410,390)" to="(470,390)"/>
+    <wire from="(430,210)" to="(430,240)"/>
+    <wire from="(430,210)" to="(540,210)"/>
+    <wire from="(470,250)" to="(470,390)"/>
+    <wire from="(470,250)" to="(540,250)"/>
+    <wire from="(470,390)" to="(630,390)"/>
+    <wire from="(600,230)" to="(610,230)"/>
+    <wire from="(610,230)" to="(610,350)"/>
+    <wire from="(610,230)" to="(880,230)"/>
+    <wire from="(610,350)" to="(630,350)"/>
+    <wire from="(690,370)" to="(810,370)"/>
+    <wire from="(810,370)" to="(810,450)"/>
+    <wire from="(810,450)" to="(900,450)"/>
+    <wire from="(840,270)" to="(840,320)"/>
+    <wire from="(840,270)" to="(880,270)"/>
+    <wire from="(840,320)" to="(960,320)"/>
+    <wire from="(840,360)" to="(840,410)"/>
+    <wire from="(840,360)" to="(910,360)"/>
+    <wire from="(840,410)" to="(900,410)"/>
+    <wire from="(900,440)" to="(900,450)"/>
+    <wire from="(910,280)" to="(910,360)"/>
+    <wire from="(910,280)" to="(950,280)"/>
+    <wire from="(940,250)" to="(950,250)"/>
+    <wire from="(950,250)" to="(1040,250)"/>
+    <wire from="(950,250)" to="(950,280)"/>
+    <wire from="(960,320)" to="(960,430)"/>
+  </circuit>
+  <circuit name="registrador_2bits">
+    <a name="circuit" val="registrador_2bits"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(560,250)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(560,310)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(620,420)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(800,250)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+    </comp>
+    <comp lib="0" loc="(820,320)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+    </comp>
+    <comp loc="(740,250)" name="memoria_um_bit"/>
+    <comp loc="(740,310)" name="memoria_um_bit"/>
+    <wire from="(560,250)" to="(710,250)"/>
+    <wire from="(560,310)" to="(710,310)"/>
+    <wire from="(620,260)" to="(620,320)"/>
+    <wire from="(620,260)" to="(710,260)"/>
+    <wire from="(620,320)" to="(620,420)"/>
+    <wire from="(620,320)" to="(710,320)"/>
+    <wire from="(740,250)" to="(800,250)"/>
+    <wire from="(740,310)" to="(800,310)"/>
+    <wire from="(800,310)" to="(800,320)"/>
+    <wire from="(800,320)" to="(820,320)"/>
   </circuit>
 </project>
