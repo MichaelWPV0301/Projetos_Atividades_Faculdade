@@ -17,7 +17,7 @@
       <a name="font" val="SansSerif plain 12"/>
     </tool>
   </lib>
-  <main name="somador"/>
+  <main name="somador8"/>
   <options>
     <a name="gateUndefined" val="ignore"/>
     <a name="simlimit" val="1000"/>
@@ -74,7 +74,7 @@
       <a name="label" val="carry"/>
       <a name="output" val="true"/>
     </comp>
-    <comp loc="(690,130)" name="somador"/>
+    <comp loc="(690,130)" name="somador8"/>
     <wire from="(490,140)" to="(660,140)"/>
     <wire from="(490,180)" to="(650,180)"/>
     <wire from="(490,90)" to="(640,90)"/>
@@ -89,8 +89,8 @@
     <wire from="(770,140)" to="(770,160)"/>
     <wire from="(770,160)" to="(790,160)"/>
   </circuit>
-  <circuit name="somador">
-    <a name="circuit" val="somador"/>
+  <circuit name="somador8">
+    <a name="circuit" val="somador8"/>
     <a name="circuitnamedboxfixedsize" val="true"/>
     <a name="simulationFrequency" val="1.0"/>
     <comp lib="0" loc="(1120,220)" name="Splitter">
@@ -216,23 +216,18 @@
     <wire from="(850,620)" to="(850,640)"/>
     <wire from="(850,620)" to="(870,620)"/>
     <wire from="(870,100)" to="(1040,100)"/>
-    <wire from="(870,110)" to="(870,120)"/>
-    <wire from="(870,120)" to="(870,130)"/>
+    <wire from="(870,110)" to="(870,130)"/>
     <wire from="(870,160)" to="(1030,160)"/>
-    <wire from="(870,170)" to="(870,180)"/>
-    <wire from="(870,180)" to="(870,200)"/>
+    <wire from="(870,170)" to="(870,200)"/>
     <wire from="(870,220)" to="(1010,220)"/>
-    <wire from="(870,230)" to="(870,240)"/>
-    <wire from="(870,240)" to="(870,270)"/>
+    <wire from="(870,230)" to="(870,270)"/>
     <wire from="(870,300)" to="(970,300)"/>
-    <wire from="(870,310)" to="(870,320)"/>
-    <wire from="(870,320)" to="(870,350)"/>
+    <wire from="(870,310)" to="(870,350)"/>
     <wire from="(870,380)" to="(980,380)"/>
     <wire from="(870,390)" to="(880,390)"/>
     <wire from="(870,470)" to="(870,530)"/>
     <wire from="(870,560)" to="(1000,560)"/>
-    <wire from="(870,570)" to="(870,580)"/>
-    <wire from="(870,580)" to="(870,620)"/>
+    <wire from="(870,570)" to="(870,620)"/>
     <wire from="(870,650)" to="(1040,650)"/>
     <wire from="(870,660)" to="(950,660)"/>
     <wire from="(880,390)" to="(880,430)"/>
