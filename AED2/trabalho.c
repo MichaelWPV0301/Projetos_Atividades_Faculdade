@@ -1,7 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 
 #define TAM 1000000
+#define CalculaTempo(final,inicial) (double) (final - inicial)/CLOCKS_PER_SEC
 
 typedef struct tipoNo{
     struct tipoNo* prox;
@@ -12,6 +14,8 @@ typedef struct tipoLista{
     tipoNo* prim;
     int tamanho;
 }Lista;
+
+typedef int vetor;
 
 void populaVetorAleatorio(int* vetor, int tamanho){
     for (int i=0; i<tamanho; i++){
@@ -56,9 +60,17 @@ int buscaBinaria(int* vetor, int valor, int tamanho){
 }
 
 int main(){
-    int valorAleatorio1, valorAleatorio2, indice;
+
+    clock_t tempoInicial_1, tempoInicial_2, tempoFinal_1, tempoFinal_2;
+    double tempoTotal_Seq, tempoTotal_Bin;
+
+    int valorAleatorio1, valorAleatorio2;
     int vetor[TAM];
     int vetorOrdenado[TAM];
+
+
+
+    //Populando os dois vetores
     populaVetorAleatorio(vetor, TAM);
     populaVetorAleatorioOrdenado(vetorOrdenado, TAM);
 
@@ -66,6 +78,8 @@ int main(){
     srand(time(NULL));
     
     for(int i=0; i<30; i++){
+
+        printf("\nExecução %d\n", i);
 
         //15 casos dentro do vetor, 15 casos podendo estar fora
         if (i < 15){
@@ -78,10 +92,20 @@ int main(){
         }
         
         //Busca Sequencial no vetor desordenado
-        indice = buscaSequencialVetor(vetor, valorAleatorio1, TAM);
-    
+        tempoInicial_1 = clock();
+        buscaSequencialVetor(vetor, valorAleatorio1, TAM);
+        tempoFinal_1 = clock();
+
+
         //Busca Binária no vetor ordenado
-        indice = buscaBinaria(vetor, valorAleatorio2, TAM);
+        tempoInicial_2 = clock();
+        buscaBinaria(vetor, valorAleatorio2, TAM);
+        tempoFinal_2 = clock();
+
+        //Calculando o tempo das duas buscas
+        tempoTotal_Seq = CalculaTempo(tempoInicial_1, tempoFinal_1);
+        tempoTotal_Bin = CalculaTempo(tempoInicial_2, tempoFinal_2);
+        
 
     }
 
