@@ -3,34 +3,38 @@
 #include<time.h>
 
 #define TAM 1000000
-#define CalculaTempo(final,inicial) (double) (final - inicial)/CLOCKS_PER_SEC
+#define CalculaTempo(inicial,final) (double) (final - inicial)/CLOCKS_PER_SEC
 
-typedef struct tipoNo{
-    struct tipoNo* prox;
+typedef struct TipoNo{
+    struct TipoNo* prox;
     int valor;
-}tipoNo;
+}TipoNo;
 
-typedef struct tipoLista{
-    tipoNo* prim;
+typedef struct Lista{
+    TipoNo* prim;
     int tamanho;
 }Lista;
 
-typedef int vetor;
+typedef int* Vetor;
 
-void populaVetorAleatorio(int* vetor, int tamanho){
+void criaVetor(Vetor* v, int tamanho){
+    *v = (Vetor) malloc(sizeof(int)*tamanho);
+}
+
+void populaVetorAleatorio(Vetor vetor, int tamanho){
     for (int i=0; i<tamanho; i++){
         vetor[i] = rand();
     }
 }
 
-void populaVetorAleatorioOrdenado(int* vetor, int tamanho){
+void populaVetorAleatorioOrdenado(Vetor vetor, int tamanho){
     vetor[0] = 0;
     for (int i=1; i<tamanho; i++){
         vetor[i] = vetor[i-1] + abs(rand()%10);
     }
 }
 
-int buscaSequencialVetor(int* vetor, int valor, int tamanho){
+int buscaSequencialVetor(Vetor vetor, int valor, int tamanho){
     int i;
     for(i=0; i<tamanho; i++){
         if (vetor[i] == valor){
@@ -40,7 +44,7 @@ int buscaSequencialVetor(int* vetor, int valor, int tamanho){
     return -1;
 }
 
-int buscaBinaria(int* vetor, int valor, int tamanho){
+int buscaBinaria(Vetor vetor, int valor, int tamanho){
     int inicio, meio, fim;
     inicio = 0;
     fim = tamanho-1;
@@ -65,10 +69,12 @@ int main(){
     double tempoTotal_Seq, tempoTotal_Bin;
 
     int valorAleatorio1, valorAleatorio2;
-    int vetor[TAM];
-    int vetorOrdenado[TAM];
+    Vetor vetor;
+    Vetor vetorOrdenado;
 
-
+    //cria os vetores dinamicamente
+    criaVetor(&vetor, TAM);
+    criaVetor(&vetorOrdenado, TAM);
 
     //Populando os dois vetores
     populaVetorAleatorio(vetor, TAM);
@@ -96,7 +102,6 @@ int main(){
         buscaSequencialVetor(vetor, valorAleatorio1, TAM);
         tempoFinal_1 = clock();
 
-
         //Busca Binária no vetor ordenado
         tempoInicial_2 = clock();
         buscaBinaria(vetor, valorAleatorio2, TAM);
@@ -105,8 +110,10 @@ int main(){
         //Calculando o tempo das duas buscas
         tempoTotal_Seq = CalculaTempo(tempoInicial_1, tempoFinal_1);
         tempoTotal_Bin = CalculaTempo(tempoInicial_2, tempoFinal_2);
-        
 
+        printf("O tempo da busca sequencial foi %f segundos\n", tempoTotal_Seq);
+        printf("O tempo da busca binaria foi %f segundos\n", tempoTotal_Bin);
+        
     }
 
     return 0;
