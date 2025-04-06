@@ -1,25 +1,42 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<math.h>
 #include "vet.h"
 
-void criaVetor(Vetor* v, int tamanho){
-    *v = (Vetor) malloc(sizeof(int)*tamanho);
+
+void criaVetorInt(Vetor_int* v, int tamanho){
+    *v = calloc(tamanho,sizeof(int));
+
 }
 
-void populaVetorAleatorio(Vetor vetor, int tamanho){
+void criaVetorDouble(Vetor_double* v, int tamanho){
+    *v = calloc(tamanho,sizeof(double));
+}
+
+
+int insereDoubleVetor(Vetor_double v, int pos, double valor, int tamanho){
+    if(pos<tamanho){
+        v[pos] = valor;
+        return 1;
+    }
+    return 0;
+}
+
+
+void populaVetorAleatorio(Vetor_int vetor, int tamanho){
     for (int i=0; i<tamanho; i++){
         vetor[i] = rand();
     }
 }
 
-void populaVetorAleatorioOrdenado(Vetor vetor, int tamanho){
+void populaVetorAleatorioOrdenado(Vetor_int vetor, int tamanho){
     vetor[0] = 0;
     for (int i=1; i<tamanho; i++){
         vetor[i] = vetor[i-1] + abs(rand()%10);
     }
 }
 
-int buscaSequencialVetor(Vetor vetor, int valor, int tamanho){
+int buscaSequencialVetor(Vetor_int vetor, int valor, int tamanho){
     int i;
     for(i=0; i<tamanho; i++){
         if (vetor[i] == valor){
@@ -29,7 +46,7 @@ int buscaSequencialVetor(Vetor vetor, int valor, int tamanho){
     return -1;
 }
 
-int buscaBinaria(Vetor vetor, int valor, int tamanho){
+int buscaBinariaVetor(Vetor_int vetor, int valor, int tamanho){
     int inicio, meio, fim;
     inicio = 0;
     fim = tamanho-1;
@@ -44,6 +61,27 @@ int buscaBinaria(Vetor vetor, int valor, int tamanho){
         else{
             return meio;
         }
+    }
+    return -1;
+}
+double calculaMediaDouble(Vetor_double v, int tamanho){
+    double media = 0;
+    for(int x=0; x<tamanho; x++){
+        media += v[x];
+    }
+    if(tamanho){
+        return media/tamanho;
+    }
+    return -1;
+}
+
+double calculaDesvioPadraoDouble(Vetor_double v, double media, int tamanho){
+    double soma = 0;
+    for(int x=0; x<tamanho; x++){
+        soma += pow(v[x]-media,2);
+    }
+    if(tamanho){
+        return sqrt(soma/tamanho);
     }
     return -1;
 }

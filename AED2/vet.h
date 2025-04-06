@@ -1,13 +1,20 @@
 #ifndef VETOR_H_INCLUDED
 #define VETOR_H_INCLUDED
 
-typedef int* Vetor;
+typedef int* Vetor_int;
+typedef double* Vetor_double;
 
-void criaVetor(Vetor* v, int tamanho);
-void populaVetorAleatorio(Vetor vetor, int tamanho);
-void populaVetorAleatorioOrdenado(Vetor vetor, int tamanho);
-int buscaSequencialVetor(Vetor vetor,int valor, int tamanho);
-int buscaBinaria(Vetor vetor, int valor, int tamanho);
+
+void criaVetorInt(Vetor_int* v, int tamanho);
+void criaVetorDouble(Vetor_double* v, int tamanho);
+int insereDoubleVetor(Vetor_double v, int pos, double valor, int tamanho);
+void populaVetorAleatorioOrdenado(Vetor_int vetor, int tamanho);
+void populaVetorAleatorio(Vetor_int vetor, int tamanho);
+int buscaSequencialVetor(Vetor_int vetor,int valor, int tamanho);
+int buscaBinariaVetor(Vetor_int vetor, int valor, int tamanho);
+double calculaMediaDouble(Vetor_double v, int tamanho);
+double calculaDesvioPadraoDouble(Vetor_double v, double media, int tamanho);
+
 
 
 #endif
