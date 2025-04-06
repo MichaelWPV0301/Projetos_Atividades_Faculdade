@@ -7,15 +7,6 @@
 #define NUM 30
 #define CalculaTempo(inicial,final) (double) (final - inicial)/CLOCKS_PER_SEC
 
-typedef struct TipoNo{
-    struct TipoNo* prox;
-    int valor;
-}TipoNo;
-
-typedef struct Lista{
-    TipoNo* prim;
-    int tamanho;
-}Lista;
 
 
 int main(){
@@ -84,6 +75,7 @@ int main(){
     desvioPadrao1 = calculaDesvioPadraoDouble(temposSeq, media1, NUM);
     media2 = calculaMediaDouble(temposBin, NUM);
     desvioPadrao2 = calculaDesvioPadraoDouble(temposBin, media2, NUM);
+    
     printf("média da busca Sequencial: %f\n", media1);
     printf("desvio padrão da busca Sequencial: %f\n", desvioPadrao1);
     printf("média da busca Binária: %f\n", media2);
