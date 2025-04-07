@@ -13,6 +13,11 @@ void criaVetorDouble(Vetor_double* v, int tamanho){
     *v = calloc(tamanho,sizeof(double));
 }
 
+void copiaVetor(Vetor_int destino, Vetor_int entrada, int tamanho){
+    for (int x=0; x<tamanho; x++){
+        destino[x] = entrada[x];
+    }
+}
 
 int insereDoubleVetor(Vetor_double v, int pos, double valor, int tamanho){
     if(pos<tamanho){
@@ -21,7 +26,6 @@ int insereDoubleVetor(Vetor_double v, int pos, double valor, int tamanho){
     }
     return 0;
 }
-
 
 void populaVetorAleatorio(Vetor_int vetor, int tamanho){
     for (int i=0; i<tamanho; i++){
@@ -85,3 +89,4 @@ double calculaDesvioPadraoDouble(Vetor_double v, double media, int tamanho){
     }
     return -1;
 }
+

@@ -14,12 +14,10 @@ typedef struct Lista{
     TipoNo* ult;
 }Lista;
 
-
 void criaListaEncadeada(Lista** lista){
     *lista = (Lista*) malloc(sizeof(Lista));
     (*lista )->prim = NULL;
 }
-
 
 void insereNaLista(Lista* lista, int valor){
     TipoNo* novo = (TipoNo*) malloc(sizeof(TipoNo));
@@ -33,9 +31,8 @@ void insereNaLista(Lista* lista, int valor){
         return;
     }
     aux->prox = novo;
-
-
 }
+
 void vetorEmListaEncadeada(Lista* lista, Vetor_int vetor, int tamanhoVetor){
     
     for(int x=0; x<tamanhoVetor; x++){
