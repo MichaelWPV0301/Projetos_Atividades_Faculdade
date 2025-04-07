@@ -11,6 +11,7 @@ typedef struct TipoNo{
 
 typedef struct Lista{
     TipoNo* prim;
+    TipoNo* ult;
 }Lista;
 
 
@@ -22,20 +23,17 @@ void criaListaEncadeada(Lista** lista){
 
 void insereNaLista(Lista* lista, int valor){
     TipoNo* novo = (TipoNo*) malloc(sizeof(TipoNo));
-    printf("devolvi pouha");
-    TipoNo* aux = lista->prim;
     novo->valor = valor;
     novo->prox = NULL;
-    
+
+    TipoNo* aux = lista->ult;
+    lista->ult = novo;
     if(aux==NULL){
         lista->prim = novo;
+        return;
     }
-    else{
-        while(aux->prox){
-            aux = aux->prox;
-        }
-        aux->prox = novo;   
-    }
+    aux->prox = novo;
+
 
 }
 void vetorEmListaEncadeada(Lista* lista, Vetor_int vetor, int tamanhoVetor){
