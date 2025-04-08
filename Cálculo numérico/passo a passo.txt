@@ -1,0 +1,25 @@
+P em R pode ser (P->R): 
+(P->R) = (P-R)xM(&) = (P-R).[[cos(&), sen(&)],[-sen(&), cos(&)]]; com &=teta.
+
+P->R = (x',y') = P-R = (6,5)-(3,2)= (3,3)
+
+teta = 50 graus
+180 -> PI  |
+50 -> RAD  |->	RAD = PI50/180
+
+Erro absoluto de 10^(-12) -> n=7;
+
+P->R = (3,3).[[cos(50), sen(50)],[-sen(50), cos(50)]] = (3cos(50)-3sen(50),3sen(50)+3cos(50))
+
+
+Pn(c) =  somatorio(i=0 até n de (f(c)(nX')(x-c)^n)/n!)
+P = sen(x)
+c = 0
+n =7
+P7(0) = x - sen('=3)(c)/3! + (sen('=5)(c)(x-c))5! - (sen('=7)(c)(x-c))7! +  (sen('=9)(c)(x-c))9! - (sen('=11)(c)(x-c))11!
+ + (sen('=13)(c)(x-c))13! - (sen('=15)(c)(x-c))15!
+
+P = cos(x)
+c = 0
+n = 8
+P8(0) = P7(0) só que com (n+1) -> 2n 
