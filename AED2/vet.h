@@ -7,6 +7,7 @@ typedef double* Vetor_double;
 
 void criaVetorInt(Vetor_int* v, int tamanho);
 void criaVetorDouble(Vetor_double* v, int tamanho);
+void copiaVetor(Vetor_int destino, Vetor_int entrada, int tamanho);
 int insereDoubleVetor(Vetor_double v, int pos, double valor, int tamanho);
 void populaVetorAleatorioOrdenado(Vetor_int vetor, int tamanho);
 void populaVetorAleatorio(Vetor_int vetor, int tamanho);
