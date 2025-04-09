@@ -15,7 +15,12 @@ int buscaSequencialVetor(Vetor_int vetor,int valor, int tamanho);
 int buscaBinariaVetor(Vetor_int vetor, int valor, int tamanho);
 double calculaMediaDouble(Vetor_double v, int tamanho);
 double calculaDesvioPadraoDouble(Vetor_double v, double media, int tamanho);
-
-
+void bolha(Vetor_int v, int tamVet);
+void selectionSort(Vetor_int v, int tamVet);
+void insertionSort(Vetor_int v, int tamVet);
+void quickSortR(Vetor_int v, int inicio, int fim);
+void quickSort(Vetor_int v, int tamVet);
+void mergeSortR(Vetor_int v, Vetor_int aux, int inicio, int fim);
+void mergeSort(Vetor_int v, int tamVet);
 
 #endif

@@ -3,7 +3,7 @@
 #include<time.h>
 #include "vet.h"
 
-#define TAM 100000
+#define TAM 1000000
 #define NUM 10
 #define CalculaTempo(inicial,final) (double) (final - inicial)/CLOCKS_PER_SEC
 
@@ -46,27 +46,27 @@ int main(){
         
         copiaVetor(auxiliar, vetor, TAM);
         tempoInicial_1 = clock();
-        //ordenacao1
+        bolha(auxiliar, TAM);
         tempoFinal_1 = clock();
 
         copiaVetor(auxiliar, vetor, TAM);
         tempoInicial_2 = clock();
-        //ordenacao2
+        selectionSort(auxiliar, TAM);
         tempoFinal_2 = clock();
 
         copiaVetor(auxiliar, vetor, TAM);
         tempoInicial_3 = clock();
-        //ordenacao3
+        insertionSort(auxiliar, TAM);
         tempoFinal_3 = clock();
 
         copiaVetor(auxiliar, vetor, TAM);
         tempoInicial_4 = clock();
-        //ordenacao4
+        quickSort(auxiliar, TAM);
         tempoFinal_4 = clock();
 
         copiaVetor(auxiliar, vetor, TAM);
         tempoInicial_5 = clock();
-        //ordenacao5
+        mergeSort(auxiliar, TAM);
         tempoFinal_5 = clock();
 
         //Calculando o tempo das duas buscas
@@ -82,11 +82,11 @@ int main(){
         insereDoubleVetor(temposQuick, i, tempoTotal_4, NUM);
         insereDoubleVetor(temposMerge, i, tempoTotal_5, NUM);
 
-        printf("O tempo da busca sequencial foi %f segundos\n", tempoTotal_1);
-        printf("O tempo da busca binaria foi %f segundos\n", tempoTotal_2);
-        printf("O tempo da busca sequencial foi %f segundos\n", tempoTotal_3);
-        printf("O tempo da busca binaria foi %f segundos\n", tempoTotal_4);
-        printf("O tempo da busca sequencial foi %f segundos\n", tempoTotal_5);
+        printf("O tempo do Bolha foi %f segundos\n", tempoTotal_1);
+        printf("O tempo do Selection foi %f segundos\n", tempoTotal_2);
+        printf("O tempo do Insertion foi %f segundos\n", tempoTotal_3);
+        printf("O tempo do Quicksort foi %f segundos\n", tempoTotal_4);
+        printf("O tempo do Mergesort foi %f segundos\n", tempoTotal_5);
 
     }
     media1 = calculaMediaDouble(temposBolha, NUM);
@@ -95,7 +95,7 @@ int main(){
     media4 = calculaMediaDouble(temposQuick, NUM);
     media5 = calculaMediaDouble(temposMerge, NUM);
 
-    printf("média do Bolha: %f\n", media1);
+    printf("\nmédia do Bolha: %f\n", media1);
     printf("média da Seleção: %f\n", media2);
     printf("média da Inserção: %f\n", media3);
     printf("média do Quicksort: %f\n", media4);

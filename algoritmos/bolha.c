@@ -1,21 +1,19 @@
 #include <stdio.h>
- 
- void bolha(int v[], int tamVet){
-    int x, y, menor, aux;
-    x = 0;
-    while(x<tamVet-1){
-        menor = x;  y = x + 1;
-        while(y<tamVet){
-            if(v[y]<v[menor]){
-                aux = v[x];
-                v[x] = v[menor];
-                v[menor] = aux;
+
+void bolha(int v[], int tamVet) {
+    int x, y, aux;
+    
+    for(x = 0; x < tamVet - 1; x++) {
+        for(y = 0; y < tamVet - 1 - x; y++) {
+            if(v[y] > v[y + 1]) {
+                aux = v[y];
+                v[y] = v[y + 1];
+                v[y + 1] = aux;
             }
-            y++;
         }
-        x++;
     }
- }
+}
+
 
 
  int main(){
