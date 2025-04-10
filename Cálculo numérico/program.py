@@ -1,5 +1,23 @@
-import numpy as np
 import math
+
+def multmatriz(matA, matB):
+
+    linhasA, colunasA= len(matA), len(matA[0])
+    linhasB, colunasB = len(matB), len(matB[0])
+
+    result = [[0] * colunasB for _ in range(linhasA)]
+
+    for i in range(linhasA):
+        Ai = matA[i]
+        Ci = result[i]
+        for k in range(colunasB):
+            Aik = Ai[k]
+            Bk = matB[k]
+            for j in range(linhasB):
+                Ci[j] += Aik * Bk[j]
+    
+    return result
+
 
 def termos_erroSeno(radiano , erro_desejado):
     real = math.sin(radiano)
@@ -48,15 +66,14 @@ def cos_taylor(radiano, termos):
     return cos
 
 
-P = np.array([6,5])
-R = np.array([3,2])
-PemR = P-R
+P = [[6,5]]
+R = [[3,2]]
+PemR = [[P[0][0]-R[0][0],P[0][1]-R[0][1]]]
 teta = 50
 radiano = (math.pi * teta)/180
 erro = 10**(-12)
 termosCos = termos_erroCos(radiano, erro)
 termosSen = termos_erroSeno(radiano, erro)
-print(-seno_taylor(radiano, termosSen))
-matrizRotacao = np.array([[cos_taylor(radiano, termosCos), -seno_taylor(radiano, termosSen)], [seno_taylor(radiano, termosSen), cos_taylor(radiano, termosSen)]])
-PemR = np.matmul(PemR, matrizRotacao)
+matrizRotacao = [[cos_taylor(radiano, termosCos), -seno_taylor(radiano, termosSen)], [seno_taylor(radiano, termosSen), cos_taylor(radiano, termosSen)]]
+PemR = multmatriz(PemR, matrizRotacao)
 print(PemR)
