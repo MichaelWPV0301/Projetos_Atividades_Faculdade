@@ -1,37 +1,37 @@
 def rotacionaPonto(ponto, matriz): # Função para rotação de pontos
-    ponto = [matriz[0][0]*ponto[0]+matriz[0][1]*ponto[1], matriz[1][0]*ponto[0]+matriz[1][1]*ponto[1]]
+    ponto = [matriz[0][0]*ponto[0]+matriz[0][1]*ponto[1], matriz[1][0]*ponto[0]+matriz[1][1]*ponto[1]]#multplicação de MxN -> (2,2)X(2x1) => [[a,b],[c,d]X[[e],[f]] = [[ae+bf],[ce,df]]
     return ponto
 
 def senoTaylor(radiano, erro): # Cálculo do seno do ângulo theta (theta é recebido em radiano)
-    termo = radiano
-    seno = radiano # Primeiro termo da Série de Taylor para o seno
+    termo = radiano # Primeiro termo da série de taylor do seno
+    seno = radiano # Serie de taylor do seno com o primeiro termo. 
     qtdTermos = 1 # Componente inicial da Série de Taylor para o seno
 
-    while True: # Laço que itera "n-1" termos da Série de Taylor para o seno, com base na comparação entre erro e erroAbsoluto 
+    while True: # Laço que itera "n-1" termos da Série de Taylor para o seno, com base na comparação entre erro e erroAbsoluto que será feito dentro do while
         # Note: "n-1" iterações, não "n", visto que a primeira iteração da série é dada antes do laço
-        numerador = -radiano * radiano # Componente do numerador do k-ésimo termo da Série de Taylor
-        denominador = (2*qtdTermos+1) * (2*qtdTermos) # Componente do denominador do k-ésimo termo da Série de Taylor
+        numerador = -radiano * radiano # Componente para iterar com o numerador do (k-1)-ésimo para compor o k-ésimo termo da Série de Taylor
+        denominador = (2*qtdTermos+1) * (2*qtdTermos) #  Componente para iterar com o denominador do (k-1)-ésimo para compor o k-ésimo termo da Série de Taylor 
         termo *= numerador /denominador # k-ésimo termo da Série
         seno+=termo # Soma sequencial que compõe o seno do ângulo recebido pela função
         erroAbsoluto = abs(termo/seno) # Atualização do erro
-        if(erroAbsoluto<erro):
+        if(erroAbsoluto<erro):#Comparação para obter um série com o erro desejado como dito acima
             break
         qtdTermos+=1 # Atualização do número de termos (na prática, uma contagem de iterações)
     return seno,qtdTermos
 
 def cosTaylor(radiano, erro): # Cálculo do cosseno do ângulo theta (theta é recebido em radiano)
-    termo = 1
-    cos = 1 # Primeiro termo da Série de Taylor para o cosseno
+    termo = 1 #Primeiro termo da série de taylor do cosseno
+    cos = 1 #  Serie de taylor do cosseno com o primeiro termo. 
     qtdTermos = 1 # Componente inicial da Série de Taylor para o cosseno
 
-    while True: # Laço que itera "n-1" termos da Série de Taylor para o cosseno, com base na comparação entre erro e erroAbsoluto
+    while True: # Laço que itera "n-1" termos da Série de Taylor para o cosseno, com base na comparação entre erro e erroAbsoluto que será feito dentro do while
         # Note novamente: "n-1" iterações, pelo mesmo motivo da função senoTaylor
-        numerador = -radiano * radiano  # Componente do numerador do k-ésimo termo da Série de Taylor
-        denominador = (2*qtdTermos) * (2*qtdTermos-1)  # Componente do denominador do k-ésimo termo da Série de Taylor 
+        numerador = -radiano * radiano  # Componente para iterar com o numerador do (k-1)-ésimo para compor o k-ésimo termo da Série de Taylor
+        denominador = (2*qtdTermos) * (2*qtdTermos-1)  # Componente para iterar com o denominador do (k-1)-ésimo para compor o k-ésimo termo da Série de Taylor 
         termo *= numerador/denominador # k-ésimo termo da Série
         cos += termo # Soma sequencial que compõe o cosseno do ângulo recebido pela função
         erroAbsoluto = abs(termo/cos) # Atualizção do erro 
-        if(erroAbsoluto<erro):
+        if(erroAbsoluto<erro): #Comparação para obter um série com o erro desejado como dito acima
             break
         
         qtdTermos+=1 # Atualização do número de termos (na prática, uma contagem de iterações)
