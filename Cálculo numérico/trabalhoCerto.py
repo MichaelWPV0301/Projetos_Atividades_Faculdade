@@ -1,28 +1,28 @@
 import math
 
-def rotaciona_ponto(ponto, matriz):
+def rotacionaPonto(ponto, matriz): #Função para rotação de pontos
     ponto = [matriz[0][0]*ponto[0]+matriz[0][1]*ponto[1], matriz[1][0]*ponto[0]+matriz[1][1]*ponto[1]]
     return ponto
 
-def seno_taylor(radiano, erro):
+def senoTaylor(radiano, erro): #Cálculo do seno do ângulo theta (theta é recebido em radiano)
     seno = radiano
-    qtdTermos = 1
-    denominador = 1
-    erroAbsoluto = 1 + erro
-    while(erroAbsoluto>erro):
-        numerador = (-1)**qtdTermos * radiano**(2*qtdTermos+1)
-        denominador *= (2*qtdTermos+1) * (2*qtdTermos)
-        termo = numerador /denominador
-        seno+=termo
-        erroAbsoluto = abs(termo)
-        qtdTermos+=1
+    qtdTermos = 1 #Componente do primeiro termo da Série de Taylor
+    denominador = 1 #Componente do primeiro termo da Série de Taylor
+    erroAbsoluto = 1 + erro #Erro absoluto inicial
+    while(erroAbsoluto>erro): #Laço que itera "n" termos da Série, com base na comparação entre erro e erroAbsoluto
+        numerador = (-1)**qtdTermos * radiano**(2*qtdTermos+1) #Componente do k-ésimo termo da Série de Taylor
+        denominador *= (2*qtdTermos+1) * (2*qtdTermos) #Componente do k-ésimo termo da Série de Taylor
+        termo = numerador /denominador # k-ésimo termo da Série
+        seno+=termo # Soma sequencial que compõe o seno do ângulo através da Série de Taylor
+        erroAbsoluto = abs(termo) # Atualização do erro
+        qtdTermos+=1 # Atualização do número de termos (na prática, uma contagem de iterações)
     return seno
 
-def cos_taylor(radiano, erro):
+def cosTaylor(radiano, erro): #Cálculo do cosseno do ângulo theta (theta é recebido em radiano)
     cos = 1
     qtdTermos = 1
     denominador = 1 
-    erroAbsoluto = 1 +erro 
+    erroAbsoluto = 1 + erro 
 
     while(erroAbsoluto>erro):
         numerador = (-1)**qtdTermos* radiano**(2*qtdTermos)
@@ -34,7 +34,7 @@ def cos_taylor(radiano, erro):
     return cos
 
 
-def taylor_arctan(x, erro_relativo=1e-12, max_iter=10**6):
+def arctanTaylor(x, erro_relativo=1e-12, max_iter=10**6):
     """
     Calcula uma aproximação para arctan(x) utilizando a série de Taylor,
     com otimizações para acelerar a convergência e reduzir o custo computacional.
@@ -56,17 +56,17 @@ def taylor_arctan(x, erro_relativo=1e-12, max_iter=10**6):
 
     # Lida com valores negativos usando simetria: arctan(-x) = -arctan(x)
     if x < 0:
-        resultado, termos = taylor_arctan(-x, erro_relativo, max_iter)
+        resultado, termos = arctanTaylor(-x, erro_relativo, max_iter)
         return -resultado, termos
 
     # Redução de domínio para acelerar convergência da série
     if x > 1:
         # arctan(x) = pi/2 - arctan(1/x)
-        inner, termos = taylor_arctan(1/x, erro_relativo, max_iter)
+        inner, termos = arctanTaylor(1/x, erro_relativo, max_iter)
         return math.pi / 2 - inner, termos
     elif x > 0.5:
         # arctan(x) = pi/4 + arctan((x - 1)/(1 + x))
-        inner, termos = taylor_arctan((x - 1)/(1 + x), erro_relativo, max_iter)
+        inner, termos = arctanTaylor((x - 1)/(1 + x), erro_relativo, max_iter)
         return math.pi / 4 + inner, termos
 
     # Série de Taylor para |x| <= 0.5
@@ -102,25 +102,23 @@ pi = math.pi
 radiano = (pi * teta)/180
 erro = 10**(-12)
 
-cos = cos_taylor(radiano, erro)
-seno = seno_taylor(radiano, erro)
+cos = cosTaylor(radiano, erro)
+seno = senoTaylor(radiano, erro)
 matrizRotacao = [[cos, seno], [-seno, cos]]
 
 
 
-PemR = rotaciona_ponto(PemR, matrizRotacao)
+PemR = rotacionaPonto(PemR, matrizRotacao)
 raioR = ((PemR[0]**2)+(PemR[1]**2))**(1/2)
-anguloR = taylor_arctan(PemR[1]/PemR[0])[0]*180/pi
+anguloR = arctanTaylor(PemR[1]/PemR[0])[0]*180/pi
 PRpolar = [raioR, anguloR]
 
 
 
 PemC = [PemR[0]-2, PemR[1]]
 raioC = ((PemC[0]**2)+(PemC[1]**2))**(1/2)
-anguloC = taylor_arctan(PemC[1]/PemC[0])[0]*180/pi
+anguloC = arctanTaylor(PemC[1]/PemC[0])[0]*180/pi
 PCpolar = [raioC, anguloC]
 
 print(f"O ponto P em R:\nCoordenada cartesiana = ({PemR[0]:.12f},{PemR[1]:.12f})\nCoordenada polar = ({PRpolar[0]:.12f},{PRpolar[1]:.12f})\n")
-
 print(f"O ponto P em C:\nCoordenada cartesiana = ({PemC[0]:.12f},{PemC[1]:.12f})\nCoordenada polar = ({PCpolar[0]:.12f},{PCpolar[1]:.12f})")
-
