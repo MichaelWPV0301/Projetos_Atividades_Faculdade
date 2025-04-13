@@ -7,13 +7,13 @@ def rotacionaPonto(ponto, matriz): # Função para rotação de pontos
 def senoTaylor(radiano, erro): # Cálculo do seno do ângulo theta (theta é recebido em radiano)
     seno = radiano # Primeiro termo da Série de Taylor para o seno
     qtdTermos = 1 # Componente inicial da Série de Taylor para o seno
-    denominador = 1 # Componente inicial da Série de Taylor para o seno
+    denominador = 1 # Componente do denominador inicial da Série de Taylor para o seno
     erroAbsoluto = 1 + erro # Erro absoluto inicial
     
     while(erroAbsoluto>erro): # Laço que itera "n-1" termos da Série de Taylor para o seno, com base na comparação entre erro e erroAbsoluto 
         # Note: "n-1" iterações, não "n", visto que a primeira iteração da série é dada antes do laço
-        numerador = (-1)**qtdTermos * radiano**(2*qtdTermos+1) # Componente do k-ésimo termo da Série de Taylor
-        denominador *= (2*qtdTermos+1) * (2*qtdTermos) # Componente do k-ésimo termo da Série de Taylor
+        numerador = (-1)**qtdTermos * radiano**(2*qtdTermos+1) # Componente do numerador do k-ésimo termo da Série de Taylor
+        denominador *= (2*qtdTermos+1) * (2*qtdTermos) # Componente do denominador do k-ésimo termo da Série de Taylor
         termo = numerador /denominador # k-ésimo termo da Série
         seno+=termo # Soma sequencial que compõe o seno do ângulo recebido pela função
         erroAbsoluto = abs(termo) # Atualização do erro
@@ -23,13 +23,13 @@ def senoTaylor(radiano, erro): # Cálculo do seno do ângulo theta (theta é rec
 def cosTaylor(radiano, erro): # Cálculo do cosseno do ângulo theta (theta é recebido em radiano)
     cos = 1 # Primeiro termo da Série de Taylor para o cosseno
     qtdTermos = 1 # Componente inicial da Série de Taylor para o cosseno
-    denominador = 1 # Componente inicial da Série de Taylor para o cosseno
+    denominador = 1 # Componente  do denominador inicial da Série de Taylor para o cosseno
     erroAbsoluto = 1 + erro # Erro absoluto incial
 
     while(erroAbsoluto>erro): # Laço que itera "n-1" termos da Série de Taylor para o cosseno, com base na comparação entre erro e erroAbsoluto
         # Note novamente: "n-1" iterações, pelo mesmo motivo da função senoTaylor
-        numerador = (-1)**qtdTermos* radiano**(2*qtdTermos)  # Componente do k-ésimo termo da Série de Taylor
-        denominador *= (2*qtdTermos) * (2*qtdTermos-1)  # Componente do k-ésimo termo da Série de Taylor 
+        numerador = (-1)**qtdTermos* radiano**(2*qtdTermos)  # Componente do numerador do k-ésimo termo da Série de Taylor
+        denominador *= (2*qtdTermos) * (2*qtdTermos-1)  # Componente do denominador do k-ésimo termo da Série de Taylor 
         termo = numerador/denominador # k-ésimo termo da Série
         cos += termo # Soma sequencial que compõe o cosseno do ângulo recebido pela função
         erroAbsoluto = abs(termo) # Atualizção do erro 
