@@ -1,40 +1,41 @@
-import math
-
 def rotacionaPonto(ponto, matriz): # Função para rotação de pontos
     ponto = [matriz[0][0]*ponto[0]+matriz[0][1]*ponto[1], matriz[1][0]*ponto[0]+matriz[1][1]*ponto[1]]
     return ponto
 
 def senoTaylor(radiano, erro): # Cálculo do seno do ângulo theta (theta é recebido em radiano)
+    termo = radiano
     seno = radiano # Primeiro termo da Série de Taylor para o seno
     qtdTermos = 1 # Componente inicial da Série de Taylor para o seno
-    denominador = 1 # Componente do denominador inicial da Série de Taylor para o seno
-    erroAbsoluto = 1 + erro # Erro absoluto inicial
-    
-    while(erroAbsoluto>erro): # Laço que itera "n-1" termos da Série de Taylor para o seno, com base na comparação entre erro e erroAbsoluto 
+
+    while True: # Laço que itera "n-1" termos da Série de Taylor para o seno, com base na comparação entre erro e erroAbsoluto 
         # Note: "n-1" iterações, não "n", visto que a primeira iteração da série é dada antes do laço
-        numerador = (-1)**qtdTermos * radiano**(2*qtdTermos+1) # Componente do numerador do k-ésimo termo da Série de Taylor
-        denominador *= (2*qtdTermos+1) * (2*qtdTermos) # Componente do denominador do k-ésimo termo da Série de Taylor
-        termo = numerador /denominador # k-ésimo termo da Série
+        numerador = -radiano * radiano # Componente do numerador do k-ésimo termo da Série de Taylor
+        denominador = (2*qtdTermos+1) * (2*qtdTermos) # Componente do denominador do k-ésimo termo da Série de Taylor
+        termo *= numerador /denominador # k-ésimo termo da Série
         seno+=termo # Soma sequencial que compõe o seno do ângulo recebido pela função
-        erroAbsoluto = abs(termo) # Atualização do erro
+        erroAbsoluto = abs(termo/seno) # Atualização do erro
+        if(erroAbsoluto<erro):
+            break
         qtdTermos+=1 # Atualização do número de termos (na prática, uma contagem de iterações)
-    return seno
+    return seno,qtdTermos
 
 def cosTaylor(radiano, erro): # Cálculo do cosseno do ângulo theta (theta é recebido em radiano)
+    termo = 1
     cos = 1 # Primeiro termo da Série de Taylor para o cosseno
     qtdTermos = 1 # Componente inicial da Série de Taylor para o cosseno
-    denominador = 1 # Componente  do denominador inicial da Série de Taylor para o cosseno
-    erroAbsoluto = 1 + erro # Erro absoluto incial
 
-    while(erroAbsoluto>erro): # Laço que itera "n-1" termos da Série de Taylor para o cosseno, com base na comparação entre erro e erroAbsoluto
+    while True: # Laço que itera "n-1" termos da Série de Taylor para o cosseno, com base na comparação entre erro e erroAbsoluto
         # Note novamente: "n-1" iterações, pelo mesmo motivo da função senoTaylor
-        numerador = (-1)**qtdTermos* radiano**(2*qtdTermos)  # Componente do numerador do k-ésimo termo da Série de Taylor
-        denominador *= (2*qtdTermos) * (2*qtdTermos-1)  # Componente do denominador do k-ésimo termo da Série de Taylor 
-        termo = numerador/denominador # k-ésimo termo da Série
+        numerador = -radiano * radiano  # Componente do numerador do k-ésimo termo da Série de Taylor
+        denominador = (2*qtdTermos) * (2*qtdTermos-1)  # Componente do denominador do k-ésimo termo da Série de Taylor 
+        termo *= numerador/denominador # k-ésimo termo da Série
         cos += termo # Soma sequencial que compõe o cosseno do ângulo recebido pela função
-        erroAbsoluto = abs(termo) # Atualizção do erro 
+        erroAbsoluto = abs(termo/cos) # Atualizção do erro 
+        if(erroAbsoluto<erro):
+            break
+        
         qtdTermos+=1 # Atualização do número de termos (na prática, uma contagem de iterações)
-    return cos
+    return cos,qtdTermos
 
 
 def arctanTaylor(x, erro_relativo=1e-12, max_iter=10**6):
@@ -66,11 +67,11 @@ def arctanTaylor(x, erro_relativo=1e-12, max_iter=10**6):
     if x > 1:
         # arctan(x) = pi/2 - arctan(1/x)
         inner, termos = arctanTaylor(1/x, erro_relativo, max_iter)
-        return math.pi / 2 - inner, termos
+        return PI / 2 - inner, termos
     elif x > 0.5:
         # arctan(x) = pi/4 + arctan((x - 1)/(1 + x))
         inner, termos = arctanTaylor((x - 1)/(1 + x), erro_relativo, max_iter)
-        return math.pi / 4 + inner, termos
+        return PI / 4 + inner, termos
 
     # Série de Taylor para |x| <= 0.5
     termo = x              # Primeiro termo da série: x^(2*0+1)/(2*0+1)
@@ -101,27 +102,32 @@ PemR = [P[0]-R[0],P[1]-R[1]]
 #PemR1 = [P[0][0]-R[0][0],P[0][1]-R[0][1]]
 
 teta = 50
-pi = math.pi
-radiano = (pi * teta)/180
+PI = 3.141592653589793
+radiano = (PI * teta)/180
 erro = 10**(-12)
 
-cos = cosTaylor(radiano, erro)
-seno = senoTaylor(radiano, erro)
+cos, qtdcos = cosTaylor(radiano, erro)
+seno, qtdseno = senoTaylor(radiano, erro)
 matrizRotacao = [[cos, seno], [-seno, cos]]
 
 
 
 PemR = rotacionaPonto(PemR, matrizRotacao)
 raioR = ((PemR[0]**2)+(PemR[1]**2))**(1/2)
-anguloR = arctanTaylor(PemR[1]/PemR[0])[0]*180/pi
-PRpolar = [raioR, anguloR]
+anguloR, termosR = arctanTaylor(PemR[1]/PemR[0])
+PRpolar = [raioR, anguloR*180/PI]
 
 
 
 PemC = [PemR[0]-2, PemR[1]]
 raioC = ((PemC[0]**2)+(PemC[1]**2))**(1/2)
-anguloC = arctanTaylor(PemC[1]/PemC[0])[0]*180/pi
-PCpolar = [raioC, anguloC]
+anguloC,termosC = arctanTaylor(PemC[1]/PemC[0])
+PCpolar = [raioC, anguloC*180/PI]
 
 print(f"O ponto P em R:\nCoordenada cartesiana = ({PemR[0]:.12f},{PemR[1]:.12f})\nCoordenada polar = ({PRpolar[0]:.12f},{PRpolar[1]:.12f})\n")
 print(f"O ponto P em C:\nCoordenada cartesiana = ({PemC[0]:.12f},{PemC[1]:.12f})\nCoordenada polar = ({PCpolar[0]:.12f},{PCpolar[1]:.12f})")
+
+print(f"\nQuantidade de termos utlizadas para calcular a série de Taylor da função seno(50°) foi: {qtdseno}")
+print(f"Quantidade de termos utlizadas para calcular a série de Taylor da função cosseno(50°) foi: {qtdcos}")
+print(f"Quantidade de termos utlizadas para calcular a série de Taylor da função arco tangente(y/x) do ponto PemR foi: {termosR}")
+print(f"Quantidade de termos utlizadas para calcular a série de Taylor da função arco tangente(y/x) do ponto PemC foi: {termosC}")
