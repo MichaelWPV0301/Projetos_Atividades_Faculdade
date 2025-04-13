@@ -38,7 +38,7 @@ def cosTaylor(radiano, erro): # Cálculo do cosseno do ângulo theta (theta é r
     return cos,qtdTermos
 
 
-def arctanTaylor(x, erro_relativo=1e-12, max_iter=10**6):
+def arctanTaylor(x, erro=1e-12, max_iter=10**6):
     """
     Calcula uma aproximação para arctan(x) utilizando a série de Taylor,
     com otimizações para acelerar a convergência e reduzir o custo computacional.
@@ -60,17 +60,17 @@ def arctanTaylor(x, erro_relativo=1e-12, max_iter=10**6):
 
     # Lida com valores negativos usando simetria: arctan(-x) = -arctan(x)
     if x < 0:
-        resultado, termos = arctanTaylor(-x, erro_relativo, max_iter)
+        resultado, termos = arctanTaylor(-x, erro, max_iter)
         return -resultado, termos
 
     # Redução de domínio para acelerar convergência da série
     if x > 1:
         # arctan(x) = pi/2 - arctan(1/x)
-        inner, termos = arctanTaylor(1/x, erro_relativo, max_iter)
+        inner, termos = arctanTaylor(1/x, erro, max_iter)
         return PI / 2 - inner, termos
     elif x > 0.5:
         # arctan(x) = pi/4 + arctan((x - 1)/(1 + x))
-        inner, termos = arctanTaylor((x - 1)/(1 + x), erro_relativo, max_iter)
+        inner, termos = arctanTaylor((x - 1)/(1 + x), erro, max_iter)
         return PI / 4 + inner, termos
 
     # Série de Taylor para |x| <= 0.5
@@ -86,7 +86,7 @@ def arctanTaylor(x, erro_relativo=1e-12, max_iter=10**6):
 
         # Estimativa do erro relativo com base no último termo adicionado
         erro_estimado = abs(prox / soma) if soma != 0 else abs(prox)
-        if erro_estimado < erro_relativo or n > max_iter:
+        if erro_estimado < erro or n > max_iter:
             break
 
         n += 1
@@ -95,35 +95,35 @@ def arctanTaylor(x, erro_relativo=1e-12, max_iter=10**6):
 
 
 
-P = [6,5]
-R = [3,2]
-C = [5,2] 
-PemR = [P[0]-R[0],P[1]-R[1]]
-#PemR1 = [P[0][0]-R[0][0],P[0][1]-R[0][1]]
+P = [6,5] #Ponto P dado pelo problema
+R = [3,2] #Ponto R dado pelo problema
+C = [5,2] #Ponto C dado pelo problema
+PemR = [P[0]-R[0],P[1]-R[1]] #Passo para transformar um ponto do plano P em R( MatRotação X (P-R))
 
-teta = 50
-PI = 3.141592653589793
-radiano = (PI * teta)/180
-erro = 10**(-12)
+teta = 50 #Ângulo dado pelo problema
+PI = 3.141592653589793 #Número de PI de acordo com biblioteca math.pi
+radiano = (PI * teta)/180 #Transformação do ângulo de graus para radiano
+erro = 10**(-12) #Erro desejado dado pelo problema
 
-cos, qtdcos = cosTaylor(radiano, erro)
-seno, qtdseno = senoTaylor(radiano, erro)
-matrizRotacao = [[cos, seno], [-seno, cos]]
-
-
-
-PemR = rotacionaPonto(PemR, matrizRotacao)
-raioR = ((PemR[0]**2)+(PemR[1]**2))**(1/2)
-anguloR, termosR = arctanTaylor(PemR[1]/PemR[0])
-PRpolar = [raioR, anguloR*180/PI]
+cos, qtdcos = cosTaylor(radiano, erro) #Aplicação da série de taylor do cosseno(radiano) com erro(10*(-12)), note que a função também retorna a quantidade de termos calculados(qtdcos) 
+seno, qtdseno = senoTaylor(radiano, erro) #Aplicação da série de taylor do seno(radiano) com erro(10*(-12)), note que a função também retorna a quantidade de termos calculados(qtdseno) 
+matrizRotacao = [[cos, seno], [-seno, cos]] #Montagem da matriz de Rotação 
 
 
 
-PemC = [PemR[0]-2, PemR[1]]
-raioC = ((PemC[0]**2)+(PemC[1]**2))**(1/2)
-anguloC,termosC = arctanTaylor(PemC[1]/PemC[0])
-PCpolar = [raioC, anguloC*180/PI]
+PemR = rotacionaPonto(PemR, matrizRotacao) #Rotação do ponto com a função, ou seja a função retorno a multiplição da Matriz pelo ponto.
+raioR = ((PemR[0]**2)+(PemR[1]**2))**(1/2) #Cálculo do raio para notação em coordenada polar, note que é apenas a implementação do teorema de pitágoras R=(x^(2)+y^(2))^(1/2)
+anguloR, termosR = arctanTaylor(PemR[1]/PemR[0]) #Cálculo da Serie de taylor do Arctan(y/x), um dos passos necessários para notação polar, note que a função também retorna a quantidade de termos calculados na série.
+PRpolar = [raioR, anguloR*180/PI] #Montagem do ponto em coordenada polar, PemR(x,y) = PemR(raio, ângulo medido a partir do eixo polar)
 
+
+
+PemC = [PemR[0]-2, PemR[1]] #Visto que a câmera está atrelada ao robô e os planos R e C são paralelos, então para obter P em C, basta subtrair 2 do ponto PemR já obtido.
+raioC = ((PemC[0]**2)+(PemC[1]**2))**(1/2) #Cálculo do raio para notação em coordenada polar, note que é apenas a implementação do teorema de pitágoras R=(x^(2)+y^(2))^(1/2)
+anguloC,termosC = arctanTaylor(PemC[1]/PemC[0]) #Cálculo da Serie de taylor do Arctan(y/x), um dos passos necessários para notação polar, note que a função também retorna a quantidade de termos calculados na série.
+PCpolar = [raioC, anguloC*180/PI] #Montagem do ponto em coordenada polar, PemC(x,y) = PemC(raio, ângulo medido a partir do eixo polar)
+
+#Retornando os resultados obtidos, exigidos no trabalho.
 print(f"O ponto P em R:\nCoordenada cartesiana = ({PemR[0]:.12f},{PemR[1]:.12f})\nCoordenada polar = ({PRpolar[0]:.12f},{PRpolar[1]:.12f})\n")
 print(f"O ponto P em C:\nCoordenada cartesiana = ({PemC[0]:.12f},{PemC[1]:.12f})\nCoordenada polar = ({PCpolar[0]:.12f},{PCpolar[1]:.12f})")
 
