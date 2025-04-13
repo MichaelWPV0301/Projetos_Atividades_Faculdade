@@ -71,7 +71,7 @@ def seno_taylor(radiano, erro):
         termo = numerador /denominador
         seno+=termo
         #esse erro Relativo é o erro estimado.
-        erroRelativo = abs(termo)/abs(seno)
+        erroRelativo = abs(termo)
         qtdTermos+=1
     return seno, qtdTermos
 
@@ -88,7 +88,7 @@ def cos_taylor(radiano, erro):
         #erroAbsoluto = abs(numerador1/denominador1)
         cos += termo
         #esse erro Relativo é o erro estimado.
-        erroRelativo = abs(termo)/abs(cos)
+        erroRelativo = abs(termo)
         qtdTermos+=1
     return cos, qtdTermos
 
