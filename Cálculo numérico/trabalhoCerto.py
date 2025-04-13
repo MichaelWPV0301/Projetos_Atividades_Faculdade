@@ -9,7 +9,8 @@ def senoTaylor(radiano, erro): #Cálculo do seno do ângulo theta (theta é rece
     qtdTermos = 1 #Componente do primeiro termo da Série de Taylor
     denominador = 1 #Componente do primeiro termo da Série de Taylor
     erroAbsoluto = 1 + erro #Erro absoluto inicial
-    while(erroAbsoluto>erro): #Laço que itera "n" termos da Série, com base na comparação entre erro e erroAbsoluto
+    while(erroAbsoluto>erro): #Laço que itera "n-1" termos da Série, com base na comparação entre erro e erroAbsoluto 
+        #Note: "n-1" iterações, não "n", visto que a primeira iteração da série é dada antes do laço
         numerador = (-1)**qtdTermos * radiano**(2*qtdTermos+1) #Componente do k-ésimo termo da Série de Taylor
         denominador *= (2*qtdTermos+1) * (2*qtdTermos) #Componente do k-ésimo termo da Série de Taylor
         termo = numerador /denominador # k-ésimo termo da Série
