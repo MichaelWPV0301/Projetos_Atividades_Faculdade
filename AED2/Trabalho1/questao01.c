@@ -15,7 +15,6 @@ int main()
         printf("Erro ao abrir arquivo!\n");
         return 1;
     }
-
     fprintf(arquivo, "Execucao, tempo(s), pos, valor\n");
 
     clock_t tempoInicial_1, tempoInicial_2, tempoFinal_1, tempoFinal_2;
