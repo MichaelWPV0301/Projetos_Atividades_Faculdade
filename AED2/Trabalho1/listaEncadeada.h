@@ -2,10 +2,21 @@
 #define LISTA_ENCADEADA_H_INCLUDED
 #include "vet.h"
 
-typedef struct TipoNo TipoNo;
-typedef struct Lista Lista;
+typedef struct TipoNo
+{
+    struct TipoNo *prox;
+    int valor;
+} TipoNo;
+
+typedef struct Lista
+{
+    TipoNo *prim;
+    TipoNo *ult;
+} Lista;
 
 void criaListaEncadeada(Lista **lista);
+
+void liberaLista(Lista* lista);
 
 void insereNaLista(Lista *lista, int valor);
 

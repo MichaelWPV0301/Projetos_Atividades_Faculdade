@@ -1,11 +1,11 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "ferramentas.h"
 #include "vet.h"
 
 #define TAM 1000000
-#define NUM 10
-#define CalculaTempo(inicial,final) (double) (final - inicial)/CLOCKS_PER_SEC
+#define NUM_TESTES 10
 
 
 int main(){
@@ -15,35 +15,28 @@ int main(){
     double tempoTotal_1, tempoTotal_2, tempoTotal_3, tempoTotal_4, tempoTotal_5;
     double media1, media2, media3, media4, media5;
 
-    Vetor_int vetor;
-    Vetor_int auxiliar;
+    Vetor vetor;
+    Vetor auxiliar;
 
-    Vetor_double temposBolha;
-    Vetor_double temposSelecao;
-    Vetor_double temposInsercao;
-    Vetor_double temposQuick;
-    Vetor_double temposMerge;
+    double temposBolha[NUM_TESTES];
+    double temposSelecao[NUM_TESTES];
+    double temposInsercao[NUM_TESTES];
+    double temposQuick[NUM_TESTES];
+    double temposMerge[NUM_TESTES];
 
     //cria os vetores dinamicamente
-    criaVetorInt(&vetor, TAM);
-    criaVetorInt(&auxiliar, TAM);
-    criaVetorDouble(&temposBolha, NUM);
-    criaVetorDouble(&temposSelecao, NUM);
-    criaVetorDouble(&temposInsercao, NUM);
-    criaVetorDouble(&temposQuick, NUM);
-    criaVetorDouble(&temposMerge, NUM);
-
+    criaVetor(&vetor, TAM);
+    criaVetor(&auxiliar, TAM);
 
     //mudando a seed do rand() de acordo com o horário
     srand(time(NULL));
     
-    for(int i=0; i<10; i++){
+    for(int i=1; i <= NUM_TESTES; i++){
 
-        printf("\nExecução %d\n", i);
+        printf("\nExecucao %d\n", i);
 
         populaVetorAleatorio(vetor, TAM);
 
-        
         copiaVetor(auxiliar, vetor, TAM);
         tempoInicial_1 = clock();
         bolha(auxiliar, TAM);
@@ -70,17 +63,17 @@ int main(){
         tempoFinal_5 = clock();
 
         //Calculando o tempo das duas buscas
-        tempoTotal_1 = CalculaTempo(tempoInicial_1, tempoFinal_1);
-        tempoTotal_2 = CalculaTempo(tempoInicial_2, tempoFinal_2);
-        tempoTotal_3 = CalculaTempo(tempoInicial_3, tempoFinal_3);
-        tempoTotal_4 = CalculaTempo(tempoInicial_4, tempoFinal_4);
-        tempoTotal_5 = CalculaTempo(tempoInicial_5, tempoFinal_5);
+        tempoTotal_1 = calculaTempo(tempoInicial_1, tempoFinal_1);
+        tempoTotal_2 = calculaTempo(tempoInicial_2, tempoFinal_2);
+        tempoTotal_3 = calculaTempo(tempoInicial_3, tempoFinal_3);
+        tempoTotal_4 = calculaTempo(tempoInicial_4, tempoFinal_4);
+        tempoTotal_5 = calculaTempo(tempoInicial_5, tempoFinal_5);
 
-        insereDoubleVetor(temposBolha, i, tempoTotal_1, NUM);
-        insereDoubleVetor(temposSelecao, i, tempoTotal_2, NUM);
-        insereDoubleVetor(temposInsercao, i, tempoTotal_3, NUM);
-        insereDoubleVetor(temposQuick, i, tempoTotal_4, NUM);
-        insereDoubleVetor(temposMerge, i, tempoTotal_5, NUM);
+        temposBolha[i] = tempoTotal_1;
+        temposSelecao[i] = tempoTotal_2;
+        temposInsercao[i] = tempoTotal_3;
+        temposQuick[i] = tempoTotal_4;
+        temposMerge[i] = tempoTotal_5;
 
         printf("O tempo do Bolha foi %f segundos\n", tempoTotal_1);
         printf("O tempo do Selection foi %f segundos\n", tempoTotal_2);
@@ -89,11 +82,12 @@ int main(){
         printf("O tempo do Mergesort foi %f segundos\n", tempoTotal_5);
 
     }
-    media1 = calculaMediaDouble(temposBolha, NUM);
-    media2 = calculaMediaDouble(temposSelecao, NUM);
-    media3 = calculaMediaDouble(temposInsercao, NUM);
-    media4 = calculaMediaDouble(temposQuick, NUM);
-    media5 = calculaMediaDouble(temposMerge, NUM);
+
+    media1 = calculaMedia(temposBolha, NUM_TESTES);
+    media2 = calculaMedia(temposSelecao, NUM_TESTES);
+    media3 = calculaMedia(temposInsercao, NUM_TESTES);
+    media4 = calculaMedia(temposQuick, NUM_TESTES);
+    media5 = calculaMedia(temposMerge, NUM_TESTES);
 
     printf("\nmédia do Bolha: %f\n", media1);
     printf("média da Seleção: %f\n", media2);

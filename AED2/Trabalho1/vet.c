@@ -3,9 +3,16 @@
 #include <math.h>
 #include "vet.h"
 
-void criaVetor(Vetor *vetor, int tamanho)
+typedef int *Vetor;
+
+void criaVetor(Vetor* vetor, int tamanho)
 {
-    vetor = calloc(tamanho, sizeof(int));
+    *vetor = calloc(tamanho, sizeof(int));
+}
+
+void liberaVetor(Vetor vetor)
+{
+    free(vetor);
 }
 
 void copiaVetor(Vetor destino, Vetor entrada, int tamanho)
@@ -14,6 +21,23 @@ void copiaVetor(Vetor destino, Vetor entrada, int tamanho)
     {
         destino[x] = entrada[x];
     }
+}
+
+void mostraVetor(Vetor vetor, int tamanho)
+{   
+    printf("[");
+
+    if (tamanho)
+    {
+        printf("%d", vetor[0]);
+    }
+
+    for (int x = 1; x < tamanho; x++)
+    {
+        printf(", %d", vetor[x]);
+    }
+
+    printf("]");
 }
 
 void populaVetorAleatorio(Vetor vetor, int tamanho)
@@ -71,7 +95,7 @@ int buscaBinariaVetor(Vetor vetor, int valor, int tamanho)
     return -1;
 }
 
-void bolha(Vetor v, int tamVet)
+void bolha(Vetor vetor, int tamVet)
 {
     int x, y, aux;
 
@@ -79,17 +103,17 @@ void bolha(Vetor v, int tamVet)
     {
         for (y = 0; y < tamVet - 1 - x; y++)
         {
-            if (v[y] > v[y + 1])
+            if (vetor[y] > vetor[y + 1])
             {
-                aux = v[y];
-                v[y] = v[y + 1];
-                v[y + 1] = aux;
+                aux = vetor[y];
+                vetor[y] = vetor[y + 1];
+                vetor[y + 1] = aux;
             }
         }
     }
 }
 
-void selectionSort(Vetor v, int tamVet)
+void selectionSort(Vetor vetor, int tamVet)
 {
 
     int x, y, menor, aux;
@@ -100,132 +124,132 @@ void selectionSort(Vetor v, int tamVet)
         y = x + 1;
         while (y < tamVet)
         {
-            if (v[y] < v[menor])
+            if (vetor[y] < vetor[menor])
             {
                 menor = y;
             }
             y++;
         }
-        aux = v[x];
-        v[x] = v[menor];
-        v[menor] = aux;
+        aux = vetor[x];
+        vetor[x] = vetor[menor];
+        vetor[menor] = aux;
         x++;
     }
 }
 
-void insertionSort(Vetor v, int tamVet)
+void insertionSort(Vetor vetor, int tamVet)
 {
     int x, y, pivot;
     x = 1;
     while (x < tamVet)
     {
         y = x - 1;
-        pivot = v[x];
-        while (y >= 0 && pivot < v[y])
+        pivot = vetor[x];
+        while (y >= 0 && pivot < vetor[y])
         {
-            v[y + 1] = v[y];
+            vetor[y + 1] = vetor[y];
             y--;
         }
-        v[y + 1] = pivot;
+        vetor[y + 1] = pivot;
         x++;
     }
 }
 
-void quickSortR(Vetor v, int inicio, int fim)
+void quickSortR(Vetor vetor, int inicio, int fim)
 {
     int pivot, i, j, meio, aux;
     i = inicio;
     j = fim;
     meio = (i + j) / 2;
-    pivot = v[meio];
+    pivot = vetor[meio];
     while (i <= j)
     {
-        while (v[i] < pivot)
+        while (vetor[i] < pivot)
         {
             i++;
         }
-        while (v[j] > pivot)
+        while (vetor[j] > pivot)
         {
             j--;
         }
         if (i <= j)
         {
-            aux = v[i];
-            v[i] = v[j];
-            v[j] = aux;
+            aux = vetor[i];
+            vetor[i] = vetor[j];
+            vetor[j] = aux;
             i++;
             j--;
         }
     }
     if (inicio < j)
     {
-        quickSortR(v, inicio, j);
+        quickSortR(vetor, inicio, j);
     }
     if (i < fim)
     {
-        quickSortR(v, i, fim);
+        quickSortR(vetor, i, fim);
     }
 }
 
-void quickSort(Vetor v, int tamVet)
+void quickSort(Vetor vetor, int tamVet)
 {
     if (tamVet > 1)
     {
-        quickSortR(v, 0, tamVet - 1);
+        quickSortR(vetor, 0, tamVet - 1);
     }
 }
 
-void mergeSortR(Vetor v, Vetor aux, int inicio, int fim)
+void mergeSortR(Vetor vetor, Vetor aux, int inicio, int fim)
 {
 
     int a, b, k;
     if (inicio < fim)
     {
         int meio = (inicio + fim) / 2;
-        mergeSortR(v, aux, inicio, meio);
-        mergeSortR(v, aux, meio + 1, fim);
+        mergeSortR(vetor, aux, inicio, meio);
+        mergeSortR(vetor, aux, meio + 1, fim);
         a = inicio;
         b = meio + 1;
         k = inicio;
 
         while (a <= meio && b <= fim)
         {
-            if (v[a] < v[b])
+            if (vetor[a] < vetor[b])
             {
-                aux[k] = v[a];
+                aux[k] = vetor[a];
                 a++;
             }
             else
             {
-                aux[k] = v[b];
+                aux[k] = vetor[b];
                 b++;
             }
             k++;
         }
         while (a <= meio)
         {
-            aux[k] = v[a];
+            aux[k] = vetor[a];
             a++;
             k++;
         }
         while (b <= fim)
         {
-            aux[k] = v[b];
+            aux[k] = vetor[b];
             b++;
             k++;
         }
 
         for (k = inicio; k <= fim; k++)
         {
-            v[k] = aux[k];
+            vetor[k] = aux[k];
         }
     }
 }
 
-void mergeSort(Vetor v, int tamVet)
+void mergeSort(Vetor vetor, int tamVet)
 {
     int *aux;
     aux = (int *)malloc(sizeof(int) * tamVet);
-    mergeSortR(v, aux, 0, tamVet - 1);
+    mergeSortR(vetor, aux, 0, tamVet - 1);
     free(aux);
 }

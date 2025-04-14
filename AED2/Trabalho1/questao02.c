@@ -1,13 +1,12 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "ferramentas.h"
 #include "vet.h"
 #include "listaEncadeada.h"
 
-#define TAM 1000000
-#define NUM 30
-#define CalculaTempo(inicial,final) (double) (final - inicial)/CLOCKS_PER_SEC
-
+#define TAM 10000000
+#define NUM_TESTES 30
 
 int main(){
 
@@ -16,64 +15,67 @@ int main(){
     double media1, media2;
 
     int valorAleatorio;
-    Vetor_int vetor;
+    Vetor vetor;
     Lista* lista;
-   
     
-    Vetor_double temposVetor;
-    Vetor_double temposLista;
+    double temposVetor[NUM_TESTES];
+    double temposLista[NUM_TESTES];
   
-    //cria os vetores e listaEncadeada dinamicamente
-    criaVetorInt(&vetor, TAM);
+    // Cria o vetor e a lista encadeada dinamicamente
+    criaVetor(&vetor, TAM);
     criaListaEncadeada(&lista);
-    criaVetorDouble(&temposVetor, NUM);
-    criaVetorDouble(&temposLista, NUM);
 
-
-    //Populando o vetor e transformando em lista encadeada
+    // Populando o vetor com elementos aleatórios
     populaVetorAleatorio(vetor, TAM);
+
+    // Convertendo o vetor em lista encadeada//Mostrando os valores das médias e desvio padrão
     vetorEmListaEncadeada(lista, vetor, TAM);
-    
-    //mudando a seed do rand() de acordo com o horário
-    srand(time(NULL));
-    
-    for(int i=0; i<30; i++){
 
-        printf("\nExecução %d\n", i);
+    for (int i = 1; i <= NUM_TESTES; i++)
+    {
+        printf("\nExecucao %d\n", i);
 
-        //15 casos dentro do vetor, 15 casos podendo estar fora
-        if (i < 15){
-            valorAleatorio = vetor[abs(rand()%TAM)];
+        // Primeira metade dos casos de teste estão garantidamente dentro do vetor
+        // A segunda metade dos casos pode estar dentro ou fora
+        if (i <= NUM_TESTES / 2)
+        {
+            valorAleatorio = vetor[abs(rand() % TAM)];
         }
         else{
             valorAleatorio = rand();
         }
         
-        //Busca Sequencial no vetor desordenado
+        // Busca Sequencial no vetor
         tempoInicial_1 = clock();
         buscaSequencialVetor(vetor, valorAleatorio, TAM);
         tempoFinal_1 = clock();
 
-        //Busca Binária no vetor ordenado
+        // Busca Sequencial na lista encadeada
         tempoInicial_2 = clock();
         buscaSequencialLista(lista, valorAleatorio);
         tempoFinal_2 = clock();
 
-        //Calculando o tempo das duas buscas
-        tempoTotal_vetor = CalculaTempo(tempoInicial_1, tempoFinal_1);
-        tempoTotal_lista = CalculaTempo(tempoInicial_2, tempoFinal_2);
-        insereDoubleVetor(temposVetor, i, tempoTotal_vetor, NUM);
-        insereDoubleVetor(temposLista, i, tempoTotal_lista, NUM);
+        // Calculando o tempo das duas buscas
+        tempoTotal_vetor = calculaTempo(tempoInicial_1, tempoFinal_1);
+        tempoTotal_lista = calculaTempo(tempoInicial_2, tempoFinal_2);
 
+        // Guardando os tempos desta execução nos vetores de tempo
+        temposVetor[i] = tempoTotal_vetor;
+        temposLista[i] = tempoTotal_lista;
+
+        // Mostrando os tempos dessa execução
         printf("O tempo da busca no vetor foi %f segundos\n", tempoTotal_vetor);
         printf("O tempo da busca na lista encadeada foi %f segundos\n", tempoTotal_lista);
         
     }
-    media1 = calculaMediaDouble(temposVetor, NUM);
-    media2 = calculaMediaDouble(temposLista, NUM);
+
+    // Calculando as médias dos tempos no vetor e na lista encadeada
+    media1 = calculaMedia(temposVetor, NUM_TESTES);
+    media2 = calculaMedia(temposLista, NUM_TESTES);
     
-    printf("média da busca no vetor foi de: %f\n", media1);
-    printf("média da busca na lista encadeada foi de: %f\n", media2);
+    // Mostrando os valores das médias e desvio padrão
+    printf("\nMedia da busca no vetor foi de: %f\n", media1);
+    printf("Media da busca na lista encadeada foi de: %f\n", media2);
 
     return 0;
 }

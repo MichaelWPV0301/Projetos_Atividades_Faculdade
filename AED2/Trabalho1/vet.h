@@ -3,9 +3,13 @@
 
 typedef int *Vetor;
 
-void criaVetor(Vetor vetor, int tamanho);
+void criaVetor(Vetor* vetor, int tamanho);
+
+void liberaVetor(Vetor vetor);
 
 void copiaVetor(Vetor destino, Vetor entrada, int tamanho);
+
+void mostraVetor(Vetor vetor, int tamanho);
 
 void populaVetorAleatorioOrdenado(Vetor vetor, int tamanho);
 

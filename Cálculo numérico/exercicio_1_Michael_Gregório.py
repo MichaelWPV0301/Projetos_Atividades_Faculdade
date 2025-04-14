@@ -3,7 +3,7 @@ def rotacionaPonto(ponto, matriz): # Função para rotação de pontos
     return ponto
 
 def senoTaylor(radiano, erro): # Cálculo do seno do ângulo theta (theta é recebido em radiano)
-    termo = radiano # Primeiro termo da série de taylor do seno
+    termo = radiano # Primeiro tecos,qtdTermosrmo da série de taylor do seno
     seno = radiano # Serie de taylor do seno com o primeiro termo. 
     qtdTermos = 1 # Componente inicial da Série de Taylor para o seno
 
@@ -106,7 +106,7 @@ radiano = (PI * teta)/180 #Transformação do ângulo de graus para radiano
 erro = 10**(-12) #Erro desejado dado pelo problema
 
 cos, qtdcos = cosTaylor(radiano, erro) #Aplicação da série de taylor do cosseno(radiano) com erro(10*(-12)), note que a função também retorna a quantidade de termos calculados(qtdcos) 
-seno, qtdseno = senoTaylor(radiano, erro) #Aplicação da série de taylor do seno(radiano) com erro(10*(-12)), note que a função também retorna a quantidade de termos calculados(qtdseno) 
+seno, qtdseno = senoTaylor(radiano, erro) #Aplicação da série de taylor do seno(radian o) com erro(10*(-12)), note que a função também retorna a quantidade de termos calculados(qtdseno) 
 matrizRotacao = [[cos, seno], [-seno, cos]] #Montagem da matriz de Rotação 
 
 

@@ -4,22 +4,30 @@
 #include <math.h>
 #include <stdio.h>
 
-typedef struct TipoNo
-{
-    struct TipoNo *prox;
-    int valor;
-} TipoNo;
-
-typedef struct Lista
-{
-    TipoNo *prim;
-    TipoNo *ult;
-} Lista;
-
 void criaListaEncadeada(Lista **lista)
 {
     *lista = (Lista *)malloc(sizeof(Lista));
     (*lista)->prim = NULL;
+}
+
+void liberaLista(Lista* lista)
+{
+    TipoNo* atual = lista->prim;
+    TipoNo* aux;
+
+    if (atual == NULL){ return;}
+
+    while(atual->prox)
+    {
+        aux = atual->prox;
+        free(atual);
+        atual = aux;
+    }
+
+    free(atual);
+
+    lista->prim = NULL;
+    lista->ult = NULL;
 }
 
 void insereNaLista(Lista *lista, int valor)
