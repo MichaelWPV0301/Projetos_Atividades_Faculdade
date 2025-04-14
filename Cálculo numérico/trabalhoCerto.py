@@ -111,7 +111,7 @@ matrizRotacao = [[cos, seno], [-seno, cos]] #Montagem da matriz de Rotação
 
 
 
-PemR = rotacionaPonto(PemR, matrizRotacao) #Rotação do ponto com a função, ou seja a função retorno a multiplição da Matriz pelo ponto.
+PemR = rotacionaPonto(PemR, matrizRotacao) #Rotação do ponto com a função, ou seja a função retorna a multiplição da Matriz pelo ponto.
 raioR = ((PemR[0]**2)+(PemR[1]**2))**(1/2) #Cálculo do raio para notação em coordenada polar, note que é apenas a implementação do teorema de pitágoras R=(x^(2)+y^(2))^(1/2)
 anguloR, termosR = arctanTaylor(PemR[1]/PemR[0]) #Cálculo da Serie de taylor do Arctan(y/x), um dos passos necessários para notação polar, note que a função também retorna a quantidade de termos calculados na série.
 PRpolar = [raioR, anguloR*180/PI] #Montagem do ponto em coordenada polar, PemR(x,y) = PemR(raio, ângulo medido a partir do eixo polar)
