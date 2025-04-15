@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 # Lendo o CSV
-dataframe = pd.read_csv("dados_5.csv")
+dataframe = pd.read_csv("~/Documentos/michael/Projetos_Atividades_Faculdade/AED2/Trabalho1/dados_5.csv")
 x1 = dataframe.iloc[0, 1:].values
 x2 = dataframe.iloc[1, 1:].values
 x3 = dataframe.iloc[2, 1:].values
@@ -18,8 +18,8 @@ y2  = dataframe.iloc[3, 1:].values
 
 # ----- Primeiro gráfico -----
 plt.figure(figsize=(8, 5))
-plt.plot(y1, x1, 'o-', linewidth=2, label='Busca Binaria')
-plt.plot(y1, x2, 'o-', linewidth=2, label='Busca Sequencial')
+plt.plot(y1, x1, 'o-', linewidth=2, label='Busca Sequencial')
+plt.plot(y1, x2, 'o-', linewidth=2, label='Busca Binaria')
 
 plt.title("Busca Sequencial X Busca Binaria")
 plt.xlabel("Quantidade de Elementos")
@@ -45,8 +45,8 @@ input("Pressione Enter para mostrar o segundo gráfico...")
 
 # ----- Segundo gráfico -----
 plt.figure(figsize=(8, 5))
-plt.plot(y1, x1, 'o-', linewidth=2, label='Busca Binaria')
-plt.plot(y1, x3, 'o-', linewidth=2, label='Busca Sequencial')
+plt.plot(y1, x1, 'o-', linewidth=2, label='Busca Vetor')
+plt.plot(y1, x3, 'o-', linewidth=2, label='Busca Lista Encadeada')
 
 plt.title("Busca Sequencial: Lista Encadeada X Vetor")
 plt.xlabel("Quantidade de Elementos")
