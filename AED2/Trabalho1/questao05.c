@@ -75,6 +75,9 @@ int main()
         printf("\nO tempo da busca sequencial com %d elementos foi %f segundos\n", TAM , tempoTotal_Seq);
         printf("O tempo da busca binaria com %d elementos foi %f segundos\n", TAM, tempoTotal_Bin);
 
+        liberaVetor(&vetor);
+        liberaVetor(&vetorOrdenado);
+
     }
 
 
@@ -91,7 +94,7 @@ int main()
 
     //Iteracao para mudar os dados
     char pause;
-    printf("Aperte enter para a parte 2 da questao 05.");
+    printf("\nAperte enter para a parte 2 da questao 05.");
     scanf("%c", &pause);
     printf("\e[H\e[2J");
 
@@ -102,12 +105,14 @@ int main()
     NUM_TESTES = 10;
 
     double tempoTotal_lista;
+    double tempoTotal_vetor;
 
     Vetor vetor2;
     Lista* lista;
     
     double temposLista[NUM_TESTES];
-
+    double temposVetor[NUM_TESTES];
+    
 
     for (int TAM = TAM_INICIAL; TAM <= TAM_FINAL; TAM = TAM + PASSO)
     {
@@ -124,21 +129,30 @@ int main()
 
         valorAleatorio1 = vetor2[abs(rand() % TAM)];
 
+        // Busca Sequencial na lista encadeada        
+        tempoInicial_1 = clock();
+        buscaSequencialVetor(vetor2, valorAleatorio1, TAM);
+        tempoFinal_1 = clock();        
+        
         // Busca Sequencial na lista encadeada
         tempoInicial_2 = clock();
         buscaSequencialLista(lista, valorAleatorio1);
         tempoFinal_2 = clock();
 
+
+
         // Calculando o tempo das duas buscas
+        tempoTotal_vetor = calculaTempo(tempoInicial_1, tempoFinal_1);        
         tempoTotal_lista = calculaTempo(tempoInicial_2, tempoFinal_2);
 
         // Guardando o tempo desta execução no vetor de tempo
         temposLista[TAM/PASSO - 1] = tempoTotal_lista;
+        temposVetor[TAM/PASSO -1] = tempoTotal_vetor;
 
         // Mostrando os tempos dessa execução
         printf("\nO tempo da busca sequencial na lista encadeada com %d elementos foi %f segundos\n", TAM, tempoTotal_lista);
 
-        liberaVetor(vetor2);
+        liberaVetor(&vetor2);
         liberaLista(lista);
     }
     fprintf(arquivo, "\n");
@@ -147,13 +161,20 @@ int main()
         fprintf(arquivo, ",%f", temposLista[i]);
     }
 
-    
+    fprintf(arquivo, "\n");
+    fprintf(arquivo, "TemposVetor");    
+    for(int i=0; i<NUM_TESTES; i++){
+        fprintf(arquivo, ",%f", temposVetor[i]);
+    }
+
+
 
 
     //Iteracao para mudar os dados
-    printf("Aperte enter para a parte 3 da questao 05.");
+    printf("\nAperte enter para a parte 3 da questao 05.");
     scanf("%c", &pause);
     printf("\e[H\e[2J");
+
 
 
 
@@ -168,9 +189,6 @@ int main()
     clock_t tempoFinal1, tempoFinal2, tempoFinal3, tempoFinal4, tempoFinal5;
     double tempoTotal1, tempoTotal2, tempoTotal3, tempoTotal4, tempoTotal5;
 
-    Vetor vetor3;
-    Vetor auxiliar;
-
     double temposBolha[NUM_TESTES];
     double temposSelecao[NUM_TESTES];
     double temposInsercao[NUM_TESTES];
@@ -182,12 +200,17 @@ int main()
     
     for (int TAM = TAM_INICIAL; TAM <= TAM_FINAL; TAM = TAM + PASSO)
     {
+        Vetor auxiliar;
+        Vetor vetor3;
+
         //cria os vetores dinamicamente
         criaVetor(&vetor3, TAM);
         criaVetor(&auxiliar, TAM);
 
+        //popula o vetor com elementos aleatórios
         populaVetorAleatorio(vetor3, TAM);
 
+        //copia o vetor no auxiliar, e mede o tempo das 5 ordenações
         copiaVetor(auxiliar, vetor3, TAM);
         tempoInicial1 = clock();
         bolha(auxiliar, TAM);
@@ -232,44 +255,44 @@ int main()
         printf("O tempo do Insertion foi %f segundos\n", tempoTotal3);
         printf("O tempo do Quicksort foi %f segundos\n", tempoTotal4);
         printf("O tempo do Mergesort foi %f segundos\n\n", tempoTotal5);
-
-        fprintf(arquivo, "\n");
-        fprintf(arquivo, "TemposBolha");    
-        for(int i=0; i<NUM_TESTES; i++){
-            fprintf(arquivo, ",%f", temposBolha[i]);
-        }
-
-        fprintf(arquivo, "\n");
-        fprintf(arquivo, "TemposSelecao");    
-        for(int i=0; i<NUM_TESTES; i++){
-            fprintf(arquivo, ",%f", temposSelecao[i]);
-        }
-
-
-        fprintf(arquivo, "\n");
-        fprintf(arquivo, "TemposInsercao");    
-        for(int i=0; i<NUM_TESTES; i++){
-            fprintf(arquivo, ",%f", temposInsercao[i]);
-        }
-
-
-
-        fprintf(arquivo, "\n");
-        fprintf(arquivo, "TemposQuick");    
-        for(int i=0; i<NUM_TESTES; i++){
-            fprintf(arquivo, ",%f", temposQuick[i]);
-        }
-        
-        fprintf(arquivo, "\n");
-        fprintf(arquivo, "TemposMerge");    
-        for(int i=0; i<NUM_TESTES; i++){
-            fprintf(arquivo, ",%f", temposMerge[i]);
-        }
-        
-        liberaVetor(vetor3);
-        liberaVetor(auxiliar);
-        fclose(arquivo);
     }
+
+    //montagem do arquivo csv para montar os graficos:
+
+    fprintf(arquivo, "\n");
+    fprintf(arquivo, "TemposBolha");    
+    for(int i=0; i<NUM_TESTES; i++){
+        fprintf(arquivo, ",%f", temposBolha[i]);
+    }
+
+    fprintf(arquivo, "\n");
+    fprintf(arquivo, "TemposSelecao");    
+    for(int i=0; i<NUM_TESTES; i++){
+        fprintf(arquivo, ",%f", temposSelecao[i]);
+    }
+
+
+    fprintf(arquivo, "\n");
+    fprintf(arquivo, "TemposInsercao");    
+    for(int i=0; i<NUM_TESTES; i++){
+        fprintf(arquivo, ",%f", temposInsercao[i]);
+    }
+
+
+
+    fprintf(arquivo, "\n");
+    fprintf(arquivo, "TemposQuick");    
+    for(int i=0; i<NUM_TESTES; i++){
+        fprintf(arquivo, ",%f", temposQuick[i]);
+    }
+    
+    fprintf(arquivo, "\n");
+    fprintf(arquivo, "TemposMerge");    
+    for(int i=0; i<NUM_TESTES; i++){
+        fprintf(arquivo, ",%f", temposMerge[i]);
+    }
+
+    fclose(arquivo);
 
     return 0;
 }

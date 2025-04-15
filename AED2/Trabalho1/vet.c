@@ -10,9 +10,9 @@ void criaVetor(Vetor* vetor, int tamanho)
     *vetor = calloc(tamanho, sizeof(int));
 }
 
-void liberaVetor(Vetor vetor)
+void liberaVetor(Vetor* vetor)
 {
-    free(vetor);
+    free(*vetor);
 }
 
 void copiaVetor(Vetor destino, Vetor entrada, int tamanho)

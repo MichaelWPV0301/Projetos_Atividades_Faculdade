@@ -1,11 +1,11 @@
 #ifndef VETOR_H_INCLUDED
 #define VETOR_H_INCLUDED
 
-typedef int *Vetor;
+typedef int* Vetor;
 
 void criaVetor(Vetor* vetor, int tamanho);
 
-void liberaVetor(Vetor vetor);
+void liberaVetor(Vetor* vetor);
 
 void copiaVetor(Vetor destino, Vetor entrada, int tamanho);
 
