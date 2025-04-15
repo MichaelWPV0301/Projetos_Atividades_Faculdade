@@ -11,7 +11,7 @@ int main()
     srand(time(NULL));
      
      
-     // =============QUESTAO 01=================
+    // =============QUESTAO 01=================
 
 
     int TAM_INICIAL = 100000;
@@ -21,7 +21,6 @@ int main()
 
     clock_t tempoInicial_1, tempoInicial_2, tempoFinal_1, tempoFinal_2;
     double tempoTotal_Seq, tempoTotal_Bin;
-    double media1, desvioPadrao1, media2, desvioPadrao2;
 
     double temposSeq[NUM_TESTES];
     double temposBin[NUM_TESTES];
@@ -29,9 +28,16 @@ int main()
     int valorAleatorio1, valorAleatorio2;
     Vetor vetor;
     Vetor vetorOrdenado;
+    
+    FILE *arquivo = fopen("dados_5.csv", "a");
+    if (arquivo == NULL){
+        printf("Erro ao abrir arquivo!\n");
+        return 1;
+    }
+    fprintf(arquivo, "Elementos, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000\n");
 
     for (int TAM = TAM_INICIAL; TAM <= TAM_FINAL; TAM = TAM + PASSO)
-    {
+    { 
 
         // cria os vetores dinamicamente
         criaVetor(&vetor, TAM);
@@ -68,28 +74,24 @@ int main()
         //Mostrando os tempos dessa execução
         printf("\nO tempo da busca sequencial com %d elementos foi %f segundos\n", TAM , tempoTotal_Seq);
         printf("O tempo da busca binaria com %d elementos foi %f segundos\n", TAM, tempoTotal_Bin);
+
     }
 
-    //Calculando a média e desvio padrão dos tempos da busca sequencial
-    media1 = calculaMedia(temposSeq, NUM_TESTES);
-    desvioPadrao1 = calculaDesvioPadrao(temposSeq, media1, NUM_TESTES);
 
-    //Calculando a média e desvio padrão dos tempos da busca binária
-    media2 = calculaMedia(temposBin, NUM_TESTES);
-    desvioPadrao2 = calculaDesvioPadrao(temposBin, media2, NUM_TESTES);
+    //montagem do arquivo csv para montar o grafico:
+    fprintf(arquivo, "temposSeq");
+    for(int i=0; i<NUM_TESTES; i++){
+        fprintf(arquivo, ",%f", temposSeq[i]);
+    }
+    fprintf(arquivo, "\n");
+    fprintf(arquivo, "temposBin");
+    for(int i=0; i<NUM_TESTES; i++){
+        fprintf(arquivo, ",%f", temposBin[i]);
+    }
 
-    //Mostrando os valores das médias e desvio padrão
-    printf("\nMedia da Busca Sequencial: %f\n", media1);
-    printf("Desvio padrão da Busca Sequencial: %f\n\n", desvioPadrao1);
-    printf("Media da Busca Binaria: %f\n", media2);
-    printf("Desvio padrão da Busca Binaria: %f\n", desvioPadrao2);
-
-
-
-
-
-
+    //Iteracao para mudar os dados
     char pause;
+    printf("Aperte enter para a parte 2 da questao 05.");
     scanf("%c", &pause);
     printf("\e[H\e[2J");
 
@@ -100,7 +102,6 @@ int main()
     NUM_TESTES = 10;
 
     double tempoTotal_lista;
-    double media3;
 
     Vetor vetor2;
     Lista* lista;
@@ -140,15 +141,17 @@ int main()
         liberaVetor(vetor2);
         liberaLista(lista);
     }
+    fprintf(arquivo, "\n");
+    fprintf(arquivo, "TemposLista");    
+    for(int i=0; i<NUM_TESTES; i++){
+        fprintf(arquivo, ",%f", temposLista[i]);
+    }
 
-    // Calculando as médias dos tempos no vetor e na lista encadeada
-    media3 = calculaMedia(temposLista, NUM_TESTES);
     
-    // Mostrando os valores das médias e desvio padrão
-    printf("\nMedia da busca na lista encadeada foi de: %f\n", media3);
 
 
-
+    //Iteracao para mudar os dados
+    printf("Aperte enter para a parte 3 da questao 05.");
     scanf("%c", &pause);
     printf("\e[H\e[2J");
 
@@ -164,7 +167,6 @@ int main()
     clock_t tempoInicial1, tempoInicial2, tempoInicial3, tempoInicial4, tempoInicial5; 
     clock_t tempoFinal1, tempoFinal2, tempoFinal3, tempoFinal4, tempoFinal5;
     double tempoTotal1, tempoTotal2, tempoTotal3, tempoTotal4, tempoTotal5;
-    double media4, media5;
 
     Vetor vetor3;
     Vetor auxiliar;
@@ -174,6 +176,9 @@ int main()
     double temposInsercao[NUM_TESTES];
     double temposQuick[NUM_TESTES];
     double temposMerge[NUM_TESTES];
+
+
+    fprintf(arquivo, "\nElementos, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000\n");
     
     for (int TAM = TAM_INICIAL; TAM <= TAM_FINAL; TAM = TAM + PASSO)
     {
@@ -228,21 +233,43 @@ int main()
         printf("O tempo do Quicksort foi %f segundos\n", tempoTotal4);
         printf("O tempo do Mergesort foi %f segundos\n\n", tempoTotal5);
 
+        fprintf(arquivo, "\n");
+        fprintf(arquivo, "TemposBolha");    
+        for(int i=0; i<NUM_TESTES; i++){
+            fprintf(arquivo, ",%f", temposBolha[i]);
+        }
+
+        fprintf(arquivo, "\n");
+        fprintf(arquivo, "TemposSelecao");    
+        for(int i=0; i<NUM_TESTES; i++){
+            fprintf(arquivo, ",%f", temposSelecao[i]);
+        }
+
+
+        fprintf(arquivo, "\n");
+        fprintf(arquivo, "TemposInsercao");    
+        for(int i=0; i<NUM_TESTES; i++){
+            fprintf(arquivo, ",%f", temposInsercao[i]);
+        }
+
+
+
+        fprintf(arquivo, "\n");
+        fprintf(arquivo, "TemposQuick");    
+        for(int i=0; i<NUM_TESTES; i++){
+            fprintf(arquivo, ",%f", temposQuick[i]);
+        }
+        
+        fprintf(arquivo, "\n");
+        fprintf(arquivo, "TemposMerge");    
+        for(int i=0; i<NUM_TESTES; i++){
+            fprintf(arquivo, ",%f", temposMerge[i]);
+        }
+        
         liberaVetor(vetor3);
         liberaVetor(auxiliar);
+        fclose(arquivo);
     }
-
-    media1 = calculaMedia(temposBolha, NUM_TESTES);
-    media2 = calculaMedia(temposSelecao, NUM_TESTES);
-    media3 = calculaMedia(temposInsercao, NUM_TESTES);
-    media4 = calculaMedia(temposQuick, NUM_TESTES);
-    media5 = calculaMedia(temposMerge, NUM_TESTES);
-
-    printf("\nmédia do Bolha: %f\n", media1);
-    printf("média da Seleção: %f\n", media2);
-    printf("média da Inserção: %f\n", media3);
-    printf("média do Quicksort: %f\n", media4);
-    printf("média do MergeSort: %f\n", media5);
 
     return 0;
 }

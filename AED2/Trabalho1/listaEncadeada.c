@@ -58,13 +58,15 @@ void vetorEmListaEncadeada(Lista *lista, Vetor vetor, int tamanhoVetor)
 int buscaSequencialLista(Lista *lista, int valor)
 {
     TipoNo *aux = lista->prim;
+    int i = 0;
     while (aux)
     {
         if (aux->valor == valor)
         {
-            return 1;
+            return i;
         }
         aux = aux->prox;
+        i++;
     }
-    return 0;
+    return -1;
 }

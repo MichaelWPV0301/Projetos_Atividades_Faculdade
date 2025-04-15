@@ -4,7 +4,7 @@
 #include "ferramentas.h"
 #include "vet.h"
 
-#define TAM 1000000
+#define TAM 100000
 #define NUM_TESTES 10
 
 
@@ -30,6 +30,13 @@ int main(){
 
     //mudando a seed do rand() de acordo com o horário
     srand(time(NULL));
+
+    FILE *arquivo = fopen("dados_3.csv", "a");
+    if (arquivo == NULL){
+        printf("Erro ao abrir arquivo!\n");
+        return 1;
+    }
+    fprintf(arquivo, ", Bolha, SelectionSort, InserctionSort, QuickSort, MergeSort\n");
     
     for(int i=1; i <= NUM_TESTES; i++){
 
@@ -69,12 +76,16 @@ int main(){
         tempoTotal_4 = calculaTempo(tempoInicial_4, tempoFinal_4);
         tempoTotal_5 = calculaTempo(tempoInicial_5, tempoFinal_5);
 
-        temposBolha[i] = tempoTotal_1;
-        temposSelecao[i] = tempoTotal_2;
-        temposInsercao[i] = tempoTotal_3;
-        temposQuick[i] = tempoTotal_4;
-        temposMerge[i] = tempoTotal_5;
 
+        temposBolha[i-1] = tempoTotal_1;
+        temposSelecao[i-1] = tempoTotal_2;
+        temposInsercao[i-1] = tempoTotal_3;
+        temposQuick[i-1] = tempoTotal_4;
+        temposMerge[i-1] = tempoTotal_5;
+
+
+        fprintf(arquivo, "Tempos Execucao %d,       %f,         %f,         %f,         %f,         %f\n", i, tempoTotal_1, tempoTotal_2, tempoTotal_3, tempoTotal_4, tempoTotal_5);
+        
         printf("O tempo do Bolha foi %f segundos\n", tempoTotal_1);
         printf("O tempo do Selection foi %f segundos\n", tempoTotal_2);
         printf("O tempo do Insertion foi %f segundos\n", tempoTotal_3);
@@ -94,6 +105,7 @@ int main(){
     printf("média da Inserção: %f\n", media3);
     printf("média do Quicksort: %f\n", media4);
     printf("média do MergeSort: %f\n", media5);
-
+    fprintf(arquivo, "Medias,       %f,       %f,       %f,       %f,       %f\n", media1, media2, media3, media4, media5);
+    fclose(arquivo);
     return 0;
 }

@@ -15,11 +15,19 @@ int main(){
     double media1, media2;
 
     int valorAleatorio;
+    int indice1, indice2;
     Vetor vetor;
     Lista* lista;
     
     double temposVetor[NUM_TESTES];
     double temposLista[NUM_TESTES];
+    
+    FILE *arquivo = fopen("dados_2.csv", "a");
+    if (arquivo == NULL){
+        printf("Erro ao abrir arquivo!\n");
+        return 1;
+    }
+    fprintf(arquivo, "Execucao, tempo(s), pos, valor\n");
   
     // Cria o vetor e a lista encadeada dinamicamente
     criaVetor(&vetor, TAM);
@@ -47,12 +55,12 @@ int main(){
         
         // Busca Sequencial no vetor
         tempoInicial_1 = clock();
-        buscaSequencialVetor(vetor, valorAleatorio, TAM);
+        indice1 = buscaSequencialVetor(vetor, valorAleatorio, TAM);
         tempoFinal_1 = clock();
 
         // Busca Sequencial na lista encadeada
         tempoInicial_2 = clock();
-        buscaSequencialLista(lista, valorAleatorio);
+        indice2 = buscaSequencialLista(lista, valorAleatorio);
         tempoFinal_2 = clock();
 
         // Calculando o tempo das duas buscas
@@ -60,13 +68,16 @@ int main(){
         tempoTotal_lista = calculaTempo(tempoInicial_2, tempoFinal_2);
 
         // Guardando os tempos desta execução nos vetores de tempo
-        temposVetor[i] = tempoTotal_vetor;
-        temposLista[i] = tempoTotal_lista;
+        temposVetor[i-1] = tempoTotal_vetor;
+        temposLista[i-1] = tempoTotal_lista;
 
         // Mostrando os tempos dessa execução
         printf("O tempo da busca no vetor foi %f segundos\n", tempoTotal_vetor);
         printf("O tempo da busca na lista encadeada foi %f segundos\n", tempoTotal_lista);
         
+        
+        fprintf(arquivo, "Lista:       %d,         %f,         %d,         %d\n", i, tempoTotal_vetor, indice1, valorAleatorio);
+        fprintf(arquivo, "Vetor:       %d,         %f,         %d,         %d\n", i, tempoTotal_lista, indice2, valorAleatorio);
     }
 
     // Calculando as médias dos tempos no vetor e na lista encadeada
@@ -77,5 +88,9 @@ int main(){
     printf("\nMedia da busca no vetor foi de: %f\n", media1);
     printf("Media da busca na lista encadeada foi de: %f\n", media2);
 
+    fprintf(arquivo, "Media vetor: %f", media1);
+    fprintf(arquivo, "Media lista: %f", media2 );
+
+    fclose(arquivo);
     return 0;
 }

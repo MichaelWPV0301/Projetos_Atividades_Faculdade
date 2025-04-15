@@ -81,7 +81,7 @@ int main()
         printf("O tempo da busca binaria foi %f segundos\n", tempoTotal_Bin);
 
         fprintf(arquivo, "Sequencial:       %d,         %f,         %d,         %d\n", i, tempoTotal_Seq, indice1, valorAleatorio1);
-        fprintf(arquivo, "Binária:       %d,         %f,         %d,         %d\n", i, tempoTotal_Bin, indice2, valorAleatorio2);
+        fprintf(arquivo, "Binária:          %d,         %f,         %d,         %d\n", i, tempoTotal_Bin, indice2, valorAleatorio2);
 
     }
 
