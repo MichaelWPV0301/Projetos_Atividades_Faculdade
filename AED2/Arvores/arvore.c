@@ -17,7 +17,7 @@ typedef struct Arvore{
 void criaNo(TipoNo* no, int valor){
     no->esquerda = NULL;
     no->direita = NULL;
-    no.valor = valor;
+    no->valor = valor;
 }
 
 
@@ -25,23 +25,27 @@ void criaArvore(Arvore* arvore){
     arvore->raiz = NULL;
 }
 
-void insereArvoreBinaria(Arvore* arvore, int valor){
-    if(arvore==NULL){
+TipoNo* insereArvoreBinaria(TipoNo* raiz, int valor){
+    if(raiz==NULL){
         TipoNo* novo = (TipoNo*) malloc(sizeof(TipoNo));
         novo->direita = NULL;
         novo->esquerda = NULL;
-        novo.valor = valor;
-        return;
+        novo->valor = valor;
+        return novo;
     }
-    if(valor<=valor.arvore){
-        
+    if(valor<=raiz->valor){
+        raiz->esquerda = insereArvoreBinaria(raiz->esquerda, valor);
     }
+    else{
+        raiz->direita = insereArvoreBinaria(raiz->direita, valor);
+    }
+    return raiz;
 }
 
 void insereArvoreLeft(TipoNo* no, int valor){
     TipoNo* novo = (TipoNo*) malloc(sizeof(TipoNo));
     no->esquerda = novo;
-    novo.valor = valor;
+    novo->valor = valor;
     novo->direita = NULL;  
     novo->esquerda = NULL;
 }
@@ -49,7 +53,7 @@ void insereArvoreLeft(TipoNo* no, int valor){
 void insereArvoreRight(TipoNo* no, int valor){
     TipoNo* novo = (TipoNo*) malloc(sizeof(TipoNo));
     no->direita = novo;
-    novo.valor = valor;
+    novo->valor = valor;
     novo->direita = NULL;
     novo->esquerda = NULL;
 }
@@ -74,4 +78,27 @@ TipoNo* buscaElemento(Arvore* arvore, int nivel, int filho){
         nivel--;
     }
     return no;
+}
+
+
+void mostraArvoreOrdenada(TipoNo* raiz){
+    if(raiz!=NULL){
+        mostraArvoreOrdenada(raiz->esquerda);
+        printf("%d", raiz->valor);
+        mostraArvoreOrdenada(raiz->direita);
+    }
+}
+
+
+int main(){
+    int valor;
+    Arvore arvore;
+    criaArvore(&arvore);
+    valor = 0;
+    while(valor!=-1){
+        printf("Qual valor do novo nó você quer adicionar na árvore binária? [-1] se não quiser\n");
+        scanf("%d\n", &valor);
+        insereArvoreBinaria(arvore.raiz, valor);
+    }
+    mostraArvoreOrdenada(arvore.raiz);
 }

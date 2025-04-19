@@ -10,10 +10,10 @@ def formatar(y,pos):
 
     
     return f"{y}s"
+
+
 # Lendo o CSV
-
-
-dataframe = pd.read_csv("~/Documentos/michael/Projetos_Atividades_Faculdade/AED2/Trabalho1/dados_5.csv")
+dataframe = pd.read_csv("~/Documentos/trab01-aed2/dados_5.csv")
 x1 = dataframe.iloc[0, 1:].values
 x2 = dataframe.iloc[1, 1:].values
 x3 = dataframe.iloc[2, 1:].values
@@ -102,7 +102,7 @@ ax = fig.subplots()
 plt.plot(y2, x8, 'o-', linewidth=2, label='quick')
 plt.plot(y2, x9, 'o-', linewidth=2, label='merge')
 
-plt.title("Ordenacao: Inserction X Selection X Bolha")
+plt.title("Ordenacao: Quick X Merge")
 plt.xlabel("Quantidade de Elementos")
 plt.ylabel("Tempos (s)")
 plt.legend()

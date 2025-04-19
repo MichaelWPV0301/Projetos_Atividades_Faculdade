@@ -1,22 +1,26 @@
+//Grupo:Letícia Souza de Souza, Marcos Paulo Vieira Pedrosa, Mikaelle Costa de Santana, Michael Willian Pereira Vieira 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "ferramentas.h"
-#include "vet.h"
+#include "../include/ferramentas.h"
+#include "../include/vet.h"
 
-#define TAM 10000000
-#define NUM_TESTES 30
+#define TAM 10000000 //Tamanho dos vetores
+#define NUM_TESTES 30 //Número de execuções
 
 int main()
 {
 
-    FILE *arquivo = fopen("dados_1.csv", "a");
+    // Criando arquivo.csv para guardar os dados
+    FILE *arquivo = fopen("dados_1.csv", "w");
     if (arquivo == NULL){
         printf("Erro ao abrir arquivo!\n");
         return 1;
     }
     fprintf(arquivo, "Execucao, tempo(s), pos, valor\n");
 
+    // Declarando as variáveis do programa
     clock_t tempoInicial_1, tempoInicial_2, tempoFinal_1, tempoFinal_2;
     double tempoTotal_Seq, tempoTotal_Bin;
     double media1, desvioPadrao1, media2, desvioPadrao2;
@@ -28,7 +32,10 @@ int main()
     int indice1, indice2;
     Vetor vetor;
     Vetor vetorOrdenado;
-
+    
+    // mudando a seed do rand() de acordo com o horário
+    srand(time(NULL));
+    
     // cria os vetores dinamicamente
     criaVetor(&vetor, TAM);
     criaVetor(&vetorOrdenado, TAM);
@@ -37,8 +44,6 @@ int main()
     populaVetorAleatorio(vetor, TAM);
     populaVetorAleatorioOrdenado(vetorOrdenado, TAM);
 
-    // mudando a seed do rand() de acordo com o horário
-    srand(time(NULL));
 
     for (int i = 1; i <= NUM_TESTES; i++)
     {
@@ -80,6 +85,7 @@ int main()
         printf("O tempo da busca sequencial foi %f segundos\n", tempoTotal_Seq);
         printf("O tempo da busca binaria foi %f segundos\n", tempoTotal_Bin);
 
+        //Escrevendo no arquivo 
         fprintf(arquivo, "Sequencial:       %d,         %f,         %d,         %d\n", i, tempoTotal_Seq, indice1, valorAleatorio1);
         fprintf(arquivo, "Binária:          %d,         %f,         %d,         %d\n", i, tempoTotal_Bin, indice2, valorAleatorio2);
 
@@ -98,7 +104,12 @@ int main()
     printf("Desvio padrão da Busca Sequencial: %f\n\n", desvioPadrao1);
     printf("Media da Busca Binaria: %f\n", media2);
     printf("Desvio padrão da Busca Binaria: %f\n", desvioPadrao2);
+    
+    //Liberando os vetores da memória
+    liberaVetor(&vetor);
+    liberaVetor(&vetorOrdenado);
 
+    //Fechando arquivo
     fclose(arquivo);
     return 0;
 }

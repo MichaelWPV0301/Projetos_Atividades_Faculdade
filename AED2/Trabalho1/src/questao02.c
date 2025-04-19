@@ -1,15 +1,27 @@
+//Grupo:Letícia Souza de Souza, Marcos Paulo Vieira Pedrosa, Mikaelle Costa de Santana, Michael Willian Pereira Vieira 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "ferramentas.h"
-#include "vet.h"
-#include "listaEncadeada.h"
+#include "../include/ferramentas.h"
+#include "../include/vet.h"
+#include "../include/listaEncadeada.h"
 
-#define TAM 10000000
-#define NUM_TESTES 30
+
+#define TAM 10000000 //Tamanho do vetor e da lista encadeada
+#define NUM_TESTES 30 //Número de execuções
 
 int main(){
+    
+    // Criando arquivo.csv para guardar os dados
+    FILE *arquivo = fopen("dados_2.csv", "w");
+    if (arquivo == NULL){
+        printf("Erro ao abrir arquivo!\n");
+        return 1;
+    }
+    fprintf(arquivo, "Execucao, tempo(s), pos, valor\n");
 
+    //Declarando as variáveis do programa
     clock_t tempoInicial_1, tempoInicial_2, tempoFinal_1, tempoFinal_2;
     double tempoTotal_vetor, tempoTotal_lista;
     double media1, media2;
@@ -22,13 +34,9 @@ int main(){
     double temposVetor[NUM_TESTES];
     double temposLista[NUM_TESTES];
     
-    FILE *arquivo = fopen("dados_2.csv", "a");
-    if (arquivo == NULL){
-        printf("Erro ao abrir arquivo!\n");
-        return 1;
-    }
-    fprintf(arquivo, "Execucao, tempo(s), pos, valor\n");
-  
+    //mudando a seed do rand() de acordo com o horário
+    srand(time(NULL));
+
     // Cria o vetor e a lista encadeada dinamicamente
     criaVetor(&vetor, TAM);
     criaListaEncadeada(&lista);
@@ -36,7 +44,7 @@ int main(){
     // Populando o vetor com elementos aleatórios
     populaVetorAleatorio(vetor, TAM);
 
-    // Convertendo o vetor em lista encadeada//Mostrando os valores das médias e desvio padrão
+    // Convertendo o vetor em lista encadeada
     vetorEmListaEncadeada(lista, vetor, TAM);
 
     for (int i = 1; i <= NUM_TESTES; i++)
@@ -75,7 +83,7 @@ int main(){
         printf("O tempo da busca no vetor foi %f segundos\n", tempoTotal_vetor);
         printf("O tempo da busca na lista encadeada foi %f segundos\n", tempoTotal_lista);
         
-        
+        //Escrevendo no arquivo
         fprintf(arquivo, "Lista:       %d,         %f,         %d,         %d\n", i, tempoTotal_vetor, indice1, valorAleatorio);
         fprintf(arquivo, "Vetor:       %d,         %f,         %d,         %d\n", i, tempoTotal_lista, indice2, valorAleatorio);
     }
@@ -84,13 +92,18 @@ int main(){
     media1 = calculaMedia(temposVetor, NUM_TESTES);
     media2 = calculaMedia(temposLista, NUM_TESTES);
     
-    // Mostrando os valores das médias e desvio padrão
+    // Mostrando os valores das médias
     printf("\nMedia da busca no vetor foi de: %f\n", media1);
     printf("Media da busca na lista encadeada foi de: %f\n", media2);
 
     fprintf(arquivo, "Media vetor: %f", media1);
     fprintf(arquivo, "Media lista: %f", media2 );
 
+    //Liberando o vetor e a lista encadeada da memória
+    liberaVetor(&vetor);
+    liberaLista(lista);
+
+    //Fechando arquivo
     fclose(arquivo);
     return 0;
 }

@@ -29,7 +29,7 @@ int main()
     Vetor vetor;
     Vetor vetorOrdenado;
     
-    FILE *arquivo = fopen("dados_5.csv", "a");
+    FILE *arquivo = fopen("dados_5.csv", "w");
     if (arquivo == NULL){
         printf("Erro ao abrir arquivo!\n");
         return 1;
@@ -293,6 +293,18 @@ int main()
     }
 
     fclose(arquivo);
+
+    printf("Executando código em Python...\n");
+
+    // Chamada para o script Python
+    int retorno = system("python3 src/graficos.py");
+
+    // Verificar se a execução foi bem-sucedida
+    if (retorno == 0) {
+        printf("Script Python executado com sucesso!\n");
+    } else {
+        printf("Falha ao executar o script Python.\n");
+    }
 
     return 0;
 }
