@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "ferramentas.h"
-#include "vet.h"
-#include "listaEncadeada.h"
+#include "../include/ferramentas.h"
+#include "../include/vet.h"
+#include "../include/listaEncadeada.h"
 
 int main()
 {
