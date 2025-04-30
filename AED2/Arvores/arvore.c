@@ -2,13 +2,23 @@
 #include <stdlib.h>
 #include <math.h>
 
+typedef struct TipoNo
+{
+    int valor;
+    struct TipoNo *esquerda;
+    struct TipoNo *direita;
+} TipoNo;
+
+typedef struct Arvore
+{
+    TipoNo *raiz;
+} Arvore;
+
 typedef int *Vetor;
 
 void criaVetor(Vetor *vetor, int tamanho)
 {
-    printf("LIBERA POHA");
     *vetor = calloc(tamanho, sizeof(int));
-    printf("liberou");
 }
 
 void liberaVetor(Vetor *vetor)
@@ -38,18 +48,6 @@ void mostraVetor(Vetor vetor, int tamanho)
     }
     printf("]");
 }
-
-typedef struct TipoNo
-{
-    int valor;
-    struct TipoNo *esquerda;
-    struct TipoNo *direita;
-} TipoNo;
-
-typedef struct Arvore
-{
-    TipoNo *raiz;
-} Arvore;
 
 void criaNo(TipoNo *no, int valor)
 {
@@ -86,59 +84,15 @@ TipoNo *insereArvoreBinaria(TipoNo *raiz, int valor)
 
 Arvore *transformaVetorArvoreBinaria(Vetor *v, int tamVet)
 {
-    Arvore *a = (Arvore *)malloc(sizeof(Arvore));
+    Arvore *a = (Arvore *) malloc(sizeof(Arvore));
     criaArvore(a);
     for (int x = 0; x < tamVet; x++)
     {
-        insereArvoreBinaria(a->raiz, *v[x]);
+        a->raiz = insereArvoreBinaria(a->raiz, (*v)[x]);
     }
     return a;
 }
 
-void insereArvoreLeft(TipoNo *no, int valor)
-{
-    TipoNo *novo = (TipoNo *)malloc(sizeof(TipoNo));
-    no->esquerda = novo;
-    novo->valor = valor;
-    novo->direita = NULL;
-    novo->esquerda = NULL;
-}
-
-void insereArvoreRight(TipoNo *no, int valor)
-{
-    TipoNo *novo = (TipoNo *)malloc(sizeof(TipoNo));
-    no->direita = novo;
-    novo->valor = valor;
-    novo->direita = NULL;
-    novo->esquerda = NULL;
-}
-
-TipoNo *buscaElemento(Arvore *arvore, int nivel, int filho)
-{
-    int filhos = pow(2, nivel - 1);
-    TipoNo *no = arvore->raiz;
-
-    if (filho > filhos)
-    {
-        return arvore->raiz;
-    }
-    while (nivel > 2)
-    {
-        filhos = filhos / 2;
-        if (filho <= filhos / 2)
-        {
-            no = no->esquerda;
-        }
-        else
-        {
-            no = no->direita;
-        }
-        if (!no)
-            return NULL;
-        nivel--;
-    }
-    return no;
-}
 
 void mostraArvoreOrdenada(TipoNo *raiz)
 {
@@ -199,16 +153,15 @@ int main()
     Vetor v;
     printf("Criando vetor aleatório...\n");
     criaVetor(&v, 30);
-    printf("oi");
     populaVetorAleatorioOrdenado(v, 30);
     printf("Vetor Aletatorio: ");
     mostraVetor(v, 30);
     arvore2 = transformaVetorArvoreBinaria(&v, 30);
-    printf("Mostrar Ordenado: ");
+    printf("\n\nMostrar Ordenado: ");
     mostraArvoreOrdenada(arvore2->raiz);
-    printf("\nMostrar Posfixada: ");
+    printf("\n\nMostrar Posfixada: ");
     mostraPosfixada(arvore2->raiz);
-    printf("\nMostrar Prefixada: ");
+    printf("\n\nMostrar Prefixada: ");
     mostraPreFixada(arvore2->raiz);
     printf("\n");
 }
