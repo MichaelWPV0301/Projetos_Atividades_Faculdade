@@ -26,18 +26,21 @@ void insereArvoreBinaria(Arvore** ptrRaiz, int valor){
 }
 
 void caminhaPos(Arvore* raiz){
+    if (raiz == NULL) return;
     caminhaPos(raiz->esquerda);
     caminhaPos(raiz->direita); 
     printf("%d ", raiz->dado);
 }
 
 void caminhaPre(Arvore* raiz){
+    if (raiz == NULL) return;
     printf("%d ", raiz->dado);
     caminhaPre(raiz->esquerda);
     caminhaPre(raiz->direita); 
 }
 
 void caminhaCentral(Arvore* raiz){
+    if (raiz == NULL) return;
     caminhaCentral(raiz->esquerda);
     printf("%d ", raiz->dado);
     caminhaCentral(raiz->direita); 

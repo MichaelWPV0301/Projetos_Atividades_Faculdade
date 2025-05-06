@@ -5,8 +5,19 @@
 
 int main(){
     Vetor vetor;
-    criaVetor(&vetor, 1000000);
-    populaVetorParcialmenteOrdenado(vetor, 1000000);
-    mostraVetor(vetor, 1000000);
+    Arvore* ptrRaiz;
+    criaVetor(&vetor, 20);
+    populaVetorAleatorio(vetor, 20);
+    mostraVetor(vetor, 20);
+    vetorEmArvore(vetor, &ptrRaiz, 20);
+    printf("\nCaminhamento de Forma Ordenada pela Arvore Binaria: [");
+    caminhaCentral(ptrRaiz);
+    printf("]\n");
+    printf("\nCaminhamento de Forma Pre Fixada pela Arvore Binaria: [");
+    caminhaPre(ptrRaiz);
+    printf("]\n");    
+    printf("\nCaminhamento de Forma Pos Fixada pela Arvore Binaria: [");
+    caminhaPos(ptrRaiz);
+    printf("]\n");        
     return 0;
 }
