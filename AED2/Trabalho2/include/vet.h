@@ -16,12 +16,12 @@ void copiaVetor(Vetor destino, Vetor entrada, int tamanho);
 void mostraVetor(Vetor vetor, int tamanho);
 
 // Preenche o vetor com números aleatórios em ordem crescente (positivos)
-void populaVetorAleatorioOrdenado(Vetor vetor, int tamanho);
+void populaVetorAleatorioOrdenado(Vetor vetor, int limite, int tamanho);
 
-void populaVetorParcialmenteOrdenado(Vetor vetor, int tamanho);
+void populaVetorParcialmenteOrdenado(Vetor vetor, int limite, int tamanho);
 
 // Preenche o vetor com números aleatórios (sem ordem)
-void populaVetorAleatorio(Vetor vetor, int tamanho);
+void populaVetorAleatorio(Vetor vetor, int limite, int tamanho);
 
 // Realiza busca sequencial por um valor no vetor
 // Se encontrar, retorna a posição do valor 

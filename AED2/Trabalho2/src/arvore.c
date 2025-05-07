@@ -10,13 +10,15 @@ void inicializa(Arvore** raiz){
 
 void insereArvoreBinaria(Arvore** ptrRaiz, int valor){
 
-    while((*ptrRaiz)){
-        if ((*ptrRaiz)->dado > valor){
-            ptrRaiz = &((*ptrRaiz)->esquerda);
+    Arvore* aux = *ptrRaiz;
+    while((aux)){
+        if (aux->dado > valor){
+            ptrRaiz = &(aux->esquerda);
         }
         else{
-            ptrRaiz = &((*ptrRaiz)->direita);
+            ptrRaiz = &(aux->direita);
         }
+        aux = *ptrRaiz;
     }
 
     *ptrRaiz = (Arvore*) malloc(sizeof(Arvore));

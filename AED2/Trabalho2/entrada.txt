@@ -1,0 +1,13 @@
+olá, mundo
+001122334455
+Pacotes vet[TAM_ARQUIVO];
+
+Pacotes[i].id = 0;
+for i 0 ate TAM_ARQUIVO;
+    Pacotes[i].id = [i-1] + rand()%(limite + 1)
+l - 7
+o - 2
+á - 8
+.
+.
+.

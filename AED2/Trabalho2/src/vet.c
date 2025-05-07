@@ -1,5 +1,6 @@
 #include <stdio.h>    // Para entrada e saída padrão
 #include <stdlib.h>   // Para malloc, calloc, rand, etc.
+#include <time.h>     // Para mudar a seed do rand() de acordo com o tempo
 #include <math.h>     // Para funções matemáticas 
 #include "../include/vet.h"  // Inclusão do cabeçalho com as definições de funções e tipo Vetor
 
@@ -42,36 +43,34 @@ void mostraVetor(Vetor vetor, int tamanho)
 }
 
 // Preenche o vetor com valores aleatórios (sem ordenação)
-void populaVetorAleatorio(Vetor vetor, int tamanho)
+void populaVetorAleatorio(Vetor vetor, int limite, int tamanho)
 {
     for (int i = 0; i < tamanho; i++)
     {
-        vetor[i] = rand();
+        vetor[i] = rand()%(limite+1);
     }
 }
 
 // Preenche o vetor com valores aleatórios em ordem crescente (positivo)
-void populaVetorAleatorioOrdenado(Vetor vetor, int tamanho)
+void populaVetorAleatorioOrdenado(Vetor vetor, int limite, int tamanho)
 {
     vetor[0] = 0;
     for (int i = 1; i < tamanho; i++)
     {
-        vetor[i] = vetor[i - 1] + abs(rand() % 100);  // Garante que os valores fiquem em ordem crescente
+        vetor[i] = vetor[i - 1] + abs(rand() % (limite + 1));  // Garante que os valores fiquem em ordem crescente
     }
 }
 
-void populaVetorParcialmenteOrdenado(Vetor vetor, int tamanho){
-    int limite = 100;
+void populaVetorParcialmenteOrdenado(Vetor vetor, int limite, int tamanho){
+    
     int ordenado;
-    vetor[0] = 0;
-    for (int i = 1; i < tamanho; i++)
-    {
-        ordenado = rand()%4;
-        if (ordenado){
-            vetor[i] = vetor[i - 1] + (rand()%(limite+1));  // Garante que os valores fiquem em ordem crescente
-        }
-        else{
-            vetor[i] = rand()%(limite+1);
+
+    populaVetorAleatorioOrdenado(vetor, limite, tamanho);
+
+    for (int i = 0; i < tamanho; i++){
+        ordenado = rand()%3;
+        if (!ordenado){
+            vetor[i] = rand()%(limite + 1);
         }
     }
 }
