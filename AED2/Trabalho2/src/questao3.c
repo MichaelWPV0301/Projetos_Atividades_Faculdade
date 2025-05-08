@@ -5,11 +5,13 @@
 #include "../include/arvore.h"
 #include "../include/ferramentas.h"
 
-#define TAM 1000000
+#define TAM 10000000
 #define NUM_TESTES 30
 
 
 int main(){
+    srand(time(NULL));
+
     Arvore* arvore;
     Vetor vetor;
     int valorAleatorio;
@@ -26,10 +28,9 @@ int main(){
     inicializa(&arvore);
     criaVetor(&vetor, TAM);
 
-    srand(time(NULL));
-    populaVetorAleatorio(vetor, 1, TAM);
+    populaVetorAleatorio(vetor, 100000000, TAM);
     vetorEmArvore(vetor, &arvore, TAM);
-    printf("oi");
+    quickSort(vetor, TAM);
     
 
 
@@ -66,8 +67,8 @@ int main(){
         printf("O tempo da busca binaria na Arvore foi %f segundos\n", tempoTotal_arvore);
 
         //Escrevendo no arquivo 
-        fprintf(arquivo, "Arvore:       %d,         %f,         %d\n", i, tempoTotal_vet, valorAleatorio);
-        fprintf(arquivo, "Vetor:          %d,         %f,         %d\n", i, tempoTotal_arvore, valorAleatorio);
+        fprintf(arquivo, "Arvore:       %d,         %f,         %d\n", i, tempoTotal_arvore, valorAleatorio);
+        fprintf(arquivo, "Vetor:          %d,         %f,         %d\n", i, tempoTotal_vet, valorAleatorio);
 
     }
     media1 = calculaMedia(temposVet, NUM_TESTES);
