@@ -27,6 +27,22 @@ void insereArvoreBinaria(Arvore** ptrRaiz, int valor){
     (*ptrRaiz)->dado = valor;
 }
 
+Arvore* buscaArvore(Arvore* raiz, int dado){
+    Arvore* aux = raiz;
+    while(aux!=NULL){
+        if(aux->dado>dado){
+            aux = aux->esquerda;
+        }
+        else if(aux->dado<dado){
+            aux = aux->direita;
+        }
+        else{
+            return aux;
+        }
+    }
+    return NULL;
+}
+
 void caminhaPos(Arvore* raiz){
     if (raiz == NULL) return;
     caminhaPos(raiz->esquerda);

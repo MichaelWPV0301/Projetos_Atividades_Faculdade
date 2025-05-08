@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include "../include/vet.h"
 #include "../include/arvore.h"
+#include "../include/ferramentas.h"
 
 #define TAM 1000000
 #define NUM_TESTES 30
@@ -24,11 +26,11 @@ int main(){
     inicializa(&arvore);
     criaVetor(&vetor, TAM);
 
-    
     srand(time(NULL));
-    populaVetorAleatorio(vetor, TAM);
+    populaVetorAleatorio(vetor, 1, TAM);
     vetorEmArvore(vetor, &arvore, TAM);
-
+    printf("oi");
+    
 
 
     clock_t tempoInicial_1, tempoInicial_2, tempoFinal_1, tempoFinal_2;
