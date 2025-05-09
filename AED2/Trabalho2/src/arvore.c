@@ -4,13 +4,13 @@
 #include <stdio.h>
 
 
-void inicializa(Arvore** raiz){
+void inicializa(ArvoreBin** raiz){
     *raiz = NULL;
 }
 
-void insereArvoreBinaria(Arvore** ptrRaiz, int valor){
+void insereArvoreBinaria(ArvoreBin** ptrRaiz, int valor){
 
-    Arvore* aux = *ptrRaiz;
+    ArvoreBin* aux = *ptrRaiz;
     while((aux)){
         if (aux->dado > valor){
             ptrRaiz = &(aux->esquerda);
@@ -21,14 +21,14 @@ void insereArvoreBinaria(Arvore** ptrRaiz, int valor){
         aux = *ptrRaiz;
     }
 
-    *ptrRaiz = (Arvore*) malloc(sizeof(Arvore));
+    *ptrRaiz = (ArvoreBin*) malloc(sizeof(ArvoreBin));
     inicializa(&((*ptrRaiz)->esquerda));
     inicializa(&((*ptrRaiz)->direita));
     (*ptrRaiz)->dado = valor;
 }
 
-Arvore* buscaArvore(Arvore* raiz, int dado){
-    Arvore* aux = raiz;
+ArvoreBin* buscaArvoreBin(ArvoreBin* raiz, int dado){
+    ArvoreBin* aux = raiz;
     while(aux!=NULL){
         if(aux->dado>dado){
             aux = aux->esquerda;
@@ -43,28 +43,28 @@ Arvore* buscaArvore(Arvore* raiz, int dado){
     return NULL;
 }
 
-void caminhaPos(Arvore* raiz){
+void caminhaPos(ArvoreBin* raiz){
     if (raiz == NULL) return;
     caminhaPos(raiz->esquerda);
     caminhaPos(raiz->direita); 
     printf("%d ", raiz->dado);
 }
 
-void caminhaPre(Arvore* raiz){
+void caminhaPre(ArvoreBin* raiz){
     if (raiz == NULL) return;
     printf("%d ", raiz->dado);
     caminhaPre(raiz->esquerda);
     caminhaPre(raiz->direita); 
 }
 
-void caminhaCentral(Arvore* raiz){
+void caminhaCentral(ArvoreBin* raiz){
     if (raiz == NULL) return;
     caminhaCentral(raiz->esquerda);
     printf("%d ", raiz->dado);
     caminhaCentral(raiz->direita); 
 }
 
-void vetorEmArvore(Vetor vetor, Arvore** ptrRaiz, int tam){
+void vetorEmArvoreBin(Vetor vetor, ArvoreBin** ptrRaiz, int tam){
     for (int i = 0; i < tam; i++){
         insereArvoreBinaria(ptrRaiz, vetor[i]);
     }

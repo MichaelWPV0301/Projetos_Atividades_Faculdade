@@ -12,12 +12,12 @@ int main(){
     srand(time(NULL));
 
     Vetor vetor;
-    Arvore* arvore;
+    ArvoreBin* arvore;
 
     inicializa(&arvore);
     criaVetor(&vetor, TAM);
     populaVetorAleatorio(vetor, LIMITE, TAM);
-    vetorEmArvore(vetor, &arvore, TAM);
+    vetorEmArvoreBin(vetor, &arvore, TAM);
 
     printf("\nCaminhamento de Forma Pre Fixada pela Arvore Binaria: {");
     caminhaPre(arvore);

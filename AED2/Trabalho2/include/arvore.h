@@ -3,17 +3,18 @@
 
 #include "../include/vet.h"
 
-typedef struct Arvore{
-    struct Arvore* esquerda;
-    struct Arvore* direita;
+typedef struct ArvoreBin{
+    struct ArvoreBin* esquerda;
+    struct ArvoreBin* direita;
     int dado;
-} Arvore;
+} ArvoreBin;
 
-void inicializa(Arvore** raiz);
-void insereArvoreBinaria(Arvore** ptrRaiz, int valor);
-void caminhaPos(Arvore* raiz);
-void caminhaPre(Arvore* raiz);
-void caminhaCentral(Arvore* raiz);
-void vetorEmArvore(Vetor vetor, Arvore** ptrRaiz, int tam);
+ArvoreBin* buscaArvoreBin(ArvoreBin* raiz, int dado)
+void inicializa(ArvoreBin** raiz);
+void insereArvoreBinaria(ArvoreBin** ptrRaiz, int valor);
+void caminhaPos(ArvoreBin* raiz);
+void caminhaPre(ArvoreBin* raiz);
+void caminhaCentral(ArvoreBin* raiz);
+void vetorEmArvoreBin(Vetor vetor, ArvoreBin** ptrRaiz, int tam);
 
 #endif

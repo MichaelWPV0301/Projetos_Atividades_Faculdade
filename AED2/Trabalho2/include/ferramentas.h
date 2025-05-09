@@ -4,7 +4,6 @@
 #include <time.h>   // Necessário para trabalhar com clock_t e medir tempo
 #include <stdio.h>  // Para funções de entrada e saída como printf
 
-Arvore* buscaArvore(Arvore* raiz, int dado);
 // Calcula o tempo decorrido entre dois instantes (em segundos)
 double calculaTempo(clock_t inicial, clock_t final);
 

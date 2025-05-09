@@ -17,14 +17,14 @@ int main(){
     srand(time(NULL));
 
     Vetor vetor;
-    Arvore* arvore;
+    ArvoreBin* arvore;
 
     inicializa(&arvore);
     criaVetor(&vetor, TAM);
     populaVetorParcialmenteOrdenado(vetor, LIMITE, TAM);
     printf("Vetor: ");
     mostraVetor(vetor, TAM);
-    vetorEmArvore(vetor, &arvore, TAM);
+    vetorEmArvoreBin(vetor, &arvore, TAM);
 
     FILE* fp;
     fp = fopen("../entrada.txt", "r+");

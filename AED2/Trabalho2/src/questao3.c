@@ -12,7 +12,7 @@
 int main(){
     srand(time(NULL));
 
-    Arvore* arvore;
+    ArvoreBin* arvore;
     Vetor vetor;
     int valorAleatorio;
 
@@ -29,7 +29,7 @@ int main(){
     criaVetor(&vetor, TAM);
 
     populaVetorAleatorio(vetor, 100000000, TAM);
-    vetorEmArvore(vetor, &arvore, TAM);
+    vetorEmArvoreBin(vetor, &arvore, TAM);
     quickSort(vetor, TAM);
     
 
@@ -48,7 +48,7 @@ int main(){
         valorAleatorio = vetor[abs(rand() % TAM)];
         
         tempoInicial_1 = clock();
-        buscaArvore(arvore, valorAleatorio);
+        buscaArvoreBin(arvore, valorAleatorio);
         tempoFinal_1 = clock();
 
         tempoInicial_2 = clock();
