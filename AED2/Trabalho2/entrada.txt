@@ -8,6 +8,3 @@ for i 0 ate TAM_ARQUIVO;
 l - 7
 o - 2
 á - 8
-.
-.
-.

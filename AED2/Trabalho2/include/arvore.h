@@ -9,7 +9,7 @@ typedef struct ArvoreBin{
     int dado;
 } ArvoreBin;
 
-ArvoreBin* buscaArvoreBin(ArvoreBin* raiz, int dado)
+ArvoreBin* buscaArvoreBin(ArvoreBin* raiz, int dado);
 void inicializa(ArvoreBin** raiz);
 void insereArvoreBinaria(ArvoreBin** ptrRaiz, int valor);
 void caminhaPos(ArvoreBin* raiz);
