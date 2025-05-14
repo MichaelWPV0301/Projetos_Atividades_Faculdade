@@ -2,36 +2,22 @@
 #include<stdlib.h>
 #include<time.h>
 #include "../include/vet.h"
-#include "../include/arvore.h"
+#include "../include/pacotes.h"
+
 
 #define TAM 100
 #define LIMITE 50
 #define PRCT_DESORDEM 20
 #define PRCT_IGUAIS 5
 
-typedef struct Pacote{
-    int id;
-    char dado;
-}Pacote;
-
 int main(){
 
     srand(time(NULL));
 
-    Vetor vetor;
-    ArvoreBin* arvore;
-
-    inicializa(&arvore);
-    criaVetor(&vetor, TAM);
-    populaVetorParcialmenteOrdenado(vetor, LIMITE, TAM);
-    printf("Vetor: ");
-    mostraVetor(vetor, TAM);
-    vetorEmArvoreBin(vetor, &arvore, TAM);
-
     FILE* fp;
     fp = fopen("../entrada.txt", "r+");
     if (fp == NULL){
-        perror("Erro ao abrir o arquivo:");
+        perror("Erro ao abrir o arquivo de entrada:");
         return 1;
     }
     
@@ -77,6 +63,22 @@ int main(){
     }
     printf("\n\nVetor IDs depois: ");
     mostraVetor(ids, i);
+    printf("\n\n");
+
+    FILE* fp2;
+    fp2 = fopen("../saida.txt", "w");
+    if (fp2 == NULL){
+        perror("Erro ao abrir o arquivo de saida:");
+        return 1;
+    }
+
+    ArvorePacotes* arvore;
+    inicializaArvPacotes(&arvore);
+    pacotesEmArvore(pacotes, &arvore, i);
+    caminhaCentralPacotes(arvore, fp2);
+
+    fclose(fp);
+    fclose(fp2);
 
     return 0;
 }
