@@ -3,11 +3,7 @@
 
 #include "../include/vet.h"
 
-typedef struct ArvoreBin{
-    struct ArvoreBin* esquerda;
-    struct ArvoreBin* direita;
-    int dado;
-} ArvoreBin;
+typedef struct ArvoreBin ArvoreBin;
 
 ArvoreBin* buscaArvoreBin(ArvoreBin* raiz, int dado);
 void inicializa(ArvoreBin** raiz);
