@@ -1,5 +1,23 @@
 Tipo, Execucao, tempo da Criação(s), Altura
-Arvore Binaria,       1,         1.063000,         80
-Arvore AVL,          1,         0.253000,         18
-Arvore Binaria,       2,         4.063000,         119
-Arvore AVL,          2,         0.266000,         18
+Arvore Binaria,       1,         1.255936,         50
+Arvore AVL,          1,         1.584258,         24
+Arvore Binaria,       2,         1.380896,         49
+Arvore AVL,          2,         2.007561,         24
+Arvore Binaria,       3,         1.607890,         52
+Arvore AVL,          3,         2.257151,         24
+Arvore Binaria,       4,         1.386186,         50
+Arvore AVL,          4,         2.181154,         24
+Arvore Binaria,       5,         1.536217,         52
+Arvore AVL,          5,         2.172307,         24
+Arvore Binaria,       6,         1.336464,         50
+Arvore AVL,          6,         2.225927,         24
+Arvore Binaria,       7,         1.484310,         50
+Arvore AVL,          7,         2.244179,         24
+Arvore Binaria,       8,         1.645447,         50
+Arvore AVL,          8,         2.191289,         24
+Arvore Binaria,       9,         1.668522,         47
+Arvore AVL,          9,         2.127230,         24
+Arvore Binaria,       10,         1.452904,         50
+Arvore AVL,          10,         2.108997,         24
+Média Criações das Arvores Binárias:              1.475477
+Média Criações das Arvores Avls:              2.110005

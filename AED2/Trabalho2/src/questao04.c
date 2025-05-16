@@ -146,12 +146,12 @@ int main()
         temposBuscaArvAlv[i-1] = tempoTotal_Avl;
 
 
-        printf("O tempo da busca binaria na Arvore Binaria de Pesquisa foi %f segundos\n", tempoTotal_ArvBin);
-        printf("O tempo da busca binaria na Arvore Avl foi %f segundos\n", tempoTotal_Avl);
+        printf("O tempo da busca binaria na Arvore Binaria de Pesquisa foi %.9f segundos\n", tempoTotal_ArvBin);
+        printf("O tempo da busca binaria na Arvore Avl foi %.9f segundos\n", tempoTotal_Avl);
 
         //Escrevendo no arquivo 
-        fprintf(arquivo2, "Arvore BP:,       %d,         %f,         %d\n", i, tempoTotal_ArvBin, valorAleatorio);
-        fprintf(arquivo2, "Vetor Avl:,          %d,         %f,         %d\n", i, tempoTotal_Avl, valorAleatorio);
+        fprintf(arquivo2, "Arvore BP:,       %d,         %.9f,         %d\n", i, tempoTotal_ArvBin, valorAleatorio);
+        fprintf(arquivo2, "Vetor Avl:,          %d,         %.9f,         %d\n", i, tempoTotal_Avl, valorAleatorio);
         
         liberaArvore(arvoreBin2);
         liberaArvoreAvl(avl2);
@@ -159,12 +159,12 @@ int main()
     media1 = calculaMedia(temposBuscaArvBin, 30);
     media2 = calculaMedia(temposBuscaArvAlv, 30);
 
-    printf("\nMedia da Criações das Arvores Binarias: %f\n", media1);
-    printf("\nMedia da Criações das Arvores Avls: %f\n", media2);
+    printf("\nMedia das buscas das Arvores Binarias: %.9f\n", media1);
+    printf("\nMedia das buscas das Arvores Avls: %.9f\n", media2);
 
 
-    fprintf(arquivo2, "Média Buscas nas Arvores Binárias:              %f\n", media1);
-    fprintf(arquivo2, "Média Buscas nas Arvores Avls:              %f\n", media2);
+    fprintf(arquivo2, "Média Buscas nas Arvores Binárias:              %.9f\n", media1);
+    fprintf(arquivo2, "Média Buscas nas Arvores Avls:              %.9f\n", media2);
 
 
     liberaVetor(&vetor2);
