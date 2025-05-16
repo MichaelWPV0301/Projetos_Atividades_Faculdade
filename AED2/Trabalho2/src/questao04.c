@@ -37,6 +37,9 @@ int main()
 
     for (int i = 1; i <= NUM_TESTES; i++)
     {
+        inicializa(&arvoreBin);
+        inicializaAvl(&avl);
+        
         printf("\nExecucao %d\n", i);
         populaVetorAleatorio(vetor, 100000000, TAM);
                 
@@ -121,6 +124,10 @@ int main()
     double temposBuscaArvAlv[30];
 
     for(int i = 1; i<=30; i++){
+
+        inicializa(&arvoreBin2);
+        inicializaAvl(&avl2);
+        
         printf("\nExecucao %d\n", i);
         valorAleatorio = vetor2[abs(rand() % TAM)];
 
