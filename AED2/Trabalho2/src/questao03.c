@@ -11,10 +11,11 @@
 
 int main(){
     srand(time(NULL));
-
+    
     ArvoreBin* arvore;
     Vetor vetor;
     int valorAleatorio;
+    char pause;
 
     FILE *arquivo = fopen("dados_3.csv", "w");
     if (arquivo == NULL){
@@ -27,9 +28,18 @@ int main(){
 
     inicializa(&arvore);
     criaVetor(&vetor, TAM);
-
+ 
+    printf("\nAperte enter para a criacao do Vetor com 1 milhão de elementos.");
+    scanf("%c", &pause);
     populaVetorAleatorio(vetor, 100000000, TAM);
+    
+    printf("\nAperte enter para a criacao da Arvore Binaria de Pesquisa com 1 milhão de elementos(nós).");
+    scanf("%c", &pause);
     vetorEmArvoreBin(vetor, &arvore, TAM);
+
+    printf("\nAperte enter para Continuar o codigo.");    
+    scanf("%c", &pause);
+    
     quickSort(vetor, TAM);
     
 
