@@ -153,8 +153,8 @@ int main()
         fprintf(arquivo2, "Arvore BP:,       %d,         %f,         %d\n", i, tempoTotal_ArvBin, valorAleatorio);
         fprintf(arquivo2, "Vetor Avl:,          %d,         %f,         %d\n", i, tempoTotal_Avl, valorAleatorio);
         
-        liberaArvore(arvoreBin);
-        liberaArvoreAvl(avl);
+        liberaArvore(arvoreBin2);
+        liberaArvoreAvl(avl2);
     }
     media1 = calculaMedia(temposBuscaArvBin, 30);
     media2 = calculaMedia(temposBuscaArvAlv, 30);
