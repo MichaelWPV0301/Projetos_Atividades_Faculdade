@@ -17,7 +17,7 @@ void caminhaPreAvl(ArvoreAvl *raiz);
 void caminhaCentralAvl(ArvoreAvl *raiz);
 void inicializaAvl(ArvoreAvl **raiz);
 void vetorEmAvl(Vetor vetor, ArvoreAvl **ptrRaiz, int tam);
-void liberaArvore(ArvoreAvl* raiz);
+void liberaArvoreAvl(ArvoreAvl* raiz);
 
 ArvoreAvl *rotacao_simples_direita(ArvoreAvl *arvore1);
 ArvoreAvl *rotacao_simples_esquerda(ArvoreAvl *arvore1);

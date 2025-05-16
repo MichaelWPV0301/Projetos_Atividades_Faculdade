@@ -67,6 +67,9 @@ int main()
 
         fprintf(arquivo, "Arvore Binaria,       %d,         %f,         %d\n", i, tempoTotal_ArvBin, alturaArvBin);
         fprintf(arquivo, "Arvore AVL,          %d,         %f,         %d\n", i, tempoTotal_Avl, alturaArvAvl);
+    
+        liberaArvore(arvoreBin);
+        liberaArvoreAvl(avl);
     }
     media1 = calculaMedia(temposCriaArvBin, NUM_TESTES);
     media2 = calculaMedia(temposCriaAvl, NUM_TESTES);
@@ -143,8 +146,8 @@ int main()
         fprintf(arquivo2, "Arvore BP:,       %d,         %f,         %d\n", i, tempoTotal_ArvBin, valorAleatorio);
         fprintf(arquivo2, "Vetor Avl:,          %d,         %f,         %d\n", i, tempoTotal_Avl, valorAleatorio);
         
-        
-
+        liberaArvore(arvoreBin);
+        liberaArvoreAvl(avl);
     }
     media1 = calculaMedia(temposBuscaArvBin, 30);
     media2 = calculaMedia(temposBuscaArvAlv, 30);
