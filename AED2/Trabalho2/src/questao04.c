@@ -3,7 +3,7 @@
 #include "../include/avl.h"
 #include "../include/arvore.h"
 #include "../include/vet.h"
-#include "../include/ferramentas.h"
+#include "../include/tempo.h"
 
 #define TAM 1000000
 #define NUM_TESTES 10
@@ -11,10 +11,11 @@
 int main()
 {
     srand(time(NULL));
+    
     ArvoreBin *arvoreBin;
     ArvoreAvl *avl;
     Vetor vetor;
-    int valorAleatorio, alturaArvBin, alturaArvAvl, altNosAvl;
+    int valorAleatorio, alturaArvBin, alturaArvAvl;
 
     FILE *arquivo = fopen("dados1_4.csv", "w");
     if (arquivo == NULL)
@@ -40,8 +41,8 @@ int main()
         inicializa(&arvoreBin);
         inicializaAvl(&avl);
         
-        printf("\nExecucao %d\n", i);
-        populaVetorAleatorio(vetor, 100000000, TAM);
+        printf("\nExecucao %d:\n", i);
+        populaVetorParcialmenteOrdenado(vetor, 10, TAM, 20);
                 
         tempoInicial_1 = clock();
         vetorEmArvoreBin(vetor, &arvoreBin, TAM);
@@ -56,15 +57,12 @@ int main()
         temposCriaArvBin[i-1] = tempoTotal_ArvBin;
         temposCriaAvl[i-1] = tempoTotal_Avl;
         
-
-        altNosAvl = contaNos(avl);
         
         alturaArvBin =  altura(arvoreBin);
         alturaArvAvl =  alturaAvl(avl);
 
-        printf("Altura arvBin %d\n", alturaArvBin);
-        printf("Altura arvAvl %d, qtdNos %d\n", alturaArvAvl, altNosAvl);
-
+        printf("Altura arvBin: %d\n", alturaArvBin);
+        printf("Altura arvAvl: %d\n", alturaArvAvl);
         printf("O tempo da criacao da Arvore Binaria de Pesquisa foi %f segundos\n", tempoTotal_ArvBin);
         printf("O tempo da criacao da arvore Avl foi %f segundos\n", tempoTotal_Avl);
 

@@ -43,8 +43,6 @@ int main(){
     for (int x = 0; x < i; x++){
         ids[x] = pacotes[x].id;
     }
-    printf("\nVetor IDs antes: ");
-    mostraVetor(ids, i);
 
     int trocas = PRCT_DESORDEM * tam / 100;
     int j = 0;
@@ -61,7 +59,7 @@ int main(){
     for (int x = 0; x < i; x++){
         ids[x] = pacotes[x].id;
     }
-    printf("\n\nVetor IDs depois: ");
+    printf("\nVetor de IDs do fluxo de pacotes:\n\n");
     mostraVetor(ids, i);
     printf("\n\n");
 
@@ -75,6 +73,7 @@ int main(){
     ArvorePacotes* arvore;
     inicializaArvPacotes(&arvore);
     pacotesEmArvore(pacotes, &arvore, i);
+    printf("Arquivo de saida reconstruido a partir dos pacotes:\n\n");
     caminhaCentralPacotes(arvore, fp2);
 
     fclose(fp);

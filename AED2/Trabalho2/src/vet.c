@@ -54,24 +54,27 @@ void populaVetorAleatorio(Vetor vetor, int limite, int tamanho)
 // Preenche o vetor com valores aleatórios em ordem crescente (positivo)
 void populaVetorAleatorioOrdenado(Vetor vetor, int limite, int tamanho)
 {
-    vetor[0] = 0;
+    vetor[0] = rand()%(limite+1);
     for (int i = 1; i < tamanho; i++)
     {
-        vetor[i] = vetor[i - 1] + abs(rand() % (limite + 1));  // Garante que os valores fiquem em ordem crescente
+        vetor[i] = vetor[i - 1] + (rand()%limite) + 1;  // Garante que os valores fiquem em ordem crescente
     }
 }
 
-void populaVetorParcialmenteOrdenado(Vetor vetor, int limite, int tamanho){
-    
-    int ordenado;
+void populaVetorParcialmenteOrdenado(Vetor vetor, int limite, int tamanho, int prctDesordem){
 
     populaVetorAleatorioOrdenado(vetor, limite, tamanho);
 
-    for (int i = 0; i < tamanho; i++){
-        ordenado = rand()%3;
-        if (!ordenado){
-            vetor[i] = rand()%(limite + 1);
-        }
+    int trocas = prctDesordem*tamanho / 100;
+    int j = 0;
+    int indice;
+    int aux;
+    while (j < trocas){
+        indice = rand()%tamanho;
+        aux = vetor[j];
+        vetor[j] = vetor[indice];
+        vetor[indice] = aux;
+        j++;
     }
 }
 

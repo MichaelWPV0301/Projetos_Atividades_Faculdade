@@ -3,13 +3,14 @@
 #include <time.h>
 #include "../include/vet.h"
 #include "../include/arvore.h"
-#include "../include/ferramentas.h"
+#include "../include/tempo.h"
 
 #define TAM 10000000
 #define NUM_TESTES 30
 
 
 int main(){
+
     srand(time(NULL));
     
     ArvoreBin* arvore;
@@ -29,15 +30,17 @@ int main(){
     inicializa(&arvore);
     criaVetor(&vetor, TAM);
  
-    printf("\nAperte enter para a criacao do Vetor com 1 milhão de elementos.");
+    printf("\nPressione Enter para a criacao do Vetor com 1 milhao de elementos: ");
     scanf("%c", &pause);
     populaVetorAleatorio(vetor, 100000000, TAM);
+    printf("\n--vetor criado com sucesso--\n");
     
-    printf("\nAperte enter para a criacao da Arvore Binaria de Pesquisa com 1 milhão de elementos(nós).");
+    printf("\nPressione Enter para a criacao da Arvore Binaria de Pesquisa com 1 milhao de elementos(nós): ");
     scanf("%c", &pause);
     vetorEmArvoreBin(vetor, &arvore, TAM);
+    printf("\n--arvore criada com sucesso--\n");
 
-    printf("\nAperte enter para Continuar o codigo.");    
+    printf("\nPressione Enter para realizar as buscas: ");    
     scanf("%c", &pause);
     
     quickSort(vetor, TAM);
