@@ -6,7 +6,7 @@ LDFLAGS = -lm
 COMMON1 = src/vet.c src/arvore.c
 COMMON2 = src/vet.c src/pacotes.c
 COMMON3 =  src/vet.c src/arvore.c src/ferramentas.c
-COMMON5 = src/arvore.c src/vet.c src/ferramentas.c src/avl.c
+COMMON4 = src/arvore.c src/vet.c src/ferramentas.c src/avl.c
 
 # Mains
 QUESTAO01 = src/questao01.c
