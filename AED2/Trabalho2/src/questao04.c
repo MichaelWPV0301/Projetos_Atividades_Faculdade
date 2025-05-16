@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "../include/avl.h"
 #include "../include/arvore.h"
+#include "../include/vet.h"
 #include "../include/ferramentas.h"
 
 #define TAM 1000000
@@ -13,15 +14,15 @@ int main()
     ArvoreBin *arvoreBin;
     ArvoreAvl *avl;
     Vetor vetor;
-    int valorAleatorio;
+    int valorAleatorio, alturaArvBin, alturaArvAvl;
 
-    FILE *arquivo = fopen("dados_4.csv", "w");
+    FILE *arquivo = fopen("dados1_4.csv", "w");
     if (arquivo == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
         return 1;
     }
-    fprintf(arquivo, "Execucao, tempo da Criação(s), tempo da Busca(s), Dado buscado\n");
+    fprintf(arquivo, "Tipo, Execucao, tempo da Criação(s), Altura\n");
 
     inicializa(&arvoreBin);
     inicializaAvl(&avl);
@@ -29,10 +30,10 @@ int main()
     criaVetor(&vetor, TAM);
 
     clock_t tempoInicial_1, tempoInicial_2, tempoFinal_1, tempoFinal_2;
-    double tempoTotal_ArvBin, tempoTotal_Avl;
+    double tempoTotal_ArvBin, tempoTotal_Avl, media1, media2;
 
-    double temposArvBin[NUM_TESTES];
-    double temposAvl[NUM_TESTES];
+    double temposCriaArvBin[NUM_TESTES];
+    double temposCriaAvl[NUM_TESTES];
 
     for (int i = 1; i <= NUM_TESTES; i++)
     {
@@ -42,11 +43,116 @@ int main()
         valorAleatorio = vetor[abs(rand() % TAM)];
 
         tempoInicial_1 = clock();
-        vetorEmArvoreBin(vetor, arvoreBin, TAM);
+        vetorEmArvoreBin(vetor, &arvoreBin, TAM);
         tempoFinal_1 = clock();
 
         tempoInicial_2 = clock();
         vetorEmAvl(vetor, &avl, TAM);
         tempoFinal_2 = clock();
+
+        tempoTotal_ArvBin = calculaTempo(tempoInicial_1, tempoFinal_1);
+        tempoTotal_Avl = calculaTempo(tempoInicial_2, tempoFinal_2);
+        temposCriaArvBin[i-1] = tempoTotal_ArvBin;
+        temposCriaAvl[i-1] = tempoTotal_Avl;
+        
+        alturaArvBin =  altura(arvoreBin);
+        alturaArvAvl =  alturaAvl(avl);
+
+        printf("O tempo da criacão da Arvore Binaria de Pesquisa foi %f segundos\n", tempoTotal_ArvBin);
+        printf("O tempo da criação da arvore Avl foi %f segundos\n", tempoTotal_Avl);
+
+        fprintf(arquivo, "Arvore Binaria,       %d,         %f,         %d\n", i, tempoTotal_ArvBin, alturaArvBin);
+        fprintf(arquivo, "Arvore AVL,          %d,         %f,         %d\n", i, tempoTotal_Avl, alturaArvAvl);
     }
+    media1 = calculaMedia(temposCriaArvBin, NUM_TESTES);
+    media2 = calculaMedia(temposCriaAvl, NUM_TESTES);
+
+    printf("\nMedia da Criações das Arvores Binarias: %f\n", media1);
+    printf("\nMedia da Criações das Arvores Avls: %f\n", media2);
+
+    fprintf(arquivo, "Média Criações das Arvores Binárias:              %f\n", media1);
+    fprintf(arquivo, "Média Criações das Arvores Avls:              %f\n", media2);
+
+
+    liberaVetor(&vetor);
+    fclose(arquivo);
+
+
+
+    
+    //Iteracao para mudar os dados
+    char pause;
+    printf("\nAperte enter para a parte 3 da questao 05.");
+    scanf("%c", &pause);
+    printf("\e[H\e[2J");
+
+
+
+    // Parte 2 questão 4 -------------------------------------------------- 
+    FILE *arquivo2 = fopen("dados2_4.csv", "w");
+    if (arquivo2 == NULL)
+    {
+        printf("Erro ao abrir arquivo!\n");
+        return 1;
+    }
+    fprintf(arquivo2, "Tipo, Execucao, tempo da Busca(s), Valor\n");
+
+    Vetor vetor2;
+    ArvoreBin *arvoreBin2;
+    ArvoreAvl *avl2;
+    
+    inicializa(&arvoreBin2);
+    inicializaAvl(&avl2);
+
+    criaVetor(&vetor2, TAM);
+    populaVetorAleatorio(vetor2, 100000000, TAM);
+    vetorEmArvoreBin(vetor2, &arvoreBin2, TAM);
+    vetorEmAvl(vetor2, &avl2, TAM);
+
+
+    double temposBuscaArvBin[30];
+    double temposBuscaArvAlv[30];
+
+    for(int i = 1; i<=30; i++){
+        printf("\nExecucao %d\n", i);
+        valorAleatorio = vetor[abs(rand() % TAM)];
+
+        tempoInicial_1 = clock();
+        buscaArvoreBin(arvoreBin2, valorAleatorio);
+        tempoFinal_1 = clock();
+
+        tempoInicial_2 = clock();
+        buscaArvoreAvl(avl2, valorAleatorio);
+        tempoFinal_2 = clock();       
+
+        tempoTotal_ArvBin = calculaTempo(tempoInicial_1, tempoFinal_1);
+        tempoTotal_Avl = calculaTempo(tempoInicial_2, tempoFinal_2);
+        
+        temposBuscaArvBin[i-1] = tempoTotal_ArvBin;
+        temposBuscaArvAlv[i-1] = tempoTotal_Avl;
+
+
+        printf("O tempo da busca binaria na Arvore Binaria de Pesquisa foi %f segundos\n", tempoTotal_ArvBin);
+        printf("O tempo da busca binaria na Arvore Avl foi %f segundos\n", tempoTotal_Avl);
+
+        //Escrevendo no arquivo 
+        fprintf(arquivo2, "Arvore BP:,       %d,         %f,         %d\n", i, tempoTotal_ArvBin, valorAleatorio);
+        fprintf(arquivo2, "Vetor Avl:,          %d,         %f,         %d\n", i, tempoTotal_Avl, valorAleatorio);        
+
+    }
+    media1 = calculaMedia(temposBuscaArvBin, 30);
+    media2 = calculaMedia(temposBuscaArvAlv, 30);
+
+    printf("\nMedia da Criações das Arvores Binarias: %f\n", media1);
+    printf("\nMedia da Criações das Arvores Avls: %f\n", media2);
+
+
+    fprintf(arquivo2, "Média Criações das Arvores Binárias:              %f\n", media1);
+    fprintf(arquivo2, "Média Criações das Arvores Avls:              %f\n", media2);
+
+
+    liberaVetor(&vetor2);
+    
+    fclose(arquivo2);
+    return 0;
 }

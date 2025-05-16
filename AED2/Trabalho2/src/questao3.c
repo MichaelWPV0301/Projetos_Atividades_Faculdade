@@ -71,12 +71,16 @@ int main(){
         fprintf(arquivo, "Vetor:          %d,         %f,         %d\n", i, tempoTotal_vet, valorAleatorio);
 
     }
+    
     media1 = calculaMedia(temposVet, NUM_TESTES);
     media2 = calculaMedia(temposArvore, NUM_TESTES);
 
     printf("\nMedia da Busca no vetor: %f\n", media1);
     printf("\nMedia da Busca na Arvore: %f\n", media2);
 
+    fprintf(arquivo, "Media vetor:         %f\n", media1);
+    fprintf(arquivo, "Media arvore:         %f\n", media2);
+    
     liberaVetor(&vetor);
 
     fclose(arquivo);

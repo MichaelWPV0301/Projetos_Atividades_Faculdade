@@ -5,16 +5,16 @@
 
 typedef struct ArvoreAvl ArvoreAvl;
 
-int altura(ArvoreAvl *arvoreAvl);
+int alturaAvl(ArvoreAvl *arvoreAvl);
 
 int fator_balanceamento(ArvoreAvl *arvoreAvl);
 
 int max(int ha, int hb);
 
 void atualizar_altura(ArvoreAvl *avl);
-void caminhaPos(ArvoreAvl *raiz);
-void caminhaPre(ArvoreAvl *raiz);
-void caminhaCentral(ArvoreAvl *raiz);
+void caminhaPosAvl(ArvoreAvl *raiz);
+void caminhaPreAvl(ArvoreAvl *raiz);
+void caminhaCentralAvl(ArvoreAvl *raiz);
 void inicializaAvl(ArvoreAvl **raiz);
 void vetorEmAvl(Vetor vetor, ArvoreAvl **ptrRaiz, int tam);
 
@@ -25,5 +25,7 @@ ArvoreAvl *rotacao_dupla_direita(ArvoreAvl *arvore1);
 ArvoreAvl *rotacao_dupla_esquerda(ArvoreAvl *arvore1);
 
 ArvoreAvl *inserirAvl(ArvoreAvl *avl, int chave);
+
+ArvoreAvl *buscaArvoreAvl(ArvoreAvl *raiz, int dado);
 
 #endif

@@ -10,6 +10,25 @@ typedef struct ArvoreBin
     int dado;
 } ArvoreBin;
 
+int altura(ArvoreBin *arvore){
+    if(arvore == NULL)
+    {
+        return 0;
+    }
+    else{
+        int alt_Esq = altura(arvore->esquerda);
+        int alt_Dir = altura(arvore->direita);
+        int alt;
+        if(alt_Esq>alt_Dir){
+            alt = alt_Esq;
+        }
+        else{
+            alt = alt_Dir;
+        }
+        return 1 + alt;
+    }
+}
+
 void inicializa(ArvoreBin **raiz)
 {
     *raiz = NULL;

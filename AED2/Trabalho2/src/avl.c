@@ -16,42 +16,42 @@ void inicializaAvl(ArvoreAvl **raiz)
     *raiz = NULL;
 }
 
-void caminhaPos(ArvoreAvl *raiz)
+void caminhaPosAvl(ArvoreAvl *raiz)
 {
     if (raiz == NULL)
         return;
-    caminhaPos(raiz->esquerda);
-    caminhaPos(raiz->direita);
+    caminhaPosAvl(raiz->esquerda);
+    caminhaPosAvl(raiz->direita);
     printf("%d ", raiz->dado);
 }
 
-void caminhaPre(ArvoreAvl *raiz)
+void caminhaPreAvl(ArvoreAvl *raiz)
 {
     if (raiz == NULL)
         return;
     printf("%d ", raiz->dado);
-    caminhaPre(raiz->esquerda);
-    caminhaPre(raiz->direita);
+    caminhaPreAvl(raiz->esquerda);
+    caminhaPreAvl(raiz->direita);
 }
 
-void caminhaCentral(ArvoreAvl *raiz)
+void caminhaCentralAvl(ArvoreAvl *raiz)
 {
     if (raiz == NULL)
         return;
-    caminhaCentral(raiz->esquerda);
+    caminhaCentralAvl(raiz->esquerda);
     printf("%d ", raiz->dado);
-    caminhaCentral(raiz->direita);
+    caminhaCentralAvl(raiz->direita);
 }
 
 void atualizar_altura(ArvoreAvl *avl)
 {
     if (avl != NULL)
     {
-        avl->altura = 1 + max(altura(avl->esquerda), altura(avl->direita));
+        avl->altura = 1 + max(alturaAvl(avl->esquerda), alturaAvl(avl->direita));
     }
 }
 
-int altura(ArvoreAvl *arvoreAvl)
+int alturaAvl(ArvoreAvl *arvoreAvl)
 {
     if (arvoreAvl == NULL)
     {
@@ -64,7 +64,7 @@ int fator_balanceamento(ArvoreAvl *arvoreAvl)
 {
     if (arvoreAvl == NULL)
         return 0;
-    return altura(arvoreAvl->direita) - altura(arvoreAvl->esquerda);
+    return alturaAvl(arvoreAvl->direita) - alturaAvl(arvoreAvl->esquerda);
 }
 
 int max(int ha, int hb)
@@ -155,6 +155,26 @@ ArvoreAvl *inserirAvl(ArvoreAvl *avl, int chave)
     }
     return avl;
 }
+ArvoreAvl* buscaArvoreAvl(ArvoreAvl *raiz, int dado){
+    ArvoreAvl *aux = raiz;
+    while (aux != NULL)
+    {
+        if (aux->dado > dado)
+        {
+            aux = aux->esquerda;
+        }
+        else if (aux->dado < dado)
+        {
+            aux = aux->direita;
+        }
+        else
+        {
+            return aux;
+        }
+    }
+    return NULL;
+}
+
 
 void vetorEmAvl(Vetor vetor, ArvoreAvl **ptrRaiz, int tam)
 {
