@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
 typedef struct ArvoreAvl
 {
     struct ArvoreAvl *esquerda;
@@ -10,6 +11,13 @@ typedef struct ArvoreAvl
     int dado;
     int altura;
 } ArvoreAvl;
+
+int contaNos(ArvoreAvl* raiz) {
+    if (raiz == NULL) return 0;
+    return 1
+         + contaNos(raiz->esquerda)
+         + contaNos(raiz->direita);
+}
 
 void inicializaAvl(ArvoreAvl **raiz)
 {
@@ -108,7 +116,7 @@ ArvoreAvl *rotacao_dupla_direita(ArvoreAvl *arvore1)
 
 ArvoreAvl *rotacao_dupla_esquerda(ArvoreAvl *arvore1)
 {
-    arvore1->direita = rotacao_dupla_direita(arvore1);
+    arvore1->direita = rotacao_simples_direita(arvore1->direita);
     return rotacao_simples_esquerda(arvore1);
 }
 
@@ -123,11 +131,11 @@ ArvoreAvl *inserirAvl(ArvoreAvl *avl, int chave)
         novo->esquerda = NULL;
         return novo;
     }
-    if (avl->dado > chave)
+    if (avl && avl->dado > chave)
     {
         avl->esquerda = inserirAvl(avl->esquerda, chave);
     }
-    else if (avl->dado < chave)
+    else if (avl && avl->dado < chave)
     {
         avl->direita = inserirAvl(avl->direita, chave);
     }
@@ -137,24 +145,26 @@ ArvoreAvl *inserirAvl(ArvoreAvl *avl, int chave)
     }
     atualizar_altura(avl);
     int fb = fator_balanceamento(avl);
-    if (fb > 1 && chave > avl->direita->dado)
+    if (fb > 1 && avl->direita && chave > avl->direita->dado)
     {
         return rotacao_simples_esquerda(avl);
     }
-    if (fb < -1 && chave < avl->esquerda->dado)
+    if (fb < -1 && avl->esquerda && chave < avl->esquerda->dado)
     {
         return rotacao_simples_direita(avl);
     }
-    if (fb > 1 && chave < avl->direita->dado)
+    if (fb > 1 && avl->direita && chave < avl->direita->dado)
     {
         return rotacao_dupla_esquerda(avl);
     }
-    if (fb < -1 && chave > avl->esquerda->dado)
+    if (fb < -1 && avl->esquerda && chave > avl->esquerda->dado)
     {
-        return rotacao_simples_direita(avl);
+        return rotacao_dupla_direita(avl);
     }
     return avl;
+
 }
+
 ArvoreAvl* buscaArvoreAvl(ArvoreAvl *raiz, int dado){
     ArvoreAvl *aux = raiz;
     while (aux != NULL)

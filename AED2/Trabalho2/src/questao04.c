@@ -14,7 +14,7 @@ int main()
     ArvoreBin *arvoreBin;
     ArvoreAvl *avl;
     Vetor vetor;
-    int valorAleatorio, alturaArvBin, alturaArvAvl;
+    int valorAleatorio, alturaArvBin, alturaArvAvl, altNosAvl;
 
     FILE *arquivo = fopen("dados1_4.csv", "w");
     if (arquivo == NULL)
@@ -27,7 +27,7 @@ int main()
     inicializa(&arvoreBin);
     inicializaAvl(&avl);
 
-    criaVetor(&vetor, TAM);
+    criaVetor(&vetor, TAM); 
 
     clock_t tempoInicial_1, tempoInicial_2, tempoFinal_1, tempoFinal_2;
     double tempoTotal_ArvBin, tempoTotal_Avl, media1, media2;
@@ -38,10 +38,8 @@ int main()
     for (int i = 1; i <= NUM_TESTES; i++)
     {
         printf("\nExecucao %d\n", i);
-        populaVetorAleatorio(vetor, 1000000, TAM);
-        
-        valorAleatorio = vetor[abs(rand() % TAM)];
-        
+        populaVetorAleatorio(vetor, 100000000, TAM);
+                
         tempoInicial_1 = clock();
         vetorEmArvoreBin(vetor, &arvoreBin, TAM);
         tempoFinal_1 = clock();
@@ -55,11 +53,17 @@ int main()
         temposCriaArvBin[i-1] = tempoTotal_ArvBin;
         temposCriaAvl[i-1] = tempoTotal_Avl;
         
+
+        altNosAvl = contaNos(avl);
+        
         alturaArvBin =  altura(arvoreBin);
         alturaArvAvl =  alturaAvl(avl);
 
-        printf("O tempo da criacão da Arvore Binaria de Pesquisa foi %f segundos\n", tempoTotal_ArvBin);
-        printf("O tempo da criação da arvore Avl foi %f segundos\n", tempoTotal_Avl);
+        printf("Altura arvBin %d\n", alturaArvBin);
+        printf("Altura arvAvl %d, qtdNos %d\n", alturaArvAvl, altNosAvl);
+
+        printf("O tempo da criacao da Arvore Binaria de Pesquisa foi %f segundos\n", tempoTotal_ArvBin);
+        printf("O tempo da criacao da arvore Avl foi %f segundos\n", tempoTotal_Avl);
 
         fprintf(arquivo, "Arvore Binaria,       %d,         %f,         %d\n", i, tempoTotal_ArvBin, alturaArvBin);
         fprintf(arquivo, "Arvore AVL,          %d,         %f,         %d\n", i, tempoTotal_Avl, alturaArvAvl);
@@ -82,7 +86,7 @@ int main()
     
     //Iteracao para mudar os dados
     char pause;
-    printf("\nAperte enter para a parte 3 da questao 05.");
+    printf("\nAperte enter para a parte 2 da questao 04.");
     scanf("%c", &pause);
     printf("\e[H\e[2J");
 
@@ -115,7 +119,7 @@ int main()
 
     for(int i = 1; i<=30; i++){
         printf("\nExecucao %d\n", i);
-        valorAleatorio = vetor[abs(rand() % TAM)];
+        valorAleatorio = vetor2[abs(rand() % TAM)];
 
         tempoInicial_1 = clock();
         buscaArvoreBin(arvoreBin2, valorAleatorio);
@@ -147,8 +151,8 @@ int main()
     printf("\nMedia da Criações das Arvores Avls: %f\n", media2);
 
 
-    fprintf(arquivo2, "Média Criações das Arvores Binárias:              %f\n", media1);
-    fprintf(arquivo2, "Média Criações das Arvores Avls:              %f\n", media2);
+    fprintf(arquivo2, "Média Buscas nas Arvores Binárias:              %f\n", media1);
+    fprintf(arquivo2, "Média Buscas nas Arvores Avls:              %f\n", media2);
 
 
     liberaVetor(&vetor2);
