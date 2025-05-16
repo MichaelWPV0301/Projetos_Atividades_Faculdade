@@ -39,13 +39,13 @@ int main()
     {
         printf("\nExecucao %d\n", i);
         populaVetorAleatorio(vetor, 1000000, TAM);
-
+        
         valorAleatorio = vetor[abs(rand() % TAM)];
-
+        
         tempoInicial_1 = clock();
         vetorEmArvoreBin(vetor, &arvoreBin, TAM);
         tempoFinal_1 = clock();
-
+        
         tempoInicial_2 = clock();
         vetorEmAvl(vetor, &avl, TAM);
         tempoFinal_2 = clock();
