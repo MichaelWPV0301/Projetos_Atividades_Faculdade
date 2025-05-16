@@ -8,7 +8,7 @@ typedef struct ArvoreAvl ArvoreAvl;
 int alturaAvl(ArvoreAvl *arvoreAvl);
 
 int fator_balanceamento(ArvoreAvl *arvoreAvl);
-
+int contaNos(ArvoreAvl* raiz);
 int max(int ha, int hb);
 
 void atualizar_altura(ArvoreAvl *avl);
