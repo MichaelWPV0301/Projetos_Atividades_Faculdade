@@ -141,7 +141,9 @@ int main()
 
         //Escrevendo no arquivo 
         fprintf(arquivo2, "Arvore BP:,       %d,         %f,         %d\n", i, tempoTotal_ArvBin, valorAleatorio);
-        fprintf(arquivo2, "Vetor Avl:,          %d,         %f,         %d\n", i, tempoTotal_Avl, valorAleatorio);        
+        fprintf(arquivo2, "Vetor Avl:,          %d,         %f,         %d\n", i, tempoTotal_Avl, valorAleatorio);
+        
+        
 
     }
     media1 = calculaMedia(temposBuscaArvBin, 30);

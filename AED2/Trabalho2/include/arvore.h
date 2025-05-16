@@ -13,5 +13,6 @@ void caminhaPos(ArvoreBin* raiz);
 void caminhaPre(ArvoreBin* raiz);
 void caminhaCentral(ArvoreBin* raiz);
 void vetorEmArvoreBin(Vetor vetor, ArvoreBin** ptrRaiz, int tam);
+void liberaArvore(ArvoreBin* raiz);
 
 #endif

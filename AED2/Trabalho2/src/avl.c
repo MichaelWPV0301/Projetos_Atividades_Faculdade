@@ -193,3 +193,12 @@ void vetorEmAvl(Vetor vetor, ArvoreAvl **ptrRaiz, int tam)
         *ptrRaiz = inserirAvl(*ptrRaiz, vetor[i]);
     }
 }
+
+void liberaArvoreAvl(ArvoreAvl *raiz){
+    if(raiz==NULL){
+        return;
+    }
+    liberaArvoreAvl(raiz->esquerda);
+    liberaArvoreAvl(raiz->direita);
+    free(raiz);
+}

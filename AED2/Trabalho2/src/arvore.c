@@ -112,3 +112,13 @@ void vetorEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int tam)
         insereArvoreBinaria(ptrRaiz, vetor[i]);
     }
 }
+
+
+void liberaArvore(ArvoreBin *raiz)
+{
+    if (raiz == NULL)
+        return;
+    liberaArvore(raiz->esquerda);
+    liberaArvore(raiz->direita);
+    free(raiz);
+}
