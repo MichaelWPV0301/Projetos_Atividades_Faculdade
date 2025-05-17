@@ -5,7 +5,7 @@
 #include "../include/arvore.h"
 #include "../include/tempo.h"
 
-#define TAM 10000000
+#define TAM 1000000
 #define NUM_TESTES 30
 
 
@@ -32,20 +32,16 @@ int main(){
  
     printf("\nPressione Enter para a criacao do Vetor com 1 milhao de elementos: ");
     scanf("%c", &pause);
-    populaVetorAleatorio(vetor, 100000000, TAM);
+    populaVetorAleatorioOrdenado(vetor, 100, TAM);
     printf("\n--vetor criado com sucesso--\n");
     
     printf("\nPressione Enter para a criacao da Arvore Binaria de Pesquisa com 1 milhao de elementos(nós): ");
     scanf("%c", &pause);
-    vetorEmArvoreBin(vetor, &arvore, TAM);
+    vetorOrdenadoEmArvoreBin(vetor, &arvore, 0, TAM-1);
     printf("\n--arvore criada com sucesso--\n");
 
     printf("\nPressione Enter para realizar as buscas: ");    
     scanf("%c", &pause);
-    
-    quickSort(vetor, TAM);
-    
-
 
     clock_t tempoInicial_1, tempoInicial_2, tempoFinal_1, tempoFinal_2;
     double tempoTotal_vet, tempoTotal_arvore;
@@ -95,8 +91,10 @@ int main(){
     fprintf(arquivo, "Media arvore:         %.9f\n", media2);
     
     liberaVetor(&vetor);
+    liberaArvore(arvore);
 
     fclose(arquivo);
+
     return 0;
 
 }

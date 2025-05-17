@@ -14,5 +14,6 @@ void inicializaArvPacotes(ArvorePacotes** raiz);
 void inserePacoteArv(ArvorePacotes** ptrRaiz, Pacote pacote);
 void caminhaCentralPacotes(ArvorePacotes* raiz, FILE* fp);
 void pacotesEmArvore(Pacote* pacotes, ArvorePacotes** ptrRaiz, int tam);
+void liberaArvorePacotes(ArvorePacotes *raiz);
 
 #endif

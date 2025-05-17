@@ -113,6 +113,15 @@ void vetorEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int tam)
     }
 }
 
+void vetorOrdenadoEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int inicio, int fim)
+{
+    if (inicio<=fim){
+        int meio = inicio + (fim-inicio)/2;
+        insereArvoreBinaria(ptrRaiz, vetor[meio]);
+        vetorOrdenadoEmArvoreBin(vetor, ptrRaiz, inicio, meio-1);
+        vetorOrdenadoEmArvoreBin(vetor, ptrRaiz, meio+1, fim);
+    }
+}
 
 void liberaArvore(ArvoreBin *raiz)
 {

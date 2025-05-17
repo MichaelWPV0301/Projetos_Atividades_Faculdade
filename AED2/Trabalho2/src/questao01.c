@@ -29,7 +29,10 @@ int main(){
     
     printf("\nCaminhamento de Forma Pos Fixada pela Arvore Binaria: {");
     caminhaPos(arvore);
-    printf("}\n");    
+    printf("}\n");   
+    
+    liberaVetor(&vetor);
+    liberaArvore(arvore);
 
     return 0;
 }

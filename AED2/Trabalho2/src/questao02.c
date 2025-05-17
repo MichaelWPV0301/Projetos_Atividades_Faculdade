@@ -79,5 +79,7 @@ int main(){
     fclose(fp);
     fclose(fp2);
 
+    liberaArvorePacotes(arvore);
+
     return 0;
 }

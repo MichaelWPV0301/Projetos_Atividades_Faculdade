@@ -45,3 +45,12 @@ void pacotesEmArvore(Pacote* pacotes, ArvorePacotes** ptrRaiz, int tam){
         inserePacoteArv(ptrRaiz, pacotes[i]);
     }
 }
+
+void liberaArvorePacotes(ArvorePacotes *raiz)
+{
+    if (raiz == NULL)
+        return;
+    liberaArvorePacotes(raiz->esquerda);
+    liberaArvorePacotes(raiz->direita);
+    free(raiz);
+}
