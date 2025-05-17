@@ -18,6 +18,7 @@ void mostraVetor(Vetor vetor, int tamanho);
 // Preenche o vetor com números aleatórios em ordem crescente (positivos)
 void populaVetorAleatorioOrdenado(Vetor vetor, int limite, int tamanho);
 
+// Preenche o vetor com valores parcialmente ordenados em ordem crescente (positivo)
 void populaVetorParcialmenteOrdenado(Vetor vetor, int limite, int tamanho, int prctDesordem);
 
 // Preenche o vetor com números aleatórios (sem ordem)

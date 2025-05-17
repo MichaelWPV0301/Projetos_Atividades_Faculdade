@@ -3,13 +3,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// Estrutura que representa um nó da árvore binária
 typedef struct ArvoreBin
 {
-    struct ArvoreBin *esquerda;
-    struct ArvoreBin *direita;
-    int dado;
+    struct ArvoreBin *esquerda; // ponteiro para subárvore esquerda
+    struct ArvoreBin *direita;  // ponteiro para subárvore direita
+    int dado;                   // valor armazenado no nó
 } ArvoreBin;
 
+/**
+ * Calcula a altura de uma árvore binária.
+ * Retorna 0 se a árvore for vazia.
+ */
 int altura(ArvoreBin *arvore){
     if(arvore == NULL)
     {
@@ -19,7 +24,7 @@ int altura(ArvoreBin *arvore){
         int alt_Esq = altura(arvore->esquerda);
         int alt_Dir = altura(arvore->direita);
         int alt;
-        if(alt_Esq>alt_Dir){
+        if(alt_Esq > alt_Dir){
             alt = alt_Esq;
         }
         else{
@@ -29,14 +34,20 @@ int altura(ArvoreBin *arvore){
     }
 }
 
+/**
+ * Inicializa uma árvore binária, definindo o ponteiro da raiz como NULL.
+ */
 void inicializa(ArvoreBin **raiz)
 {
     *raiz = NULL;
 }
 
+/**
+ * Insere um valor em uma árvore binária de forma iterativa.
+ * Permite valores duplicados.
+ */
 void insereArvoreBinaria(ArvoreBin **ptrRaiz, int valor)
 {
-
     ArvoreBin *aux = *ptrRaiz;
     while ((aux))
     {
@@ -57,6 +68,10 @@ void insereArvoreBinaria(ArvoreBin **ptrRaiz, int valor)
     (*ptrRaiz)->dado = valor;
 }
 
+/**
+ * Busca um valor em uma árvore binária.
+ * Retorna o ponteiro para o nó encontrado ou NULL se não existir.
+ */
 ArvoreBin *buscaArvoreBin(ArvoreBin *raiz, int dado)
 {
     ArvoreBin *aux = raiz;
@@ -78,6 +93,9 @@ ArvoreBin *buscaArvoreBin(ArvoreBin *raiz, int dado)
     return NULL;
 }
 
+/**
+ * Percorre a árvore em pós-ordem (esquerda, direita, raiz) e imprime os valores.
+ */
 void caminhaPos(ArvoreBin *raiz)
 {
     if (raiz == NULL)
@@ -87,6 +105,9 @@ void caminhaPos(ArvoreBin *raiz)
     printf("%d ", raiz->dado);
 }
 
+/**
+ * Percorre a árvore em pré-ordem (raiz, esquerda, direita) e imprime os valores.
+ */
 void caminhaPre(ArvoreBin *raiz)
 {
     if (raiz == NULL)
@@ -96,6 +117,9 @@ void caminhaPre(ArvoreBin *raiz)
     caminhaPre(raiz->direita);
 }
 
+/**
+ * Percorre a árvore em ordem central (esquerda, raiz, direita) e imprime os valores.
+ */
 void caminhaCentral(ArvoreBin *raiz)
 {
     if (raiz == NULL)
@@ -105,31 +129,43 @@ void caminhaCentral(ArvoreBin *raiz)
     caminhaCentral(raiz->direita);
 }
 
+/**
+ * Insere todos os elementos de um vetor em uma árvore binária.
+ * Se opcao == 0, permite duplicatas. Se opcao != 0, evita duplicatas.
+ */
 void vetorEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int tam, int opcao)
 {
     for (int i = 0; i < tam; i++)
     {
-        if(opcao==0)
+        if(opcao == 0)
         {
-        insereArvoreBinaria(ptrRaiz, vetor[i]);
+            insereArvoreBinaria(ptrRaiz, vetor[i]);
         }
         else
         {
-        insereArvoreBinSemDuplicata(ptrRaiz, vetor[i]);
+            insereArvoreBinSemDuplicata(ptrRaiz, vetor[i]);
         }
     }
 }
 
+/**
+ * Constrói uma árvore binária balanceada a partir de um vetor ordenado.
+ * Usa abordagem recursiva dividindo sempre no meio.
+ */
 void vetorOrdenadoEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int inicio, int fim)
 {
-    if (inicio<=fim){
-        int meio = inicio + (fim-inicio)/2;
+    if (inicio <= fim){
+        int meio = inicio + (fim - inicio) / 2;
         insereArvoreBinaria(ptrRaiz, vetor[meio]);
-        vetorOrdenadoEmArvoreBin(vetor, ptrRaiz, inicio, meio-1);
-        vetorOrdenadoEmArvoreBin(vetor, ptrRaiz, meio+1, fim);
+        vetorOrdenadoEmArvoreBin(vetor, ptrRaiz, inicio, meio - 1);
+        vetorOrdenadoEmArvoreBin(vetor, ptrRaiz, meio + 1, fim);
     }
 }
 
+/**
+ * Libera toda a memória alocada pela árvore binária.
+ * Faz a liberação em pós-ordem.
+ */
 void liberaArvore(ArvoreBin *raiz)
 {
     if (raiz == NULL)
@@ -138,9 +174,13 @@ void liberaArvore(ArvoreBin *raiz)
     liberaArvore(raiz->direita);
     free(raiz);
 }
+
+/**
+ * Insere um valor em uma árvore binária **sem permitir duplicatas**.
+ * Se o valor já estiver presente, a função não faz nada.
+ */
 void insereArvoreBinSemDuplicata(ArvoreBin **ptrRaiz, int valor)
 {
-
     ArvoreBin *aux = *ptrRaiz;
     while ((aux))
     {
@@ -152,7 +192,9 @@ void insereArvoreBinSemDuplicata(ArvoreBin **ptrRaiz, int valor)
         {
             ptrRaiz = &(aux->direita);
         }
-        else{return;}
+        else {
+            return; // valor já existe, não insere
+        }
         aux = *ptrRaiz;
     }
 
