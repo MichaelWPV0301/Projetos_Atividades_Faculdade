@@ -151,7 +151,7 @@ int main()
 
         // Escreve resultados no arquivo CSV
         fprintf(arquivo2, "Arvore BP:,       %d,         %.9f,         %d\n", i, tempoTotal_ArvBin, valorAleatorio);
-        fprintf(arquivo2, "Vetor Avl:,          %d,         %.9f,         %d\n", i, tempoTotal_Avl, valorAleatorio);
+        fprintf(arquivo2, "Arvore Avl:,          %d,         %.9f,         %d\n", i, tempoTotal_Avl, valorAleatorio);
         
         liberaArvore(arvoreBin2);    // Libera memória árvore binária
         liberaArvoreAvl(avl2);       // Libera memória árvore AVL
