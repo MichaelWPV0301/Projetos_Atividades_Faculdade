@@ -42,7 +42,7 @@ int main()
         inicializaAvl(&avl);
         
         printf("\nExecucao %d:\n", i);
-        populaVetorAleatorio(vetor, 10000000, TAM);
+        populaVetorParcialmenteOrdenado(vetor, 10, TAM, 30);
         
         tempoInicial_1 = clock();
         vetorEmArvoreBin(vetor, &arvoreBin, TAM, 1);

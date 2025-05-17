@@ -152,6 +152,7 @@ void insereArvoreBinSemDuplicata(ArvoreBin **ptrRaiz, int valor)
         {
             ptrRaiz = &(aux->direita);
         }
+        else{return;}
         aux = *ptrRaiz;
     }
 

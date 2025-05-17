@@ -17,7 +17,7 @@ int main(){
     inicializa(&arvore);
     criaVetor(&vetor, TAM);
     populaVetorAleatorio(vetor, LIMITE, TAM);
-    vetorEmArvoreBin(vetor, &arvore, TAM);
+    vetorEmArvoreBin(vetor, &arvore, TAM,0);
 
     printf("\nCaminhamento de Forma Pre Fixada pela Arvore Binaria: {");
     caminhaPre(arvore);
