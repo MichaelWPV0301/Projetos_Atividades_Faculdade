@@ -105,11 +105,18 @@ void caminhaCentral(ArvoreBin *raiz)
     caminhaCentral(raiz->direita);
 }
 
-void vetorEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int tam)
+void vetorEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int tam, int opcao)
 {
     for (int i = 0; i < tam; i++)
     {
+        if(opcao==0)
+        {
         insereArvoreBinaria(ptrRaiz, vetor[i]);
+        }
+        else
+        {
+        insereArvoreBinSemDuplicata(ptrRaiz, vetor[i]);
+        }
     }
 }
 
@@ -130,4 +137,26 @@ void liberaArvore(ArvoreBin *raiz)
     liberaArvore(raiz->esquerda);
     liberaArvore(raiz->direita);
     free(raiz);
+}
+void insereArvoreBinSemDuplicata(ArvoreBin **ptrRaiz, int valor)
+{
+
+    ArvoreBin *aux = *ptrRaiz;
+    while ((aux))
+    {
+        if (aux->dado > valor)
+        {
+            ptrRaiz = &(aux->esquerda);
+        }
+        else if(aux->dado < valor)
+        {
+            ptrRaiz = &(aux->direita);
+        }
+        aux = *ptrRaiz;
+    }
+
+    *ptrRaiz = (ArvoreBin *)malloc(sizeof(ArvoreBin));
+    inicializa(&((*ptrRaiz)->esquerda));
+    inicializa(&((*ptrRaiz)->direita));
+    (*ptrRaiz)->dado = valor;
 }

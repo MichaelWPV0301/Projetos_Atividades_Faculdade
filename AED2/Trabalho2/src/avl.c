@@ -135,9 +135,12 @@ ArvoreAvl *inserirAvl(ArvoreAvl *avl, int chave)
     {
         avl->esquerda = inserirAvl(avl->esquerda, chave);
     }
-    else if (avl && avl->dado <= chave)
+    else if (avl && avl->dado < chave)
     {
         avl->direita = inserirAvl(avl->direita, chave);
+    }
+    else{
+        return avl;
     }
 
     atualizar_altura(avl);

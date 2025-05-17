@@ -12,8 +12,9 @@ void insereArvoreBinaria(ArvoreBin** ptrRaiz, int valor);
 void caminhaPos(ArvoreBin* raiz);
 void caminhaPre(ArvoreBin* raiz);
 void caminhaCentral(ArvoreBin* raiz);
-void vetorEmArvoreBin(Vetor vetor, ArvoreBin** ptrRaiz, int tam);
+void vetorEmArvoreBin(Vetor vetor, ArvoreBin** ptrRaiz, int tam, int opcao);
 void liberaArvore(ArvoreBin* raiz);
 void vetorOrdenadoEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int inicio, int fim);
+void insereArvoreBinSemDuplicata(ArvoreBin** ptrRaiz, int valor);
 
 #endif

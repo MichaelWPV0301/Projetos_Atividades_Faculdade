@@ -43,15 +43,16 @@ int main()
         
         printf("\nExecucao %d:\n", i);
         populaVetorAleatorio(vetor, 10000000, TAM);
-                
+        
         tempoInicial_1 = clock();
-        vetorEmArvoreBin(vetor, &arvoreBin, TAM);
+        vetorEmArvoreBin(vetor, &arvoreBin, TAM, 1);
         tempoFinal_1 = clock();
         
         tempoInicial_2 = clock();
         vetorEmAvl(vetor, &avl, TAM);
         tempoFinal_2 = clock();
-
+        
+        printf("passou");
         tempoTotal_ArvBin = calculaTempo(tempoInicial_1, tempoFinal_1);
         tempoTotal_Avl = calculaTempo(tempoInicial_2, tempoFinal_2);
         temposCriaArvBin[i-1] = tempoTotal_ArvBin;
@@ -114,7 +115,7 @@ int main()
 
     criaVetor(&vetor2, TAM);
     populaVetorAleatorio(vetor2, 100000000, TAM);
-    vetorEmArvoreBin(vetor2, &arvoreBin2, TAM);
+    vetorEmArvoreBin(vetor2, &arvoreBin2, TAM, 1);
     vetorEmAvl(vetor2, &avl2, TAM);
 
 
