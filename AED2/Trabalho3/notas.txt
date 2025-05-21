@@ -1,0 +1,5 @@
+1-tipo abstrato de dados para o arquivo
+2-arvore vai ter que mexer
+3-arquivo vai ter um campo chave(não se repete)
+4-"arvore" pode ser a avl ou binaria
+5-quanto mais rapido é um em relação ao outro(importante)
