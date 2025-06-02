@@ -12,7 +12,7 @@ void fecharArquivo(FILE* ponteiroArquivo);
 void escreverRegistro(FILE* arquivo, Registro *reg, long offset);
 void adicionarRegistro(FILE* arquivo, long offset);
 Registro lerRegistro(FILE* arquivo, long offset);
-Registro  lerRegistroPorNumero(FILE* arquivo, int numeroRegistro);
+Registro lerRegistroPorNumero(FILE* arquivo, int numeroRegistro);
 int obterNumeroRegistros(FILE* arquivo);
 
 
