@@ -1,6 +1,6 @@
  #include <stdio.h>
  
- void selectionSort(int v[], int tamVet){
+void selectionSort(int v[], int tamVet){
     int x, y, menor, aux;
     x = 0;
     while(x<tamVet-1){
@@ -16,7 +16,7 @@
         v[menor] = aux;
         x++;
     }
- }
+}
 
 
  int main(){

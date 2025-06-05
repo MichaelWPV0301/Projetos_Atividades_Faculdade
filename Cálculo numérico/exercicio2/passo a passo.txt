@@ -1,0 +1,22 @@
+Passo a Passo:
+Objetivo resolver um sistema de equações lineares Ax = b
+
+
+1. verificar se a matriz é simetrica para evitar erros durante a aplicação do método de cholesky.
+2. primeiro aplicar o método de cholesky, pois é possivel verificar se a matriz dada A é positiva(o porque e como a verificação está no print)
+3. resolver o método de cholesky
+4. resolver o mesmo problema usando a decomposição LU
+5. Comparar os dois métodos quanto ao número de operações em ponto flutuante, ponto fixo e ao tempo de execução.
+
+
+problema:
+localização interna -> ruidos durante o uso dos sensores dos dispositivos para localização interna.
+como pode ser usado-> como forma de prever esse ruidos e implementar em novos dados, é possível montar uma matriz mxm (m o número de sensores) sendo ela a representação da correlação da variação dos
+dados, e visto que geralmente esses valores de covariação e dados de localização interna possuem valores relativamentes muitos extensos em relação a ponto flutuante. 
+visando o custo computacional e a menor quantidade de erros  numéricos devido à falta de precisão nos cálculos com a propria matriz de covariação. é possivel aplicar o método de cholesky para a 
+matriz de covariância pois qualquer conjunto de variáveis aleatórias sempre é simétrica e definida positiva, e assim obter uma matriz L diagonal inferior e usar para somar com um vetor aleatório 
+e não correlacionado e obter um vetor de erro correlacionado novo para possíveis novos testes em algoritmos de localização interna. o fato de ser um vetor aleatório é 
+Porque isso te permite gerar inúmeras amostras simuladas de erro realista, com as características estatísticas especificadas via matriz de covariância.
+
+
+
