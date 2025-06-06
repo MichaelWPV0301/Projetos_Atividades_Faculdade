@@ -119,7 +119,11 @@ with open("exem.asm") as arquivo:
             print(partes)
             instrucoes_hex.append(hexa)
 
+print(instrucoes_hex)
+with open("Arquivo.txt", "w") as f: 
+    f.write("v3.0 hex words plain\n")
+    for hexa in instrucoes_hex:
+        f.write(f"{hexa}\n")
 
 
 
-    print(instrucoes_hex)
