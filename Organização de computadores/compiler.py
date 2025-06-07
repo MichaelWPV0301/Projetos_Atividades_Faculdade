@@ -72,18 +72,15 @@ with open("exem.asm") as arquivo:
                     if(instrucao =="DATA"):
                         instrucoes_hex.append(hexa)
                         hexa = partes[2]
-                        if(len(hexa)>4):
-                            hexa = int(hexa, 2)
-                            hexa = hex(hexa)
-                        if("-" in hexa):
-                            if(len(hexa)==3):
-                                hexa = int(hexa[1:], 16)
-                            else:
-                                hexa =  int(hexa[3:], 16)
+                        if("x" in hexa or "b" in hexa):
+                            hexa = int(hexa, 0)
+                        else:
+                            hexa = int(hexa)
+                        if( '-' in str(hexa)):
                             hexa = f"{hexa:08b}"
-                            hexa = "".join("1" if b=="0" else "0" for b in hexa)
+                            hexa = "".join("1" if b=="0" else "0" for b in hexa if b!='-')
                             hexa = int(hexa, 2) + 1
-                            hexa = hex(hexa)
+                        hexa = f"0x{hexa:02x}"
                     
                 #JMP e CLF
                 elif(instrucao == "JMP" or instrucao == "CLF"):
@@ -91,7 +88,10 @@ with open("exem.asm") as arquivo:
                     if(instrucao == "JMP"):
                         instrucoes_hex.append(hexa)
                         hexa = partes[1]
+                        print(type(hexa))
+
                         if(len(hexa)>4):
+                            print("entrou")
                             hexa = int(hexa, 2)
                             hexa = hex(hexa)
                 
@@ -106,7 +106,7 @@ with open("exem.asm") as arquivo:
                     hexa = partes[1]
                     if(len(hexa)>4):
                         hexa = int(hexa, 2)
-                        hexa = hex(hexa)
+                        hexa = f"0x{hexa:02x}"
             
             #Periféricos
             elif(instrucao in outside):
@@ -117,6 +117,7 @@ with open("exem.asm") as arquivo:
                 hexa += comando[2:]
                 
             print(partes)
+            print(hexa)
             instrucoes_hex.append(hexa)
 
 print(instrucoes_hex)
@@ -124,6 +125,3 @@ with open("Arquivo.txt", "w") as f:
     f.write("v3.0 hex words plain\n")
     for hexa in instrucoes_hex:
         f.write(f"{hexa}\n")
-
-
-
