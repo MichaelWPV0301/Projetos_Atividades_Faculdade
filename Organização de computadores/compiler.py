@@ -45,9 +45,6 @@ with open("exem.asm") as arquivo:
         linha = linha. replace(",", " ")
         if not linha: continue
 
-
-
-
         partes = linha.strip().split()
         #INSTRUCOES SÓ COM UM BYTE E QUE TÊM DOIS REGISTRADORES
         if( partes and ";" not in partes[0] ):
