@@ -23,6 +23,7 @@ void adicionarRegistro(FILE* arquivo, Registro *reg);
 Registro lerRegistro(FILE* arquivo, long offset);
 Registro lerRegistroPorNumero(FILE* arquivo, int numeroRegistro);
 int obterNumeroRegistros(FILE* arquivo);
-
+void geraAlunos(Registro alunos[], int qtd);
+void imprimeAlunos(Registro alunos[], int qtd);
 
 #endif

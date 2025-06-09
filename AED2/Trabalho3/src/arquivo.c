@@ -70,4 +70,48 @@ int obterNumeroRegistros(FILE* arquivo) {
     return tamanhoArquivo / sizeof(Registro); // Retorna o número de registros
 }
 
+// Popula um vetor de registros com dados aleatórios e o atributo chave único
+void geraAlunos(Registro alunos[], int qtd) {
+    const char *nomes[] = {"Ana", "Carlos", "Fernanda", "João", "Mariana", "Lucas", "Camila", "Gabriel", "Beatriz", "Abel", 
+                           "Paula", "Ricardo", "Juliana", "Pedro", "David", "Rafael", "Sophia", "Felipe", "Isabela", "Eduardo", 
+                           "Claudia", "Felipe", "Thiago", "Michael", "Mikaelly", "Marcos", "Natasha", "Victor", "Leticia", "Julia", "Airton"};
+    const char *sobrenomes[] = {"Silva", "Souza", "Costa", "Oliveira", "Pereira", "Almeida", "Santos", "Lima", "Rocha", "Martins", 
+                                "Gomes", "Carvalho", "Dias", "Ferreira", "Ribeiro", "Fernandes", "Mendes", "Barbosa", "Pinto", "Nascimento",
+                                "Pedrosa", "Vieira", "Sena", "Mendonça", "Medeiros", "Chaparro", "Barreto", "Moura", "Bragas Caldas", "Saraiva"};
+    const char *cursos[] = {"Engenharia", "Direito", "Medicina", "Arquitetura", "Psicologia", "Sistemas de Informacao", 
+                            "Biologia", "Quimica", "Fisica", "Administracao", "Matematica", "Farmacia", "Enfermagem", "Pedagogia", 
+                            "Publicidade", "Economia", "Sociologia", "Design", "Veterinaria", "Ciencia da Computacao"};
 
+    for (int i = 0; i < qtd; i++) {
+        // Matrícula única (exemplo: começa em 1000 e vai incrementando)
+        alunos[i].matricula = 1000 + i;
+
+        // Nome aleatório (nome + sobrenome)
+        snprintf(alunos[i].nome, NOME_TAM, "%s %s", nomes[rand() % 31], sobrenomes[rand() % 30]);
+
+        // Curso aleatório
+        strcpy(alunos[i].curso, cursos[rand() % 20]);
+
+        // Idade entre 18 e 30 anos
+        alunos[i].idade = 18 + rand() % 13;
+
+        // Coeficiente de rendimento (CR) entre 0 e 10
+        alunos[i].coeficiente = (rand() % 1001);
+
+        // Ano de ingresso entre 2010 e 2023
+        alunos[i].anoIngresso = 2010 + rand() % 14;
+    }
+}
+
+void imprimeAlunos(Registro alunos[], int qtd) {
+    for (int i = 0; i < qtd; i++) {
+        printf("Matrícula: %d\n", alunos[i].matricula);
+        printf("Nome: %s\n", alunos[i].nome);
+        printf("Curso: %s\n", alunos[i].curso);
+        printf("Idade: %d\n", alunos[i].idade);
+        alunos[i].coeficiente = alunos[i].coeficiente/100;
+        printf("Coeficiente de Rendimento: %.2f\n", alunos[i].coeficiente);
+        printf("Ano de Ingresso: %d\n", alunos[i].anoIngresso);
+        printf("------------------------------------\n");
+    }
+}
