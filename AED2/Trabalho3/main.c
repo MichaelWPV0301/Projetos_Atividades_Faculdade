@@ -6,7 +6,6 @@
 
 #define N 30
 
-        Registro novo ;
 void gerarArquivo(const char * nomeArquivo, int num){
     FILE *fp  = fopen(nomeArquivo, "wb");
     if(!fp){
@@ -16,7 +15,8 @@ void gerarArquivo(const char * nomeArquivo, int num){
     
     srand((unsigned) time(NULL));
     for(int i=1;i<=N;i++){
-
+        Registro novo ;
+        
     }
 
 }

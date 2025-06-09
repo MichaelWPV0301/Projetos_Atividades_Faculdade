@@ -1,4 +1,4 @@
-#ifndef ARQUIVO_H_INCLUDED
+ #ifndef ARQUIVO_H_INCLUDED
 #define ARQUIVO_H_INCLUDED
 
 // Inclui bibliotecas padrão

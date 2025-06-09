@@ -28,3 +28,29 @@ Campos típicos:
     AVL: Data e Hora
 
     Hash: ID do Usuário
+
+
+
+Passo a passo: 
+Resumo Simplificado das Tarefas
+
+
+1- Definir struct Registro (~100 bytes). ✅
+
+2- Gerar arquivo binário (dados.bin) com N registros.❌
+
+3- Implementar busca sequencial (chave) e medir tempo em 30 repetições.❌
+
+4- Construir BST/AVL para chave (armazenando (chave, offset)), implementar busca e medir tempo.❌
+
+5- Construir Tabela Hash para chave, implementar busca (contabilizar colisões) e medir tempo.❌
+
+6- Construir BST/AVL para atributo secundário (armazenando (atributoSecundário, offset)), implementar busca “>”/“<” e medir tempo.❌
+
+7- Implementar busca sequencial no arquivo usando atributo secundário e medir tempo.❌
+
+8- Executar experimentos para diferentes N, coletar médias dos 30 tempos para cada estratégia (chave: 3 estratégias; secundário: 2 estratégias).❌
+
+9- Documentar resultados (tabelas/gráficos) e discutir vantagens/desvantagens de cada abordagem.❌
+
+10- Organizar código em TADs, produzir Makefile e relatórios, e entregar antes do prazo.❌
