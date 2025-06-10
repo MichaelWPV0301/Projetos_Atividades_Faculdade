@@ -1,5 +1,6 @@
 #include "../include/listaEncadeada.h" // Inclusão do cabeçalho da lista encadeada
-#include "../include/vet.h"            // Inclusão do cabeçalho do vetor
+#include "../include/vet.h" 
+#include "../include/arquivo.h"           // Inclusão do cabeçalho do vetor
 #include <stdlib.h>                    // Para uso de malloc e free
 #include <math.h>                      // Para funções matemáticas
 
@@ -34,10 +35,10 @@ void liberaLista(Lista* lista)
 }
 
 // Insere um novo valor ao final da lista encadeada
-void insereNaLista(Lista *lista, int valor)
+void insereNaLista(Lista *lista, Registro dadoNovo)
 {
     TipoNo *novo = (TipoNo *)malloc(sizeof(TipoNo)); // Cria novo nó
-    novo->valor = valor; // Atribui o valor
+    novo->dado = dadoNovo; // Atribui o valor
     novo->prox = NULL;   // Novo nó será o último, então prox é NULL
 
     TipoNo *aux = lista->ult; // Pega o último nó atual da lista
@@ -63,18 +64,17 @@ void vetorEmListaEncadeada(Lista *lista, Vetor vetor, int tamanhoVetor)
 }
 
 // Realiza busca sequencial (linear) na lista encadeada
-int buscaSequencialLista(Lista *lista, int valor)
+Registro*  buscaPorIndentificador(Lista *lista, unsigned chave)
 {
     TipoNo *aux = lista->prim; // Começa pelo primeiro nó da lista
-    int i = 0;
-    while (aux)
+    while ((aux) && (aux->dado.matricula != chave))
     {
-        if (aux->valor == valor)
-        {
-            return i; // Retorna o índice (posição) do valor encontrado
-        }
-        aux = aux->prox; // Avança para o próximo nó
-        i++;
+        aux = aux->prox;
     }
-    return -1; // Valor não encontrado
+    if (aux)
+    {
+        return &aux->dado; // Retorna o índice (posição) do valor encontrado
+    }
+    
+    return NULL; // Valor não encontrado
 }

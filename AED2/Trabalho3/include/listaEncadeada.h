@@ -1,12 +1,13 @@
 #ifndef LISTA_ENCADEADA_H_INCLUDED  // Evita múltiplas inclusões do mesmo cabeçalho
 #define LISTA_ENCADEADA_H_INCLUDED
+#include "arquivo.h"
 #include "vet.h"  // Inclui definições relacionadas a Vetor 
 
 // Define o nó da lista encadeada
 typedef struct TipoNo
 {
     struct TipoNo *prox;  // Ponteiro para o próximo nó
-    int valor;            // Valor armazenado no nó
+    Registro dado;            // Valor armazenado no nó
 } TipoNo;
 
 // Define a estrutura da lista encadeada
@@ -23,7 +24,7 @@ void criaListaEncadeada(Lista **lista);
 void liberaLista(Lista* lista);
 
 // Insere um novo valor no final da lista
-void insereNaLista(Lista *lista, int valor);
+void insereNaLista(Lista *lista, Registro dadoNovo);
 
 // Converte um vetor em uma lista encadeada, inserindo os elementos do vetor na lista
 void vetorEmListaEncadeada(Lista *lista, Vetor vetor, int tamanhoVetor);
@@ -31,6 +32,6 @@ void vetorEmListaEncadeada(Lista *lista, Vetor vetor, int tamanhoVetor);
 // Realiza busca sequencial por um valor na lista encadeada
 // Se encontrar, retorna a posição do valor 
 // Se não encontrar, retorna -1
-int buscaSequencialLista(Lista *lista, int valor);
+int buscaPorIndentificador(Lista *lista, unsigned chave);
 
 #endif  // Fim da diretiva de inclusão condicional
