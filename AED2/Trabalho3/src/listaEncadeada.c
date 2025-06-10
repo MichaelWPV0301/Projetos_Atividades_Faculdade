@@ -55,6 +55,7 @@ void insereNaLista(Lista *lista, Registro dadoNovo)
 }
 
 // Transforma um vetor em uma lista encadeada, inserindo todos os elementos
+/*
 void vetorEmListaEncadeada(Lista *lista, Vetor vetor, int tamanhoVetor)
 {
     for (int x = 0; x < tamanhoVetor; x++)
@@ -62,9 +63,10 @@ void vetorEmListaEncadeada(Lista *lista, Vetor vetor, int tamanhoVetor)
         insereNaLista(lista, vetor[x]); // Insere cada elemento do vetor na lista
     }
 }
+*/
 
 // Realiza busca sequencial (linear) na lista encadeada
-Registro*  buscaPorIndentificador(Lista *lista, unsigned chave)
+Registro*  buscaPorIndentificador(Lista *lista, int chave)
 {
     TipoNo *aux = lista->prim; // Começa pelo primeiro nó da lista
     while ((aux) && (aux->dado.matricula != chave))
