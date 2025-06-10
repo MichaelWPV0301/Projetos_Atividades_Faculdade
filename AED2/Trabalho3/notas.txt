@@ -37,7 +37,7 @@ Resumo Simplificado das Tarefas
 
 1- Definir struct Registro (~100 bytes). ✅
 
-2- Gerar arquivo binário (dados.bin) com N registros.❌
+2- Gerar arquivo binário (dados.bin) com N registros.✅
 
 3- Implementar busca sequencial (chave) e medir tempo em 30 repetições.❌
 
