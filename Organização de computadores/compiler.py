@@ -1,42 +1,8 @@
-instrucoes1 = {
-    "ADD": "0x8",
-    "SHR": "0x9",
-    "SHL": "0xa",
-    "NOT": "0xb",
-    "AND": "0xc",
-    "OR": "0xd",
-    "XOR": "0xe",
-    "CMP": "0xf",
-    "LD": "0x0",
-    "ST": "0x1",
-}
-instrucoes2 = {
-    "JMP": "0x40",
-    "CLF": "0x60",
-    "DATA": "0x2",
-    "JMPR": "0x3",
-    "J" : "0x5",
-}
-outside = {
-    "BASE" : "0x7",
-    "IN" : "0",
-    "OUT" : "1",
-    "DATA" : "0",
-    "ADDR" : "1" 
-}
-registradores = {
-    "R0" : "00", 
-    "R1" : "01",
-    "R2" : "10",
-    "R3" : "11"
-}
-jcaez = {
-    "C" : "1000",
-    "A" : "0100",
-    "E" : "0010",
-    "Z" : "0001",
-
-}
+instrucoes1 = {"ADD": "0x8","SHR": "0x9","SHL": "0xa","NOT": "0xb","AND": "0xc","OR": "0xd","XOR": "0xe","CMP": "0xf","LD": "0x0","ST": "0x1"}
+instrucoes2 = {"JMP": "0x40","CLF": "0x60","DATA": "0x2","JMPR": "0x3","J" : "0x5"}
+outside = {"BASE" : "0x7","IN" : "0","OUT" : "1","DATA" : "0","ADDR" : "1" }
+registradores = {"R0" : "00", "R1" : "01","R2" : "10","R3" : "11"}
+jcaez = {"C" : "1000","A" : "0100","E" : "0010","Z" : "0001"}
 
 instrucoes_hex = []
 
@@ -47,7 +13,7 @@ with open("exem.asm") as arquivo:
 
         partes = linha.strip().split()
         #INSTRUCOES SÓ COM UM BYTE E QUE TÊM DOIS REGISTRADORES
-        if( partes and ";" not in partes[0] ):
+        if( partes and ";" not in partes[0] ): #verifica se é uma linha de comentário ou se têm algo na linha
             instrucao = partes[0].upper()
             print(instrucao)
             if(instrucao in instrucoes1):
