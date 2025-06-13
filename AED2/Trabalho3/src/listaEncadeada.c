@@ -34,6 +34,29 @@ void liberaLista(Lista* lista)
     lista->ult = NULL;
 }
 
+
+
+int removeLista(Lista *lista, int chave){
+    TipoNo *aux = lista->prim;
+    if(aux){
+        if(aux->dado.matricula == chave){
+            l->prim = aux->prox;
+            free(aux);
+            return 1;
+        }
+        while(aux->prox){
+            if(aux->prox->dado.matricula == chave){
+                aux->prox = aux->prox->prox;
+                free(aux->prox);
+                return 1;
+            }
+        } 
+    }
+    return 0;
+}
+
+
+
 // Insere um novo valor ao final da lista encadeada
 void insereNaLista(Lista *lista, Registro dadoNovo)
 {
