@@ -40,7 +40,7 @@ int removeLista(Lista *lista, int chave){
     TipoNo *aux = lista->prim;
     if(aux){
         if(aux->dado.matricula == chave){
-            l->prim = aux->prox;
+            lista->prim = aux->prox;
             free(aux);
             return 1;
         }

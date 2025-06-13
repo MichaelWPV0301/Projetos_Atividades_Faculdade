@@ -29,7 +29,7 @@ void insereNaLista(Lista *lista, Registro dadoNovo);
 // Converte um vetor em uma lista encadeada, inserindo os elementos do vetor na lista
 void vetorEmListaEncadeada(Lista *lista, Vetor vetor, int tamanhoVetor);
 
-void removeLista(Lista *lista, int chave);
+int removeLista(Lista *lista, int chave);
 // Realiza busca sequencial por um valor na lista encadeada
 // Se encontrar, retorna a posição do valor 
 // Se não encontrar, retorna -1

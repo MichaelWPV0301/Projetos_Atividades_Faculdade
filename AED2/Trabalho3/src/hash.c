@@ -20,11 +20,12 @@ void insereNoHash(tipoHash *h, Registro novo){
         insereNaLista(&(h->tabHash[pos]), novo);
     }
 }
-void removeHash(tipoHash *h, int chave ){
+int removeHash(tipoHash *h, int chave ){
     unsigned pos = chave % h->tamanhoTabHash;
 
+    return  removeLista(&(h->tabHash[pos]), chave);
     //tem que fazer a remove da lista encadeada.
-
+    
 }
 
 Registro* buscaNoHash(tipoHash *h, int chave ){
