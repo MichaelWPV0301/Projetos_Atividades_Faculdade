@@ -35,10 +35,15 @@ with open("exem.asm") as arquivo:
                     if(instrucao =="DATA"):
                         instrucoes_hex.append(hexa)
                         hexa = partes[2]
-                        if("x" in hexa or "b" in hexa):
-                            hexa = int(hexa, 0)
-                        else:
-                            hexa = int(hexa)
+                        try:
+                            if("x" in hexa or "b" in hexa):
+                                hexa = int(hexa, 0)
+                            else:
+                                hexa = int(hexa)
+                            if(hexa>127 or hexa<-128):
+                                print("Erro: valor fora do intervalo permitido (-128 a 127)")
+                        except ValueError:
+                            print("Erro: valor inválido, não é um número inteiro")
                         if( '-' in str(hexa)):
                             hexa = f"{hexa:08b}"
                             hexa = "".join("1" if b=="0" else "0" for b in hexa if b!='-')
@@ -53,7 +58,7 @@ with open("exem.asm") as arquivo:
                         hexa = partes[1]
                         print(type(hexa))
 
-                        if(len(hexa)>4):
+                        if(len(hexa)>4): #caso o Addr do JMP estiver em binário
                             print("entrou")
                             hexa = int(hexa, 2)
                             hexa = hex(hexa)
