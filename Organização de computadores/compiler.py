@@ -1,3 +1,4 @@
+#Nome: Michael Willian Pereira Vieira; Matricula: 22400829;
 import sys
 entrada = sys.argv[1] #verifica o arquivo de entrada especificado no terminal
 saida = sys.argv[2]  #verifica o arquivo de saida especificado no terminal
