@@ -24,7 +24,7 @@ instrucoes2 = {"JMP":"0x40","CLF":"0x60","DATA":"0x2","JMPR":"0x3","J":"0x5"}
 jcaez = {"C":"1000","A":"0100","E":"0010","Z":"0001"}
 registradores = {"R0":"00","R1":"01","R2":"10","R3":"11"}
 # Mapeamento de periféricos e direções
-outside = {"BASE":"0x7","IN":"0","OUT":"1","DATA":"0","ADDR":"1"}
+outside = {"PRF":"0x7","IN":"0","OUT":"1","DATA":"0","ADDR":"1"}
 
 instrucoes_hex = []
 # Leitura do arquivo entrada
@@ -121,8 +121,8 @@ with arquivo:
                 print(f"Linha {num_linha}: operador I/O inválido: {port}, {r}")
                 sys.exit(1)
             cmds=outside[instr]+outside[port]+registradores[r]
-            # concatena BASE + hex do comando
-            instrucoes_hex.append(outside["BASE"]+hex(int(cmds,2))[2:])
+            # concatena PRF + hex do comando
+            instrucoes_hex.append(outside["PRF"]+hex(int(cmds,2))[2:])
         else:
             print(f"Linha {num_linha}: instrução não reconhecida: {instr}")
             sys.exit(1)
