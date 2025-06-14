@@ -52,9 +52,10 @@ with open(entrada) as arquivo:
                             break
                         
                         if( '-' in str(hexa)): #COMPLEMENTO DE DOIS SE FOR UM ADDR NEGATIVO
-                            hexa = f"{hexa:08b}" #CONVERTE PARA BINARIO COM 8 BITS
+                            hexa = f"{hexa:09b}" #CONVERTE PARA BINARIO COM 8 BITS
                             hexa = "".join("1" if b=="0" else "0" for b in hexa if b!='-') #NOT DO BINÁRIO
                             hexa = int(hexa, 2) + 1 #SOMA MAIS UM, PARTE DO PROCESSO DO COMPLEMENTO DE 2
+
                         hexa = f"0x{hexa:02x}" #CONVERTE PARA HEXADECIMAL
                     
                 #JMP e CLF

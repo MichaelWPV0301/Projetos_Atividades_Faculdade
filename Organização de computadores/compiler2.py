@@ -1,127 +1,137 @@
 import sys
 
-# Coleta os nomes dos arquivos de entrada e saída passados via linha de comando
-entrada = sys.argv[1]  # Primeiro argumento: arquivo .asm com o código de montagem
-saida = sys.argv[2]    # Segundo argumento: arquivo .txt que conterá o código hexadecimal
+# Função para converter strings numéricas com ou sem prefixo (0x, 0b)
+def parse_num(val, linha):
+    try:
+        if val.lower().startswith(("0x", "0b")):
+            return int(val, 0)
+        return int(val, 10)
+    except ValueError:
+        print(f"Linha {linha}: valor inválido: {val}")
+        sys.exit(1)
 
-# Tabelas de conversão de instruções e operandos para seus equivalentes em código de máquina
-opcodes_1byte = {  # Instruções que ocupam um byte e usam dois registradores
-    "ADD": "0x8", "SHR": "0x9", "SHL": "0xa", "NOT": "0xb",
-    "AND": "0xc", "OR": "0xd", "XOR": "0xe", "CMP": "0xf",
-    "LD": "0x0", "ST": "0x1"
-}
+# Verifica argumentos
+if len(sys.argv) != 3:
+    print("Uso: python assembler.py <arquivo_entrada> <arquivo_saida>")
+    sys.exit(1)
+entrada, saida = sys.argv[1], sys.argv[2]
 
-opcodes_2byte = {  # Instruções que ocupam dois bytes e podem usar registrador ou endereço
-    "JMP": "0x40", "CLF": "0x60", "DATA": "0x2", "JMPR": "0x3", "J": "0x5"
-}
+# Mapeamentos de instruções e códigos
+instrucoes1 = {"ADD":"0x8","SHR":"0x9","SHL":"0xa","NOT":"0xb",
+               "AND":"0xc","OR":"0xd","XOR":"0xe","CMP":"0xf",
+               "LD":"0x0","ST":"0x1"}
+instrucoes2 = {"JMP":"0x40","CLF":"0x60","DATA":"0x2","JMPR":"0x3","J":"0x5"}
+jcaez = {"C":"1000","A":"0100","E":"0010","Z":"0001"}
+registradores = {"R0":"00","R1":"01","R2":"10","R3":"11"}
+# Mapeamento de periféricos e direções
+outside = {"BASE":"0x7","IN":"0","OUT":"1","DATA":"0","ADDR":"1"}
 
-perifericos = {  # Mapeamento de comandos para I/O (entrada/saída)
-    "BASE": "0x7", "IN": "0", "OUT": "1", "DATA": "0", "ADDR": "1"
-}
+instrucoes_hex = []
+# Leitura do arquivo entrada
+try:
+    arquivo = open(entrada)
+except Exception as e:
+    print(f"Erro ao abrir arquivo de entrada: {e}")
+    sys.exit(1)
 
-regs = {  # Mapeamento dos registradores para seus códigos binários
-    "R0": "00", "R1": "01", "R2": "10", "R3": "11"
-}
-
-condicoes = {  # Códigos das condições para instruções JCAEZ
-    "C": "1000", "A": "0100", "E": "0010", "Z": "0001"
-}
-
-saida_hex = []  # Lista que vai armazenar todas as instruções convertidas para hexadecimal
-
-# Abre o arquivo de entrada e lê linha por linha
-with open(entrada) as arquivo:
-    for linha in arquivo:
-        linha = linha.replace(",", " ").strip()  # Substitui vírgulas por espaço e remove espaços excedentes
-        if not linha or linha.startswith(";"):  # Ignora linhas em branco ou comentários
+with arquivo:
+    for num_linha, linha in enumerate(arquivo, start=1):
+        linha = linha.replace(","," ")
+        partes = linha.strip().split()
+        if not partes or partes[0].startswith(";"):
             continue
-
-        partes = linha.split()  # Divide a linha em partes (instrução e operandos)
-        instrucao = partes[0].upper()  # Transforma a instrução em maiúsculo por segurança
-
-        # CASO 1: Instruções com dois registradores (1 byte)
-        if instrucao in opcodes_1byte:
-            rA = regs[partes[1].upper()]  # Primeiro registrador
-            rB = regs[partes[2].upper()]  # Segundo registrador
-            bin_reg = rA + rB  # Junta os dois códigos binários dos registradores
-            valor = hex(int(bin_reg, 2))  # Converte para hexadecimal
-            codigo = opcodes_1byte[instrucao] + valor[2:]  # Junta com o opcode da instrução
-
-        # CASO 2: Instruções de dois bytes
-        elif instrucao in opcodes_2byte or instrucao.startswith("J"):
-
-            # Subcaso: DATA e JMPR usam registrador + valor
-            if instrucao == "DATA" or instrucao == "JMPR":
-                rX = regs[partes[1].upper()]  # Registrador usado
-                codigo = opcodes_2byte[instrucao] + hex(int(rX, 2))[2:]  # Opcode + registrador
-                saida_hex.append(codigo)  # Armazena primeiro byte
-
-                valor = partes[2]  # Segundo operando (valor ou endereço)
-                try:
-                    if "x" in valor or "b" in valor:
-                        valor = int(valor, 0)  # Interpreta como binário ou hexadecimal
-                    else:
-                        valor = int(valor)  # Interpreta como decimal
-                    if valor < -128 or valor > 127:
-                        print("Erro: valor fora do intervalo permitido (-128 a 127)")
-                    if valor < 0:
-                        valor = (1 << 8) + valor  # Faz complemento de 2 para valores negativos
-                    valor = f"0x{valor:02x}"  # Converte para string hexadecimal com 2 dígitos
-                except ValueError:
-                    print("Erro: valor inválido no segundo byte de DATA/JMPR")
-
-            # Subcaso: JMP e CLF usam apenas valor
-            elif instrucao == "JMP" or instrucao == "CLF":
-                codigo = opcodes_2byte[instrucao]  # Código da instrução
-                saida_hex.append(codigo)  # Armazena primeiro byte
-
-                try:
-                    valor = int(partes[1], 0)  # Lê o valor como int (decimal, binário ou hexa)
-                    if valor < 0 or valor > 255:
-                        print("Erro: endereço inválido (0 a 255)")
-                    valor = hex(valor)  # Converte de volta para hexadecimal
-                except ValueError:
-                    print("Erro: valor inválido no JMP/CLF")
-
-            # Subcaso: Instruções do tipo J<condições>
-            elif instrucao.startswith("J"):
-                flags = instrucao[1:].upper()  # Extrai as letras CAEZ
-                soma = sum(int(condicoes[c], 2) for c in flags)  # Soma os bits das condições
-                cond_hex = hex(soma)  # Converte para hexadecimal
-                codigo = opcodes_2byte["J"] + cond_hex[2:]  # Monta o primeiro byte
-                saida_hex.append(codigo)
-
-                try:
-                    valor = int(partes[1], 0)  # Segundo byte: endereço
-                    if valor < 0 or valor > 255:
-                        print("Erro: endereço inválido (0 a 255)")
-                    valor = f"0x{valor:02x}"  # Converte para hexadecimal com 2 dígitos
-                except ValueError:
-                    print("Erro: valor inválido no segundo byte do J<cond>")
-
-        # CASO 3: Instruções de periférico (como IN/OUT)
-        elif instrucao in perifericos:
-            codigo = perifericos["BASE"]  # Começa com o código fixo "BASE" (0x7)
-            bits = (
-                perifericos[partes[0].upper()] +  # Comando (IN/OUT)
-                perifericos[partes[1].upper()] +  # Tipo (DATA/ADDR)
-                regs[partes[2].upper()]           # Registrador
-            )
-            cod_final = hex(int(bits, 2))  # Converte os 6 bits para hexadecimal
-            codigo += cod_final[2:]  # Junta com o BASE
-
+        instr = partes[0].upper()
+        # 1 byte, 2 regs
+        if instr in instrucoes1:
+            if len(partes)<3:
+                print(f"Linha {num_linha}: {instr} requer 2 registradores")
+                sys.exit(1)
+            r1,r2 = partes[1].upper(),partes[2].upper()
+            if r1 not in registradores or r2 not in registradores:
+                print(f"Linha {num_linha}: registrador inválido: {r1} ou {r2}")
+                sys.exit(1)
+            bits = registradores[r1]+registradores[r2]
+            instrucoes_hex.append(instrucoes1[instr]+hex(int(bits,2))[2:])
+        # DATA
+        elif instr=="DATA":
+            if len(partes)<3:
+                print(f"Linha {num_linha}: DATA requer registrador e valor")
+                sys.exit(1)
+            r=partes[1].upper()
+            if r not in registradores:
+                print(f"Linha {num_linha}: registrador inválido: {r}")
+                sys.exit(1)
+            # byte1
+            byte1 = instrucoes2[instr]+hex(int(registradores[r],2))[2:]
+            instrucoes_hex.append(byte1)
+            # valor
+            raw=partes[2]; num=parse_num(raw,num_linha)
+            if not raw.lower().startswith(("0x","0b")) and not (-128<=num<=127):
+                print(f"Linha {num_linha}: valor fora do intervalo -128 a 127")
+                sys.exit(1)
+            if num<0: num=(num+256)&0xFF
+            instrucoes_hex.append(f"0x{num:02x}")
+        # JMPR
+        elif instr=="JMPR":
+            if len(partes)<2:
+                print(f"Linha {num_linha}: JMPR requer registrador")
+                sys.exit(1)
+            r=partes[1].upper()
+            if r not in registradores:
+                print(f"Linha {num_linha}: registrador inválido: {r}")
+                sys.exit(1)
+            instrucoes_hex.append(instrucoes2[instr]+hex(int(registradores[r],2))[2:])
+        # JMP/CLF
+        elif instr in ("JMP","CLF"):
+            if instr=="CLF": instrucoes_hex.append(instrucoes2[instr])
+            else:
+                if len(partes)<2:
+                    print(f"Linha {num_linha}: JMP requer endereço")
+                    sys.exit(1)
+                addr=parse_num(partes[1],num_linha)
+                if not(0<=addr<=255):
+                    print(f"Linha {num_linha}: endereço fora do intervalo 0 a 255")
+                    sys.exit(1)
+                instrucoes_hex.append(instrucoes2[instr])
+                instrucoes_hex.append(f"0x{addr:02x}")
+        # JCAEZ
+        elif instr.startswith("J") and instr not in ("JMP","JMPR","DATA"):
+            if len(partes)<2:
+                print(f"Linha {num_linha}: {instr} requer endereço")
+                sys.exit(1)
+            flags=instr[1:]; bits=0
+            for f in flags:
+                if f not in jcaez:
+                    print(f"Linha {num_linha}: flag inválida: {f}")
+                    sys.exit(1)
+                bits|=int(jcaez[f],2)
+            instrucoes_hex.append(instrucoes2["J"]+hex(bits)[2:])
+            addr=parse_num(partes[1],num_linha)
+            if not(0<=addr<=255):
+                print(f"Linha {num_linha}: endereço fora do intervalo 0 a 255")
+                sys.exit(1)
+            instrucoes_hex.append(f"0x{addr:02x}")
+        # I/O
+        elif instr in ("IN","OUT"):
+            if len(partes)<3:
+                print(f"Linha {num_linha}: {instr} requer tipo de porta e registrador")
+                sys.exit(1)
+            port=partes[1].upper(); r=partes[2].upper()
+            if port not in ("DATA","ADDR") or r not in registradores:
+                print(f"Linha {num_linha}: operador I/O inválido: {port}, {r}")
+                sys.exit(1)
+            cmds=outside[instr]+outside[port]+registradores[r]
+            # concatena BASE + hex do comando
+            instrucoes_hex.append(outside["BASE"]+hex(int(cmds,2))[2:])
         else:
-            print(f"Erro: instrução desconhecida '{instrucao}'")
-            continue  # Pula essa linha se houver erro
-
-        # Adiciona os bytes montados à lista final
-        saida_hex.append(codigo)
-        if 'valor' in locals():
-            saida_hex.append(valor)
-            del valor  # Limpa variável para evitar conflitos
-
-# Escreve os valores hexadecimais no arquivo de saída
-with open(saida, "w") as f:
-    f.write("v3.0 hex words plain\n")  # Cabeçalho necessário para Logisim Evolution
-    for linha in saida_hex:
-        f.write(f"{linha}\n")  # Cada instrução em uma nova linha
+            print(f"Linha {num_linha}: instrução não reconhecida: {instr}")
+            sys.exit(1)
+# grava saída
+try:
+    with open(saida,"w") as f:
+        f.write("v3.0 hex words plain\n")
+        for c in instrucoes_hex: f.write(f"{c}\n")
+except Exception as e:
+    print(f"Erro ao escrever arquivo de saída: {e}")
+    sys.exit(1)
+print(f"Conversão concluída com sucesso. {len(instrucoes_hex)} palavras geradas.")
