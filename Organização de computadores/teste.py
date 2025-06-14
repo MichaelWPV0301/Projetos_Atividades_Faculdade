@@ -1,2 +1,2 @@
-print(int("3", 0))
-
+x = '0x30'
+print('x' not in x)

@@ -40,14 +40,16 @@ with open(entrada) as arquivo:
                         instrucoes_hex.append(hexa) #JÁ COLOCA O HEXA DO PRIMEIRO BYTE DENTRO DA LISTA
                         hexa = partes[2] #SEGUNDO BYTE DA INSTRUÇÃO
                         try: #TRATAMENTO PARA VER SE É UUUM VALOR QUE PODE SER ACEITO PARA O DATA
-                            if("x" in hexa or "b" in hexa): #VERIFICA SE É BINÁRIO OU HEXA E CONVERTE PARA INT
-                                hexa = int(hexa, 0)
-                            else:
+                            if("x" not in hexa and "b" not in hexa): #VERIFICA SE É DECIMAL
                                 hexa = int(hexa) #CASO FOR DECIMAL A FUNÇÃO INT(HEXA, 0) NÃO FUNCIONA
-                            if(hexa>127 or hexa<-128): #VERIFICA O INTERVALO DO ADDR
-                                print("Erro: valor fora do intervalo permitido (-128 a 127)")
+                                if(hexa>127 or hexa<-128): #VERIFICA O INTERVALO DO ADDR
+                                    print("Erro: valor fora do intervalo permitido (-128 a 127)")
+                                    break
+                            else:
+                                hexa = int(hexa, 0) #CASO FOR BINARIO, SÓ CONVERTE PARA INT() PARA NÃO TER CONFLITO
                         except ValueError: #TRATAMENTO
                             print("Erro: valor inválido, não é um número inteiro")
+                            break
                         
                         if( '-' in str(hexa)): #COMPLEMENTO DE DOIS SE FOR UM ADDR NEGATIVO
                             hexa = f"{hexa:08b}" #CONVERTE PARA BINARIO COM 8 BITS
@@ -65,9 +67,11 @@ with open(entrada) as arquivo:
                             hexa = int(hexa, 0) #CONVERTE PARA INT SE TIVER EM STRING DE BINARIO OU HEXA
                             if(hexa<0 or hexa>255): #VERIFICA O INTERVALO
                                 print("Erro: valor fora do intervalo permitido (0 a 255)")
+                                break
                             hexa = hex(hexa) #CONVERTE PARA HEXA NOVAMENTE 
                         except ValueError: #Valores inválidos
                             print("Erro: valor inválido, não é um número inteiro")
+                            break
                 
                 #JCAEZ
                 elif(instrucao[0]=="J"): #CASO JCAEZ NO CASO SÓ VERIFICA SE TÊM JOTA CASO NÃO SEJA JMP OU JMPR
@@ -82,9 +86,11 @@ with open(entrada) as arquivo:
                         hexa = int(hexa, 0) #CONVERTE PARA INT PARA FAZER COMPARAÇÃO
                         if(hexa>255 or hexa<0): #VERIFICA INTERVALO
                             print("Erro: valor fora do intervalo permitido (0 a 255)")
+                            break
                         hexa = f"0x{hexa:02x}" #CONVERTE PARA STRING DE HEXA NOVAMENTE
                     except ValueError: #TRATAMENTO CASO NÃO SEJA ALGO DENTRO DO ESPERADO
                         print("Erro: valor inválido, não é um número inteiro")
+                        break
             
             #Periféricos
             elif(instrucao in outside): #INSTRUÇÕES DE PERIFÉRICOS
