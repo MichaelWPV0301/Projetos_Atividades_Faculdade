@@ -9,8 +9,8 @@ typedef struct{
 } tipoHash;
 
 void criaHash(tipoHash *h,unsigned tamanho);
-void insereNoHash(tipoHash *h, Registro novo);
+void insereNoHash(tipoHash *h, Registro novo, int numeroRegistros);
 int removeHash(tipoHash *h, int chave);
-Registro* buscaNoHash(tipoHash *h, int chave); 
+int buscaNoHash(tipoHash *h, int chave);
 tipoHash* vetorEmHash(Registro alunos[], tipoHash* hash, int qtd);
 #endif
