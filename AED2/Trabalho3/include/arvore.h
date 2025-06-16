@@ -11,7 +11,7 @@ typedef struct ArvoreBin ArvoreBin;
  * Busca um valor em uma árvore binária.
  * Retorna um ponteiro para o nó encontrado ou NULL se não existir.
  */
-ArvoreBin* buscaArvoreBin(ArvoreBin* raiz, int dado);
+ArvoreBin* buscaArvoreBin(ArvoreBin* raiz, TipoDado dado);
 
 /**
  * Retorna a altura da árvore binária.
@@ -26,7 +26,7 @@ void inicializa(ArvoreBin** raiz);
 /**
  * Insere um valor na árvore binária (permite duplicatas).
  */
-void insereArvoreBinaria(ArvoreBin** ptrRaiz, int valor);
+void insereArvoreBinaria(ArvoreBin** ptrRaiz, TipoDado valor);
 
 /**
  * Realiza percurso pós-ordem na árvore e imprime os valores.
@@ -62,7 +62,9 @@ void vetorOrdenadoEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int inicio, int 
 /**
  * Insere um valor na árvore binária apenas se ele ainda não existir (sem duplicatas).
  */
-void insereArvoreBinSemDuplicata(ArvoreBin** ptrRaiz, int valor);
+void insereArvoreBinSemDuplicata(ArvoreBin** ptrRaiz, TipoDado valor);
+
+static void buscaRecursiva(ArvoreBin* no, unsigned modo, int coefComparador, Lista *resultado);
 
 Lista buscaPorDesigualdade(ArvoreBin* ptrRaiz, unsigned modo, int coeficiente);
 #endif

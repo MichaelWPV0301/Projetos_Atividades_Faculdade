@@ -1,4 +1,5 @@
 #include "../include/arvore.h"
+#include "../include/listaEncadeada.h"
 #include "../include/vet.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -8,7 +9,7 @@ typedef struct ArvoreBin
 {
     struct ArvoreBin *esquerda; // ponteiro para subárvore esquerda
     struct ArvoreBin *direita;  // ponteiro para subárvore direita
-    int dado;                   // valor armazenado no nó
+    TipoDado dado;                   // valor armazenado no nó
 } ArvoreBin;
 
 /**
@@ -46,12 +47,12 @@ void inicializa(ArvoreBin **raiz)
  * Insere um valor em uma árvore binária de forma iterativa.
  * Permite valores duplicados.
  */
-void insereArvoreBinaria(ArvoreBin **ptrRaiz, int valor)
+void insereArvoreBinaria(ArvoreBin **ptrRaiz, TipoDado valor)
 {
     ArvoreBin *aux = *ptrRaiz;
     while ((aux))
     {
-        if (aux->dado > valor)
+        if (aux->dado.atributo > valor.atributo)
         {
             ptrRaiz = &(aux->esquerda);
         }
@@ -72,16 +73,16 @@ void insereArvoreBinaria(ArvoreBin **ptrRaiz, int valor)
  * Busca um valor em uma árvore binária.
  * Retorna o ponteiro para o nó encontrado ou NULL se não existir.
  */
-ArvoreBin *buscaArvoreBin(ArvoreBin *raiz, int dado)
+ArvoreBin *buscaArvoreBin(ArvoreBin *raiz, TipoDado dado)
 {
     ArvoreBin *aux = raiz;
     while (aux != NULL)
     {
-        if (aux->dado > dado)
+        if (aux->dado.atributo > dado.atributo)
         {
             aux = aux->esquerda;
         }
-        else if (aux->dado < dado)
+        else if (aux->dado.atributo < dado.atributo)
         {
             aux = aux->direita;
         }
@@ -133,7 +134,9 @@ void caminhaCentral(ArvoreBin *raiz)
  * Insere todos os elementos de um vetor em uma árvore binária.
  * Se opcao == 0, permite duplicatas. Se opcao != 0, evita duplicatas.
  */
-void vetorEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int tam, int opcao)
+
+
+/*void vetorEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int tam, int opcao)
 {
     for (int i = 0; i < tam; i++)
     {
@@ -152,7 +155,7 @@ void vetorEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int tam, int opcao)
  * Constrói uma árvore binária balanceada a partir de um vetor ordenado.
  * Usa abordagem recursiva dividindo sempre no meio.
  */
-void vetorOrdenadoEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int inicio, int fim)
+/*void vetorOrdenadoEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int inicio, int fim)
 {
     if (inicio <= fim){
         int meio = inicio + (fim - inicio) / 2;
@@ -179,16 +182,16 @@ void liberaArvore(ArvoreBin *raiz)
  * Insere um valor em uma árvore binária **sem permitir duplicatas**.
  * Se o valor já estiver presente, a função não faz nada.
  */
-void insereArvoreBinSemDuplicata(ArvoreBin **ptrRaiz, int valor)
+void insereArvoreBinSemDuplicata(ArvoreBin **ptrRaiz, TipoDado valor)
 {
     ArvoreBin *aux = *ptrRaiz;
     while ((aux))
     {
-        if (aux->dado > valor)
+        if (aux->dado.atributo > valor.atributo)
         {
             ptrRaiz = &(aux->esquerda);
         }
-        else if(aux->dado < valor)
+        else if(aux->dado.atributo < valor.atributo)
         {
             ptrRaiz = &(aux->direita);
         }
@@ -204,33 +207,31 @@ void insereArvoreBinSemDuplicata(ArvoreBin **ptrRaiz, int valor)
     (*ptrRaiz)->dado = valor;
 }
 
+static void buscaRecursiva(ArvoreBin* no, unsigned modo, int coefComparador, Lista *resultado) {
+    if (no == NULL) return;
+
+    int inserir = 0;
+    switch (modo) {
+        case 0: if (no->dado.atributo > coefComparador) inserir = 1; break;
+        case 1: if (no->dado.atributo < coefComparador) inserir = 1; break;
+        case 2: if (no->dado.atributo <= coefComparador) inserir = 1; break;
+        case 3: if (no->dado.atributo >= coefComparador) inserir = 1; break;
+        default: break;
+    }
+
+    if (inserir) {
+        insereNaLista(resultado, no->dado);
+    }
+
+    buscaRecursiva(no->esquerda, modo, coefComparador, resultado);
+    buscaRecursiva(no->direita, modo, coefComparador, resultado);
+}
+
 Lista buscaPorDesigualdade(ArvoreBin* ptrRaiz, unsigned modo, int coefComparador) {
     Lista resultado;
     resultado.prim = NULL;
 
-    void busca(ArvoreBin* no){
-        if (no == NULL) return;
-
-        // Decide se insere este nó
-        int inserir = 0;
-        switch (modo) {
-            case 0: if (no->coeficiente > coefComparador) inserir = 1; break;
-            case 1: if (no->coeficiente < coefComparador) inserir = 1; break;
-            case 2: if (no->coeficiente <= coefComparador) inserir = 1; break;
-            case 3: if (no->coeficiente >= coefComparador) inserir = 1; break;
-            default: break;
-        }
-
-        if (inserir) {
-            insereNaLista(&resultado, no->numero);
-        }
-
-        // Continua a busca nos filhos
-        busca(no->esq);
-        busca(no->dir);
-    }
-
-    busca(ptrRaiz);
+    buscaRecursiva(ptrRaiz, modo, coefComparador, &resultado);
 
     return resultado;
 }
