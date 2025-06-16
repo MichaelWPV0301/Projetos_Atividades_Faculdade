@@ -38,16 +38,17 @@ int main(){
 
     tipoHash hash;
     criaHash(&(hash), QTD_ALUNOS);
-    vetorEmHash(alunos, &(hash), QTD_ALUNOS);
+    vetorEmHash(alunos, &hash, QTD_ALUNOS);
     return 0;
-
 
     Registro aleatorio;
     int chaveAleatoria;
-    for(int x; x<N; x++){
+    int n_registro;
+    for (int x; x < N; x++)
+    {
         indice = rand()%QTD_ALUNOS;
         aleatorio = lerRegistroPorNumero(arquivo, indice);
         chaveAleatoria = aleatorio.matricula;
+        n_registro = buscaNoHash(&hash, chaveAleatoria);
     }
-
 }

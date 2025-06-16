@@ -73,26 +73,28 @@ int obterNumeroRegistros(FILE* arquivo) {
 
 // Popula um vetor de registros com dados aleatórios e o atributo chave único
 void geraAlunos(Registro alunos[], int qtd) {
-    const char *nomes[] = {"Ana", "Carlos", "Fernanda", "João", "Mariana", "Lucas", "Camila", "Gabriel", "Beatriz", "Abel", 
-                           "Paula", "Ricardo", "Juliana", "Pedro", "David", "Rafael", "Sophia", "Felipe", "Isabela", "Eduardo", 
+    const char *nomes[] = {"Ana", "Carlos", "Fernanda", "João", "Mariana", "Lucas", "Camila", "Gabriel", "Beatriz", "Abel",
+                           "Paula", "Ricardo", "Juliana", "Pedro", "David", "Rafael", "Sophia", "Felipe", "Isabela", "Eduardo",
                            "Claudia", "Felipe", "Thiago", "Michael", "Mikaelly", "Marcos", "Natasha", "Victor", "Leticia", "Julia", "Airton"};
-    const char *sobrenomes[] = {"Silva", "Souza", "Costa", "Oliveira", "Pereira", "Almeida", "Santos", "Lima", "Rocha", "Martins", 
+    const char *sobrenomes[] = {"Silva", "Souza", "Costa", "Oliveira", "Pereira", "Almeida", "Santos", "Lima", "Rocha", "Martins",
                                 "Gomes", "Carvalho", "Dias", "Ferreira", "Ribeiro", "Fernandes", "Mendes", "Barbosa", "Pinto", "Nascimento",
                                 "Pedrosa", "Vieira", "Sena", "Mendonça", "Medeiros", "Chaparro", "Barreto", "Moura", "Bragas Caldas", "Saraiva"};
-    const char *cursos[] = {"Engenharia", "Direito", "Medicina", "Arquitetura", "Psicologia", "Sistemas de Informacao", 
-                            "Biologia", "Quimica", "Fisica", "Administracao", "Matematica", "Farmacia", "Enfermagem", "Pedagogia", 
+    const char *cursos[] = {"Engenharia", "Direito", "Medicina", "Arquitetura", "Psicologia", "Sistemas de Informacao",
+                            "Biologia", "Quimica", "Fisica", "Administracao", "Matematica", "Farmacia", "Enfermagem", "Pedagogia",
                             "Publicidade", "Economia", "Sociologia", "Design", "Veterinaria", "Ciencia da Computacao"};
 
+    snprintf(alunos[0].nome, NOME_TAM, "%s %s", nomes[rand() % 31], sobrenomes[rand() % 30]);
+    strcpy(alunos[0].curso, cursos[rand() % 20]);
+    alunos[0].idade = 18 + rand() % 13;
+    alunos[0].coeficiente = (rand() % 1001);
+    alunos[0].anoIngresso = 2015 + rand() % 10;
     for (int i = 0; i < qtd; i++) {
-        // Matrícula única (exemplo: começa em 1000 e vai incrementando)
-        alunos[i].matricula = 1000 + i;
-
+        // Matrícula única (exemplo: começa em 20000000 e vai incrementando)
+        alunos[0].matricula = alunos[i-1].matricula + rand()%10000;
         // Nome aleatório (nome + sobrenome)
         snprintf(alunos[i].nome, NOME_TAM, "%s %s", nomes[rand() % 31], sobrenomes[rand() % 30]);
-
         // Curso aleatório
         strcpy(alunos[i].curso, cursos[rand() % 20]);
-
         // Idade entre 18 e 30 anos
         alunos[i].idade = 18 + rand() % 13;
 
@@ -119,7 +121,7 @@ void imprimeAlunos(Registro alunos[], int qtd) {
 
 void vetorEmArquivo(Registro alunos[], const char* nomeArquivo, int qtd){
     FILE* arquivo = abrirArquivo(nomeArquivo, "w");
-    
+
     for(int x; x<qtd; x++){
         adicionarRegistro(arquivo, &(alunos[x]));
     }
