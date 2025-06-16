@@ -21,6 +21,7 @@ void insereNoHash(tipoHash *h, Registro novo){
         insereNaLista(&(h->tabHash[pos]), novo);
     }
 }
+
 int removeHash(tipoHash *h, int chave ){
     unsigned pos = chave % h->tamanhoTabHash;
 

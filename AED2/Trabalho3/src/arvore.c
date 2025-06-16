@@ -203,3 +203,34 @@ void insereArvoreBinSemDuplicata(ArvoreBin **ptrRaiz, int valor)
     inicializa(&((*ptrRaiz)->direita));
     (*ptrRaiz)->dado = valor;
 }
+
+Lista buscaPorDesigualdade(ArvoreBin* ptrRaiz, unsigned modo, int coefComparador) {
+    Lista resultado;
+    resultado.prim = NULL;
+
+    void busca(ArvoreBin* no){
+        if (no == NULL) return;
+
+        // Decide se insere este nó
+        int inserir = 0;
+        switch (modo) {
+            case 0: if (no->coeficiente > coefComparador) inserir = 1; break;
+            case 1: if (no->coeficiente < coefComparador) inserir = 1; break;
+            case 2: if (no->coeficiente <= coefComparador) inserir = 1; break;
+            case 3: if (no->coeficiente >= coefComparador) inserir = 1; break;
+            default: break;
+        }
+
+        if (inserir) {
+            insereNaLista(&resultado, no->numero);
+        }
+
+        // Continua a busca nos filhos
+        busca(no->esq);
+        busca(no->dir);
+    }
+
+    busca(ptrRaiz);
+
+    return resultado;
+}
