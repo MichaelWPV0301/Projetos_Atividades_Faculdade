@@ -13,7 +13,7 @@
 int main(){
     char nomeArquivo[20];
     scanf("%[^\n]%*c", nomeArquivo);  
-    abrirArquivo(nomeArquivo, "w+");
+    FILE* arquivo = abrirArquivo(nomeArquivo, "w+");
 
     srand(time(NULL));
 
@@ -40,4 +40,18 @@ int main(){
     criaHash(&(hash), QTD_ALUNOS);
     vetorEmHash(alunos, &(hash), QTD_ALUNOS);
     return 0;
+
+
+    Registro aleatorio;
+    int chaveAleatoria;
+    for(int x; x<N; x++){
+        indice = rand()%QTD_ALUNOS;
+        aleatorio = lerRegistroPorNumero(arquivo, indice);
+        chaveAleatoria = aleatorio.matricula;
+
+        
+
+        
+    }
+
 }
