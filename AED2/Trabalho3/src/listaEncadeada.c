@@ -39,13 +39,13 @@ void liberaLista(Lista* lista)
 int removeLista(Lista *lista, int chave){
     TipoNo *aux = lista->prim;
     if(aux){
-        if(aux == chave){
+        if(aux->dado.atributo == chave){
             lista->prim = aux->prox;
             free(aux);
             return 1;
         }
         while(aux->prox){
-            if(aux->prox->dado == chave){
+            if(aux->prox->dado.atributo == chave){
                 aux->prox = aux->prox->prox;
                 free(aux->prox);
                 return 1;
@@ -55,8 +55,10 @@ int removeLista(Lista *lista, int chave){
     return 0;
 }
 
+
+
 // Insere um novo valor ao final da lista encadeada
-void insereNaLista(Lista *lista, int dadoNovo)
+void insereNaLista(Lista *lista, TipoDado dadoNovo)
 {
     TipoNo *novo = (TipoNo *)malloc(sizeof(TipoNo)); // Cria novo nó
     novo->dado = dadoNovo; // Atribui o valor
@@ -87,16 +89,16 @@ void vetorEmListaEncadeada(Lista *lista, Vetor vetor, int tamanhoVetor)
 */
 
 // Realiza busca sequencial (linear) na lista encadeada
-int  buscaPorIndentificador(Lista *lista, int chave)
+int buscaPorIndentificador(Lista *lista, int chave)
 {
     TipoNo *aux = lista->prim; // Começa pelo primeiro nó da lista
-    while ((aux) && (aux->dado != chave))
+    while ((aux) && (aux->dado.atributo != chave))
     {
         aux = aux->prox;
     }
     if (aux)
     {
-        return aux->dado; // Retorna o índice (posição) do valor encontrado
+        return aux->dado.numeroRegistro; // Retorna o índice (posição) do valor encontrado
     }
 
     return NULL; // Valor não encontrado

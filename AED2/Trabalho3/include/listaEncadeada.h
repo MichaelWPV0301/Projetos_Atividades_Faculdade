@@ -3,11 +3,17 @@
 #include "arquivo.h"
 #include "vet.h"  // Inclui definições relacionadas a Vetor
 
+typedef struct TipoDado
+{
+    int atributo;
+    int numeroRegistro;
+} TipoDado;
+
 // Define o nó da lista encadeada
 typedef struct TipoNo
 {
     struct TipoNo *prox;  // Ponteiro para o próximo nó
-    int dado           // Valor armazenado no nó
+    TipoDado dado;        // Valor armazenado no nó
 } TipoNo;
 
 // Define a estrutura da lista encadeada
@@ -24,7 +30,7 @@ void criaListaEncadeada(Lista *lista);
 void liberaLista(Lista* lista);
 
 // Insere um novo valor no final da lista
-void insereNaLista(Lista *lista, int dadoNovo);
+void insereNaLista(Lista *lista, TipoDado dadoNovo);
 
 // Converte um vetor em uma lista encadeada, inserindo os elementos do vetor na lista
 void vetorEmListaEncadeada(Lista *lista, Vetor vetor, int tamanhoVetor);
