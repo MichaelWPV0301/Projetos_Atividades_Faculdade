@@ -1,4 +1,5 @@
 #include "../include/arquivo.h"
+#include "../include/hash.h"
 
 // Inclui bibliotecas padrão
 #include <stdio.h>
@@ -118,6 +119,7 @@ void imprimeAlunos(Registro alunos[], int qtd) {
 
 void vetorEmArquivo(Registro alunos[], const char* nomeArquivo, int qtd){
     FILE* arquivo = abrirArquivo(nomeArquivo, "w");
+    
     for(int x; x<qtd; x++){
         adicionarRegistro(arquivo, &(alunos[x]));
     }

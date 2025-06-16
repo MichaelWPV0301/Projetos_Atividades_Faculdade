@@ -1,5 +1,6 @@
 //#include "include/avl.h"
 #include "../include/arquivo.h"
+#include "../include/hash.h"
 #include <time.h>
 #include <stdio.h>
 #include <string.h>
@@ -31,8 +32,12 @@ int main(){
         alunos[indice] = aux;
         j++;
     }
-    
-    imprimeAlunos(alunos, QTD_ALUNOS);
 
+    imprimeAlunos(alunos, QTD_ALUNOS);
+    vetorEmArquivo(alunos, nomeArquivo, QTD_ALUNOS);
+    
+    tipoHash hash;
+    criaHash(&(hash), QTD_ALUNOS);
+    vetorEmHash(alunos, &(hash), QTD_ALUNOS);
     return 0;
 }

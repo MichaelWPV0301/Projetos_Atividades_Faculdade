@@ -36,3 +36,10 @@ Registro* buscaNoHash(tipoHash *h, int chave ){
     return buscaPorIndentificador(&(h->tabHash[pos]), chave);
 
 }
+
+
+tipoHash* vetorEmHash(Registro alunos[],tipoHash* hash, int qtd){
+    for(int x; x<qtd; x++){
+        insereNoHash(hash, alunos[x]);
+    }
+}
