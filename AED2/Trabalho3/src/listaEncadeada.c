@@ -5,10 +5,10 @@
 #include <math.h>                      // Para funções matemáticas
 
 // Cria e inicializa uma nova lista encadeada
-void criaListaEncadeada(Lista **lista)
+void criaListaEncadeada(Lista *lista)
 {
-    *lista = (Lista *)malloc(sizeof(Lista)); // Aloca memória para a estrutura da lista
-    (*lista)->prim = NULL;                   // Inicializa o ponteiro para o primeiro nó como NULL
+    lista = (Lista *)malloc(sizeof(Lista)); // Aloca memória para a estrutura da lista
+    (lista)->prim = NULL;                   // Inicializa o ponteiro para o primeiro nó como NULL
 }
 
 // Libera toda a memória alocada para a lista encadeada

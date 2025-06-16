@@ -31,7 +31,7 @@ int main(){
         alunos[indice] = aux;
         j++;
     }
-
+    
     imprimeAlunos(alunos, QTD_ALUNOS);
 
     return 0;

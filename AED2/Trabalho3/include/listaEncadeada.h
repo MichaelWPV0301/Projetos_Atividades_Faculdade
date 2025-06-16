@@ -18,7 +18,7 @@ typedef struct Lista
 } Lista;
 
 // Cria e inicializa uma lista encadeada vazia
-void criaListaEncadeada(Lista **lista);
+void criaListaEncadeada(Lista *lista);
 
 // Libera toda a memória alocada para a lista e seus nós
 void liberaLista(Lista* lista);
@@ -33,6 +33,6 @@ int removeLista(Lista *lista, int chave);
 // Realiza busca sequencial por um valor na lista encadeada
 // Se encontrar, retorna a posição do valor 
 // Se não encontrar, retorna -1
-int buscaPorIndentificador(Lista *lista, unsigned chave);
+Registro* buscaPorIndentificador(Lista *lista, int chave);
 
 #endif  // Fim da diretiva de inclusão condicional

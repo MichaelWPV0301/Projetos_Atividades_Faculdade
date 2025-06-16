@@ -1,5 +1,6 @@
 #include "../include/hash.h"
 #include "../include/listaEncadeada.h"
+#include <stdlib.h>
 
 void criaHash(tipoHash *h, unsigned tamanho){
     h->tabHash = (Lista*) malloc(sizeof(Lista)*tamanho);
