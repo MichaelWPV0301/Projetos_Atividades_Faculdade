@@ -12,5 +12,5 @@ void criaHash(tipoHash *h,unsigned tamanho);
 void insereNoHash(tipoHash *h, Registro novo);
 int removeHash(tipoHash *h, int chave);
 Registro* buscaNoHash(tipoHash *h, int chave); 
-
+tipoHash* vetorEmHash(Registro alunos[], tipoHash* hash, int qtd);
 #endif
