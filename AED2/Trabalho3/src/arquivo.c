@@ -115,3 +115,10 @@ void imprimeAlunos(Registro alunos[], int qtd) {
         printf("------------------------------------\n");
     }
 }
+
+void vetorEmArquivo(Registro alunos[], const char* nomeArquivo, int qtd){
+    FILE* arquivo = abrirArquivo(nomeArquivo, "w");
+    for(int x; x<qtd; x++){
+        adicionarRegistro(arquivo, &(alunos[x]));
+    }
+}
