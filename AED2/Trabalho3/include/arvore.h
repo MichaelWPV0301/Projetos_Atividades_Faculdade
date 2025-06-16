@@ -2,6 +2,7 @@
 #define ARVORE_H_iNCLUDED
 
 #include "../include/vet.h"
+#include "../include/listaEncadeada.h"
 
 // Define a estrutura opaca ArvoreBin, que será implementada no .c
 typedef struct ArvoreBin ArvoreBin;
@@ -63,4 +64,5 @@ void vetorOrdenadoEmArvoreBin(Vetor vetor, ArvoreBin **ptrRaiz, int inicio, int 
  */
 void insereArvoreBinSemDuplicata(ArvoreBin** ptrRaiz, int valor);
 
+Lista buscaPorDesigualdade(ArvoreBin* ptrRaiz, unsigned modo, int coeficiente);
 #endif

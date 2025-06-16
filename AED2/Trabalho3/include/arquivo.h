@@ -27,4 +27,5 @@ void geraAlunos(Registro alunos[], int qtd);
 void imprimeAlunos(Registro alunos[], int qtd);
 void vetorEmArquivo(Registro alunos[], const char* nomeArquivo, int qtd);
 
+
 #endif
