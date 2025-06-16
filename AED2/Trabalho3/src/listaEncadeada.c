@@ -101,5 +101,5 @@ int buscaPorIndentificador(Lista *lista, int chave)
         return aux->dado.numeroRegistro; // Retorna o índice (posição) do valor encontrado
     }
 
-    return NULL; // Valor não encontrado
+    return -1; // Valor não encontrado
 }

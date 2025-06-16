@@ -1,4 +1,4 @@
- #ifndef ARQUIVO_H_INCLUDED
+#ifndef ARQUIVO_H_INCLUDED
 #define ARQUIVO_H_INCLUDED
 
 // Inclui bibliotecas padrão
@@ -12,7 +12,7 @@ typedef struct {
     char nome[NOME_TAM];       // nome do aluno
     char curso[CURSO_TAM];     // curso (ex: Engenharia, Direito)
     int idade;                 // usado nas buscas com <, >, etc.
-    float coeficiente;         // coeficiente de rendimento (CR)
+    int coeficiente;         // coeficiente de rendimento (CR)
     int anoIngresso;           // ano de ingresso
 } Registro;
 
@@ -25,7 +25,7 @@ Registro lerRegistroPorNumero(FILE* arquivo, int numeroRegistro);
 int obterNumeroRegistros(FILE* arquivo);
 void geraAlunos(Registro alunos[], int qtd);
 void imprimeAlunos(Registro alunos[], int qtd);
-void vetorEmArquivo(Registro alunos[], const char* nomeArquivo, int qtd);
-
+void salvarVetorEmArquivo(Registro alunos[], FILE* arquivo, int qtd);
+void imprimeAluno(Registro aluno);
 
 #endif

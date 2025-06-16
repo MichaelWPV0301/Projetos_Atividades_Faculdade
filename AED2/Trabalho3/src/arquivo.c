@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <stdio.h>
-
 
 // Função para abrir o arquivo
 FILE* abrirArquivo(const char* nomeArquivo, const char* modo) {
@@ -85,12 +83,13 @@ void geraAlunos(Registro alunos[], int qtd) {
 
     snprintf(alunos[0].nome, NOME_TAM, "%s %s", nomes[rand() % 31], sobrenomes[rand() % 30]);
     strcpy(alunos[0].curso, cursos[rand() % 20]);
+    alunos[0].matricula = 20000000;
     alunos[0].idade = 18 + rand() % 13;
     alunos[0].coeficiente = (rand() % 1001);
     alunos[0].anoIngresso = 2015 + rand() % 10;
-    for (int i = 0; i < qtd; i++) {
+    for (int i = 1; i < qtd; i++) {
         // Matrícula única (exemplo: começa em 20000000 e vai incrementando)
-        alunos[0].matricula = alunos[i-1].matricula + rand()%10000;
+        alunos[i].matricula = alunos[i-1].matricula + rand()%10000;
         // Nome aleatório (nome + sobrenome)
         snprintf(alunos[i].nome, NOME_TAM, "%s %s", nomes[rand() % 31], sobrenomes[rand() % 30]);
         // Curso aleatório
@@ -112,17 +111,24 @@ void imprimeAlunos(Registro alunos[], int qtd) {
         printf("Nome: %s\n", alunos[i].nome);
         printf("Curso: %s\n", alunos[i].curso);
         printf("Idade: %d\n", alunos[i].idade);
-        alunos[i].coeficiente = alunos[i].coeficiente/100;
-        printf("Coeficiente de Rendimento: %.2f\n", alunos[i].coeficiente);
+        printf("Coeficiente de Rendimento: %.2f\n", alunos[i].coeficiente/100.0);
         printf("Ano de Ingresso: %d\n", alunos[i].anoIngresso);
         printf("------------------------------------\n");
     }
 }
 
-void vetorEmArquivo(Registro alunos[], const char* nomeArquivo, int qtd){
-    FILE* arquivo = abrirArquivo(nomeArquivo, "w");
+void imprimeAluno(Registro aluno) {
+    printf("Matrícula: %d\n", aluno.matricula);
+    printf("Nome: %s\n", aluno.nome);
+    printf("Curso: %s\n", aluno.curso);
+    printf("Idade: %d\n", aluno.idade);
+    printf("Coeficiente de Rendimento: %.2f\n", aluno.coeficiente/100.0);
+    printf("Ano de Ingresso: %d\n", aluno.anoIngresso);
+    printf("------------------------------------\n");
+}
 
-    for(int x; x<qtd; x++){
+void salvarVetorEmArquivo(Registro alunos[], FILE* arquivo, int qtd){
+    for(int x = 0; x<qtd; x++){
         adicionarRegistro(arquivo, &(alunos[x]));
     }
 }

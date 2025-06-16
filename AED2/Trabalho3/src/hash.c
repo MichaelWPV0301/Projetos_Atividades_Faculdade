@@ -15,14 +15,13 @@ void insereNoHash(tipoHash *h, Registro novo, int numeroReg){
     unsigned pos = novo.matricula % h->tamanhoTabHash;
 
     //buscaPorIndentificador: Vai verificar se existe alguém com a chave especificada, se não tiver retorna NULL
-    if(buscaPorIndentificador(&(h->tabHash[pos]), novo.matricula) == NULL){
+    if(buscaPorIndentificador(&(h->tabHash[pos]), novo.matricula) == -1){
         TipoDado dadoNovo;
         dadoNovo.atributo = novo.matricula;
         dadoNovo.numeroRegistro = numeroReg;
         insereNaLista(&(h->tabHash[pos]), dadoNovo);
     }
 }
-
 int removeHash(tipoHash *h, int chave ){
     unsigned pos = chave % h->tamanhoTabHash;
 

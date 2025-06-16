@@ -6,8 +6,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define N 30
-#define QTD_ALUNOS 1000
+#define N 3
+#define QTD_ALUNOS 10
 #define PRCT_DESORDEM 50
 
 int main(){
@@ -34,21 +34,26 @@ int main(){
     }
 
     imprimeAlunos(alunos, QTD_ALUNOS);
-    vetorEmArquivo(alunos, nomeArquivo, QTD_ALUNOS);
-
+    salvarVetorEmArquivo(alunos, arquivo, QTD_ALUNOS);
+    printf("\n\n\n");
+    
     tipoHash hash;
     criaHash(&(hash), QTD_ALUNOS);
     vetorEmHash(alunos, &hash, QTD_ALUNOS);
-    return 0;
 
     Registro aleatorio;
+    Registro alunoAux;
     int chaveAleatoria;
     int n_registro;
     for (int x; x < N; x++)
     {
         indice = rand()%QTD_ALUNOS;
         aleatorio = lerRegistroPorNumero(arquivo, indice);
+        imprimeAluno(aleatorio);
         chaveAleatoria = aleatorio.matricula;
         n_registro = buscaNoHash(&hash, chaveAleatoria);
+        alunoAux = lerRegistroPorNumero(arquivo, n_registro);
+        imprimeAluno(alunoAux);
     }
+   return 0;
 }
