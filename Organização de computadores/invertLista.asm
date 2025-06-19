@@ -5,7 +5,7 @@ DATA r0, 0xf9
 DATA r1, 0x30
 ST r0,r1
 ADD r2,r0
-DATA r1, 0x29 ;fa
+DATA r1, 0x29;fa
 ST r0,r1
 ADD r2,r0
 DATA r1, 0x28 ;fb

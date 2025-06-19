@@ -16,9 +16,10 @@ with open(entrada) as arquivo:
         linha = linha. replace(",", " ") #COLOCA ESPAÇO NO LUGAR DE VIRGULAS PARA FAZER O SPLIT()
         if not linha: continue
 
-        partes = linha.strip().split() #TRANSFORMA A LINHA EM UMA LISTA ONDE CADA ELEMENTO VAI SER AS PALAVRAS QUE ESTAVAM JUNTAS
+        partes = linha.strip().split(';') #SEPARA EM DUAS PARTES, A PRIMEIRA É TUDO QUE VEM ANTES DO COMENTARIO E OUTRA DEPOIS
+        partes = partes[0].strip().split()
         #INSTRUCOES SÓ COM UM BYTE E QUE TÊM DOIS REGISTRADORES
-        if( partes and ";" not in partes[0] ): #verifica se é uma linha de comentário ou se têm algo na linha
+        if(partes): #verifica se é uma linha de comentário ou se têm algo na linha
             instrucao = partes[0].upper() #TRANSFORMA A INSTRUÇÃO(SEMPRE PRIMEIRA PARTE) TODA EM MAISCULA
             print(instrucao)
             if(instrucao in instrucoes1): #CASO DE INSTRUÇÕES QUE VÃO TER RARB NOS ULTIMOS 4 BITS
