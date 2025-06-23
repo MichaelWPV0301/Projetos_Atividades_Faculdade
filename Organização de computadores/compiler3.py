@@ -116,7 +116,8 @@ def assemble(lines):
     out = []
     for i, raw in enumerate(lines, 1):
         txt = raw.replace(',', ' ').strip()  # Remove vírgulas e espaços
-        parts = txt.split()
+        parts = txt.split(';')
+        parts = parts[0].strip().split()
         if not parts or parts[0].startswith(';'):
             continue  # Ignora comentários/vazias
         op = parts[0].upper()  # Opcode em maiúsculas

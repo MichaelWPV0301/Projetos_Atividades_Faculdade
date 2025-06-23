@@ -56,7 +56,8 @@ def main():
             # Substitui vírgulas por espaços para facilitar o split
             linha = linha.replace(",", " ")
             # Divide linha em tokens, removendo espaços extras
-            partes = linha.strip().split()
+            partes = linha.strip().split(';')
+            partes = partes[0].strip().split()
             # Ignora linhas vazias ou comentários (iniciados por ';')
             if not partes or partes[0].startswith(";"):
                 continue
