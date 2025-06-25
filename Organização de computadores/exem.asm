@@ -1,6 +1,6 @@
-data r0,0x30 ; comentário: dado hexadecimal 
-DATA r1, 06  ; dado em decimal
-DATA r1, -06  ; dado em decimal
+main: data r0,0x30 ; comentário: dado hexadecimal 
+      DATA r1, 06  ; dado em decimal
+      DATA r1, -06  ; dado em decimal
 
 dAta r2,0b00001000 ; dado binário
   data r3,0xff 
@@ -25,7 +25,7 @@ cmp r1,r2
 jmpr r3
 jmp  0xf0
 
-jc 0xb0
+jc main
 ja 0xb0
  je 0b00001111
 jz 0xb0

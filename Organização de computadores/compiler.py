@@ -10,8 +10,9 @@ registradores = {"R0" : "00", "R1" : "01","R2" : "10","R3" : "11"}
 jcaez = {"C" : "1000","A" : "0100","E" : "0010","Z" : "0001"}
 
 instrucoes_hex = [] #TODAS OS VALORES EM HEXADECIMAL QUE TEM QUE ESTÁ NO .txt   
-
+label = {}
 with open(entrada) as arquivo:
+    endereco = 0
     for linha in arquivo:
         linha = linha. replace(",", " ") #COLOCA ESPAÇO NO LUGAR DE VIRGULAS PARA FAZER O SPLIT()
         if not linha: continue
@@ -20,6 +21,13 @@ with open(entrada) as arquivo:
         partes = partes[0].strip().split()
         #INSTRUCOES SÓ COM UM BYTE E QUE TÊM DOIS REGISTRADORES
         if(partes): #verifica se é uma linha de comentário ou se têm algo na linha
+
+            print(partes)
+            if(":" in partes[0]):
+                label[partes[0]] = f"0x{endereco:02x}"
+                partes = partes[1:]
+
+
             instrucao = partes[0].upper() #TRANSFORMA A INSTRUÇÃO(SEMPRE PRIMEIRA PARTE) TODA EM MAISCULA
             print(instrucao)
             if(instrucao in instrucoes1): #CASO DE INSTRUÇÕES QUE VÃO TER RARB NOS ULTIMOS 4 BITS
@@ -40,6 +48,7 @@ with open(entrada) as arquivo:
                     hexa = instrucoes2[instrucao] + hexareg[2:] #CONCATENA O HEXA DA INSTRUÇÃO COM O DO REGISTRADORES
                     if(instrucao =="DATA"): #CASO ESPECIFICO DATA: VERIFICA SE O ADDR ESTÁ ENTRE -128 E 127
                         instrucoes_hex.append(hexa) #JÁ COLOCA O HEXA DO PRIMEIRO BYTE DENTRO DA LISTA
+                        endereco += 1
                         hexa = partes[2] #SEGUNDO BYTE DA INSTRUÇÃO
                         try: #TRATAMENTO PARA VER SE É UUUM VALOR QUE PODE SER ACEITO PARA O DATA
                             if("x" not in hexa and "b" not in hexa): #VERIFICA SE É DECIMAL
@@ -65,6 +74,7 @@ with open(entrada) as arquivo:
                     hexa = instrucoes2[instrucao]#COLOCA A PRIMEIRA PARTE  HEXA DA INSTRUÇÃO QUE JA É ESTABELECIDA
                     if(instrucao == "JMP"): #CASO ESPECIFICO JMP: ADDR ENTRE 0 E 255
                         instrucoes_hex.append(hexa) #COLOCA A PRIMEIRA PARTE EM HEXA DENTRO DA LISTA QUE SERA CONVERTIDA
+                        endereco += 1
                         hexa = partes[1] #SEGUNDO BYTE DO JMP
                         try: #TESTE PARA VER SE O VALOR DO ENDEREÇO ESTÁ ENTRE 0 E 255;
                             hexa = int(hexa, 0) #CONVERTE PARA INT SE TIVER EM STRING DE BINARIO OU HEXA
@@ -72,9 +82,10 @@ with open(entrada) as arquivo:
                                 print("Erro: valor fora do intervalo permitido (0 a 255)")
                                 break
                             hexa = hex(hexa) #CONVERTE PARA HEXA NOVAMENTE 
-                        except ValueError: #Valores inválidos
-                            print("Erro: valor inválido, não é um número inteiro")
-                            break
+                        except: #Valores inválidos
+                            instrucoes_hex.append(hexa) #ADICIONA A INSTRUÇÃO NA LISTA(CASOS DE 2 BYTES ELE ADICIONA O SEGUNDO BYTE)
+                            endereco += 1
+                            continue
                 
                 #JCAEZ
                 elif(instrucao[0]=="J"): #CASO JCAEZ NO CASO SÓ VERIFICA SE TÊM JOTA CASO NÃO SEJA JMP OU JMPR
@@ -84,6 +95,7 @@ with open(entrada) as arquivo:
                     hexaLetras = hex(letrasBin) #TRANSFORMA EM HEXA
                     hexa = instrucoes2[instrucao[0]] + hexaLetras[2:] #CONCATENA O HEXA DAS LETRAS COM O DA INSTRU
                     instrucoes_hex.append(hexa) #ADICIONA O PRIMEIRA BYTE DA INSTRUÇÃO
+                    endereco += 1
                     hexa = partes[1] #PARTE DO SEGUNDO BYTE DO JCAEZ
                     try: #VERIFICAÇÃO DO INTERVALO DO ENDEREÇO DADO
                         hexa = int(hexa, 0) #CONVERTE PARA INT PARA FAZER COMPARAÇÃO
@@ -91,9 +103,11 @@ with open(entrada) as arquivo:
                             print("Erro: valor fora do intervalo permitido (0 a 255)")
                             break
                         hexa = f"0x{hexa:02x}" #CONVERTE PARA STRING DE HEXA NOVAMENTE
-                    except ValueError: #TRATAMENTO CASO NÃO SEJA ALGO DENTRO DO ESPERADO
-                        print("Erro: valor inválido, não é um número inteiro")
-                        break
+                    except: #Valores inválidos
+                        instrucoes_hex.append(hexa) #ADICIONA A INSTRUÇÃO NA LISTA(CASOS DE 2 BYTES ELE ADICIONA O SEGUNDO BYTE)
+                        endereco += 1
+                        continue
+
             
             #Periféricos
             elif(instrucao in outside): #INSTRUÇÕES DE PERIFÉRICOS
@@ -106,9 +120,14 @@ with open(entrada) as arquivo:
             print(partes)
             print(hexa)
             instrucoes_hex.append(hexa) #ADICIONA A INSTRUÇÃO NA LISTA(CASOS DE 2 BYTES ELE ADICIONA O SEGUNDO BYTE)
+            endereco += 1
+            print(endereco)
+            print(label)
 
 print(instrucoes_hex)
 with open(saida, "w") as f: #ABRE O ARQUIVO DE TXT DE SAÍDA
     f.write("v3.0 hex words plain\n")#EXIGIDO PELO LOGISIM
     for hexa in instrucoes_hex:#TRANSFORMA A LISTA FORMA EM LINHAS NO .txt
+        if('0x' not in hexa):
+            hexa = label[f'{hexa}:']
         f.write(f"{hexa}\n")
