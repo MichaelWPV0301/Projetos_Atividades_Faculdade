@@ -116,7 +116,47 @@ with open(entrada) as arquivo:
                 comando = int(comandos, 2) #CONVERTE A STRING FORMADA EM BINARIO  EM INT() 
                 comando = hex(comando) #CONVERTE EM HEXADECIMAL
                 hexa += comando[2:] #SÓ CONCATENA O 0X7 COM A PARTE DA INTRUÇÃO ESPECIFICADA.
-                
+            else:
+                if(instrucao == 'MOVE'):
+                    reg1 = partes[1].upper() #TRANSFORMA RA TODA EM MAISCULA PARA PROCURA NO SET
+                    reg2 = partes[2].upper()
+
+                    regs = registradores[reg2] + registradores[reg1] #CONCATENA RA RB DE ACORDO COM O SET POIS OS DOIS INVERTIDO, EXEMPLO: MOVE RA,RB-> REGS = BIN(RB) + BIN(RA)
+                    inteiro = int(regs, 2) #FASE DE CONVERTER A PARTE DOS REGISTRADORES EM HEXADECIMAL
+                    hexaregs = hex(inteiro)
+                    hexa = instrucoes1['XOR'] + hexaregs[2:] #CONCATENA O HEXA DA INSTRUÇÃO COM O DO REGISTRADORES
+                    instrucoes_hex.append(hexa) #ADICIONA A PRIMEIRA INSTRUÇÃO XOR RB,RA
+                    endereco += 1
+                    regs = registradores[reg1] + registradores[reg2] #CONCATENA RA RB DE ACORDO COM O SET POIS OS DOIS NORMAL, EXEMPLO: MOVE RA,RB-> REGS = BIN(RA) + BIN(RB)
+                    inteiro = int(regs, 2) #FASE DE CONVERTER A PARTE DOS REGISTRADORES EM HEXADECIMAL
+                    hexaregs = hex(inteiro)
+                    hexa = instrucoes1['XOR'] + hexaregs[2:] #CONCATENA O HEXA DA INSTRUÇÃO COM O DO REGISTRADORES
+                    instrucoes_hex.append(hexa) #ADICIONA A PRIMEIRA INSTRUÇÃO XOR RB,RA
+                    endereco += 1
+                    continue
+                elif(instrucao == 'CLR'):
+                    reg = registradores[partes[1].upper()]
+                    inteiro = int(reg,2) #CONVERTE O BIN DO REGISTRADOR PARA HEXA
+                    hexareg = hex(inteiro)
+                    hexa = "0x2" + hexareg[2:] #CONCATENA O HEXA DA INSTRUÇÃO COM O DO REGISTRADORES
+                    instrucoes_hex.append(hexa)
+                    endereco += 1
+                    hexa = '0x00'
+                elif(instrucao == 'HALT'):
+                    hexa = instrucoes2['JMP']
+                    instrucoes_hex.append(hexa) #COLOCA A PRIMEIRA PARTE EM HEXA DENTRO DA LISTA QUE SERA CONVERTIDA
+                    endereco += 1
+                    if(endereco<=255):
+                        instrucoes_hex.append(f"0x{endereco:02x}")
+                        endereco += 1
+                        continue
+                    else:
+                        print("Erro: valor fora do intervalo permitido (0 a 255)")
+                        break
+
+                        
+
+
             print(partes)
             print(hexa)
             instrucoes_hex.append(hexa) #ADICIONA A INSTRUÇÃO NA LISTA(CASOS DE 2 BYTES ELE ADICIONA O SEGUNDO BYTE)

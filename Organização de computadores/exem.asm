@@ -23,7 +23,7 @@ clf
 cmp r1,r2
 
 jmpr r3
-jmp  0xf0
+jmp  main
 
 jc main
 ja 0xb0
@@ -46,3 +46,6 @@ in data,r0
 IN addr,r1
 out data,r2
 out addr,r3
+move r0,r1
+clr r0
+halt
