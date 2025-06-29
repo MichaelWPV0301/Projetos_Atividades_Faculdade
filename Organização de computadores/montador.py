@@ -41,6 +41,8 @@ def main():
     # Mapeamento de periféricos e direções para operações de I/O
     outside = {"PRF": "0x7", "IN": "0", "OUT": "1", "DATA": "0", "ADDR": "1"}
 
+    enderecos = {}
+    
     # Lista que armazenará cada código hexadecimal gerado
     instrucoes_hex = []
 
@@ -54,6 +56,7 @@ def main():
 
     # Processa cada linha do arquivo aberto
     with arquivo:
+        endereco = 0
         for num_linha, linha in enumerate(arquivo, start=1):
             # Substitui vírgulas por espaços para facilitar o split
             linha = linha.replace(",", " ")
@@ -63,6 +66,11 @@ def main():
             # Ignora linhas vazias ou comentários (iniciados por ';')
             if not partes or partes[0].startswith(";"):
                 continue
+            
+            if(':' in partes[0] ):
+                enderecos[partes[0]] =  f"0x{endereco:02x}"
+                partes = partes[1:]
+
             # Extrai o opcode e normaliza para maiúsculas
             instr = partes[0].upper()
 
@@ -82,6 +90,7 @@ def main():
                 bits = registradores[r1] + registradores[r2]
                 # Gera string hex: opcode + bits convertidos
                 instrucoes_hex.append(instrucoes1[instr] + hex(int(bits, 2))[2:])
+                endereco+=1
 
             # Bloco para instrução DATA (2 bytes: opcode+reg e imediato)
             elif instr == "DATA":
@@ -109,6 +118,7 @@ def main():
                     num = (num + 256) & 0xFF
                 # Adiciona valor imediato em formato hex de 2 dígitos
                 instrucoes_hex.append(f"0x{num:02x}")
+                endereco+=1
 
             # Bloco para JMPR (1 byte: opcode+reg)
             elif instr == "JMPR":
@@ -123,12 +133,14 @@ def main():
                     sys.exit(1)
                 # Gera opcode + código do registrador e adiciona
                 instrucoes_hex.append(instrucoes2[instr] + hex(int(registradores[r], 2))[2:])
+                endereco+=1
 
             # Bloco para saltos absolutos (JMP e CLF)
             elif instr in ("JMP", "CLF"):
                 if instr == "CLF":
                     # CLF não requer operandos, apenas o opcode
                     instrucoes_hex.append(instrucoes2[instr])
+                    endereco+=1
                 else:
                     # Para JMP, garante presença de endereço
                     if len(partes) < 2:
@@ -143,6 +155,7 @@ def main():
                     # Adiciona opcode e byte de endereço
                     instrucoes_hex.append(instrucoes2[instr])
                     instrucoes_hex.append(f"0x{addr:02x}")
+                    endereco+=2
 
             # Bloco para saltos condicionais JCAEZ
             elif instr.startswith("J") and instr not in ("JMP", "JMPR", "DATA"):
@@ -168,6 +181,7 @@ def main():
                     sys.exit(1)
                 # Adiciona byte de endereço
                 instrucoes_hex.append(f"0x{addr:02x}")
+                endereco+=2
 
             # Bloco para operações de I/O (IN/OUT)
             elif instr in ("IN", "OUT"):
@@ -185,7 +199,41 @@ def main():
                 cmds = outside[instr] + outside[port] + registradores[r]
                 # Adiciona código completo de I/O
                 instrucoes_hex.append(outside["PRF"] + hex(int(cmds, 2))[2:])
+                endereco+=1
+            elif instr == 'MOVE':
+                reg1 = partes[1].upper() #TRANSFORMA RA TODA EM MAISCULA PARA PROCURA NO SET
+                reg2 = partes[2].upper()
 
+                regs = registradores[reg2] + registradores[reg1] #CONCATENA RA RB DE ACORDO COM O SET POIS OS DOIS INVERTIDO, EXEMPLO: MOVE RA,RB-> REGS = BIN(RB) + BIN(RA)
+                inteiro = int(regs, 2) #FASE DE CONVERTER A PARTE DOS REGISTRADORES EM HEXADECIMAL
+                hexaregs = hex(inteiro)
+                hexa = instrucoes1['XOR'] + hexaregs[2:] #CONCATENA O HEXA DA INSTRUÇÃO COM O DO REGISTRADORES
+                instrucoes_hex.append(hexa) #ADICIONA A PRIMEIRA INSTRUÇÃO XOR RB,RA
+                endereco += 1
+                regs = registradores[reg1] + registradores[reg2] #CONCATENA RA RB DE ACORDO COM O SET POIS OS DOIS NORMAL, EXEMPLO: MOVE RA,RB-> REGS = BIN(RA) + BIN(RB)
+                inteiro = int(regs, 2) #FASE DE CONVERTER A PARTE DOS REGISTRADORES EM HEXADECIMAL
+                hexaregs = hex(inteiro)
+                hexa = instrucoes1['XOR'] + hexaregs[2:] #CONCATENA O HEXA DA INSTRUÇÃO COM O DO REGISTRADORES
+                instrucoes_hex.append(hexa) #ADICIONA A PRIMEIRA INSTRUÇÃO XOR RB,RA
+                endereco += 1
+            elif instr == 'CLR':
+                reg = registradores[partes[1].upper()]
+                inteiro = int(reg,2) #CONVERTE O BIN DO REGISTRADOR PARA HEXA
+                hexareg = hex(inteiro)
+                hexa = "0x2" + hexareg[2:] #CONCATENA O HEXA DA INSTRUÇÃO COM O DO REGISTRADORES
+                instrucoes_hex.append(hexa)
+                endereco += 1
+                hexa = '0x00'
+            elif instr == 'HALT':
+                hexa = instrucoes2['JMP']
+                instrucoes_hex.append(hexa) #COLOCA A PRIMEIRA PARTE EM HEXA DENTRO DA LISTA QUE SERA CONVERTIDA
+                endereco += 1
+                if(endereco<=255):
+                    instrucoes_hex.append(f"0x{endereco:02x}")
+                    endereco += 1
+                else:
+                    print("Erro: valor fora do intervalo permitido (0 a 255)")
+                    break
             # Caso instrução não reconhecida
             else:
                 print(f"Linha {num_linha}: instrução não reconhecida: {instr}")
@@ -198,6 +246,8 @@ def main():
             f.write("v3.0 hex words plain\n")
             # Escreve cada código em nova linha
             for c in instrucoes_hex:
+                if('0x' not in c):
+                    c = enderecos[c]
                 f.write(f"{c}\n")
     except Exception as e:
         # Em caso de erro de escrita, exibe mensagem e encerra
