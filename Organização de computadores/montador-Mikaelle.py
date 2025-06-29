@@ -76,11 +76,16 @@ def encode_jump(opcode, raw, line):
     """
     if opcode == INSTR2['CLF']:
         return [opcode]  # CLF não tem segundo byte
-    addr = parse_num(raw, line)  # Converte endereço
-    if not 0 <= addr <= 255:
-        print(f"Linha {line}: endereço fora do intervalo 0 a 255")
-        sys.exit(1)
-    return [opcode, '0x' + format(addr, '02x')]  # Retorna opcode+endereço
+    
+    addr = raw
+    if(('0x' in addr) or ('0b' in addr)):
+    
+        addr = parse_num(raw, line)  # Converte endereço
+        if not 0 <= addr <= 255:
+            print(f"Linha {line}: endereço fora do intervalo 0 a 255")
+            sys.exit(1)
+        addr = '0x' + format(addr, '02x')
+    return [opcode, addr]  # Retorna opcode+endereço
 
 # Codifica saltos condicionais JCAEZ
 def encode_conditional(flags, raw, line):
@@ -95,11 +100,14 @@ def encode_conditional(flags, raw, line):
             sys.exit(1)
         bits |= int(FLG[f], 2)  # Acumula bits de flags
     b1 = INSTR2['J'] + format(bits, 'x')  # Primeiro byte J+flags
-    addr = parse_num(raw, line)  # Converte endereço
-    if not 0 <= addr <= 255:
-        print(f"Linha {line}: endereço fora do intervalo 0 a 255")
-        sys.exit(1)
-    return [b1, '0x' + format(addr, '02x')]  # Retorna J+flags e endereço
+    addr = raw
+    if(('0x' in addr) or ('0b' in addr)):
+        addr = parse_num(raw, line)  # Converte endereço
+        if not 0 <= addr <= 255:
+            print(f"Linha {line}: endereço fora do intervalo 0 a 255")
+            sys.exit(1)
+        addr =  '0x' + format(addr, '02x')
+    return [b1, addr]  # Retorna J+flags e endereço
 
 # Codifica instruções de I/O (IN/OUT)
 def encode_io(kind, port, reg, line):
@@ -117,26 +125,52 @@ def encode_io(kind, port, reg, line):
 # Função para montar linhas em códigos hex
 def assemble(lines):
     out = []
+    endereco = 0
     for i, raw in enumerate(lines, 1):
         txt = raw.replace(',', ' ').strip()  # Remove vírgulas e espaços
         parts = txt.split(';')
         parts = parts[0].strip().split()
         if not parts or parts[0].startswith(';'):
             continue  # Ignora comentários/vazias
+
+        if(":" in parts[0]):
+            LABEL[parts[0]] = f"0x{endereco:02x}"
+            print(LABEL)
+            parts = parts[1:]
+
         op = parts[0].upper()  # Opcode em maiúsculas
         # Roteia para função adequada
         if op in INSTR1:
             out.append(encode_reg_pair(INSTR1[op], parts[1].upper(), parts[2].upper(), i))
+            endereco+=1
         elif op == 'DATA':
             out.extend(encode_immediate(INSTR2['DATA'], parts[1].upper(), parts[2], i, signed=True))
+            endereco+=2
         elif op == 'JMPR':
             out.append(encode_immediate(INSTR2['JMPR'], parts[1].upper(), '0', i, signed=False)[0])
+            endereco+=1
         elif op in ('JMP','CLF'):
             out.extend(encode_jump(INSTR2[op], parts[1] if op=='JMP' else '', i))
+            if op=='JMP':
+                endereco+=2
+            elif op=='CLF':
+                endereco+=1
         elif op.startswith('J') and op not in ('JMP','JMPR','DATA'):
             out.extend(encode_conditional(op[1:], parts[1], i))
+            endereco+=2
         elif op in ('IN','OUT'):
             out.extend(encode_io(op, parts[1].upper(), parts[2].upper(), i))
+            endereco+=1
+        elif op == "MOVE":
+            out.append(encode_reg_pair(INSTR1['XOR'], parts[2].upper(), parts[1].upper(), i))
+            out.append(encode_reg_pair(INSTR1['XOR'], parts[1].upper(), parts[2].upper(), i))
+            endereco+=2
+        elif op == 'CLR':
+            out.extend(encode_immediate(INSTR2['DATA'], parts[1].upper(), '0x00', i, signed=True))
+            endereco+=2
+        elif op=='HALT':
+            out.extend(encode_jump(INSTR2['JMP'], f"0x{endereco+1:02x}", i))
+            endereco+=2
         else:
             print(f"Linha {i}: instrução não reconhecida '{op}'")
             sys.exit(1)
@@ -155,6 +189,13 @@ def main():
         with open(saida, 'w') as f:
             f.write('v3.0 hex words plain\n')  # Cabeçalho para Logisim
             for c in codes:
+                if('0x' not in c):
+                    try:
+                        c = LABEL[f'{c}:']
+                    except Exception:
+                        print(c)
+                        print(LABEL)
+                        print("Erro de Label")
                 f.write(f"{c}\n")  # Escreve cada código em nova linha
     except Exception as e:
         print(f"Erro escrita: {e}")  # Erro ao escrever arquivo
@@ -170,6 +211,7 @@ INSTR2 = {'JMP':'0x40','CLF':'0x60','DATA':'0x2','JMPR':'0x3','J':'0x5'}
 FLG    = {'C':'1000','A':'0100','E':'0010','Z':'0001'}
 REG    = {'R0':'00','R1':'01','R2':'10','R3':'11'}
 PRT    = {'FIXO':'0x7','IN':'0','OUT':'1','DATA':'0','ADDR':'1'}
+LABEL = {}
 
 # Execução do script
 if __name__ == '__main__':
