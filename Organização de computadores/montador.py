@@ -118,7 +118,7 @@ def main():
                     num = (num + 256) & 0xFF
                 # Adiciona valor imediato em formato hex de 2 dígitos
                 instrucoes_hex.append(f"0x{num:02x}")
-                endereco+=1
+                endereco+=2
 
             # Bloco para JMPR (1 byte: opcode+reg)
             elif instr == "JMPR":
@@ -147,14 +147,17 @@ def main():
                         print(f"Linha {num_linha}: JMP requer endereço")
                         sys.exit(1)
                     # Converte endereço para inteiro
-                    addr = parse_num(partes[1], num_linha)
-                    # Valida intervalo 0 a 255
-                    if not (0 <= addr <= 255):
-                        print(f"Linha {num_linha}: endereço fora do intervalo 0 a 255")
-                        sys.exit(1)
+                    addr = partes[1]
+                    if(('0x' in addr) or ('0b' in addr)):
+                        addr = parse_num(partes[1], num_linha)
+                        # Valida intervalo 0 a 255
+                        if not (0 <= addr <= 255):
+                            print(f"Linha {num_linha}: endereço fora do intervalo 0 a 255")
+                            sys.exit(1)
+                        addr = f"0x{addr:02x}"
                     # Adiciona opcode e byte de endereço
                     instrucoes_hex.append(instrucoes2[instr])
-                    instrucoes_hex.append(f"0x{addr:02x}")
+                    instrucoes_hex.append(addr)
                     endereco+=2
 
             # Bloco para saltos condicionais JCAEZ
@@ -175,12 +178,15 @@ def main():
                 # Primeiro byte: opcode J + flags
                 instrucoes_hex.append(instrucoes2["J"] + hex(bits)[2:])
                 # Converte e valida endereço
-                addr = parse_num(partes[1], num_linha)
-                if not (0 <= addr <= 255):
-                    print(f"Linha {num_linha}: endereço fora do intervalo 0 a 255")
-                    sys.exit(1)
+                addr = partes[1]
+                if(('0x' in addr) or ('0b' in addr)):
+                    addr = parse_num(partes[1], num_linha)
+                    if not (0 <= addr <= 255):
+                        print(f"Linha {num_linha}: endereço fora do intervalo 0 a 255")
+                        sys.exit(1)
+                    addr = f"0x{addr:02x}"
                 # Adiciona byte de endereço
-                instrucoes_hex.append(f"0x{addr:02x}")
+                instrucoes_hex.append(addr)
                 endereco+=2
 
             # Bloco para operações de I/O (IN/OUT)
@@ -224,6 +230,8 @@ def main():
                 instrucoes_hex.append(hexa)
                 endereco += 1
                 hexa = '0x00'
+                instrucoes_hex.append(hexa)
+                endereco += 1
             elif instr == 'HALT':
                 hexa = instrucoes2['JMP']
                 instrucoes_hex.append(hexa) #COLOCA A PRIMEIRA PARTE EM HEXA DENTRO DA LISTA QUE SERA CONVERTIDA
@@ -247,7 +255,7 @@ def main():
             # Escreve cada código em nova linha
             for c in instrucoes_hex:
                 if('0x' not in c):
-                    c = enderecos[c]
+                    c = enderecos[f'{c}:']
                 f.write(f"{c}\n")
     except Exception as e:
         # Em caso de erro de escrita, exibe mensagem e encerra
