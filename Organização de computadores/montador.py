@@ -1,3 +1,5 @@
+#Feito por Lucas de Souza Cerveira Pereira - 22401904
+
 import sys  # Importa o módulo sys para manipular argumentos e encerrar o programa
 
 # Função parse_num: converte string numérica em inteiro, suportando prefixos '0x' (hex) e '0b' (binário)

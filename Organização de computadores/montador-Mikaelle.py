@@ -1,3 +1,6 @@
+# Nome: Mikaelle Costa de Santana
+# Matrícula: 22401909
+
 import sys  # Importa módulo sys para acessar args e controlar saída
 
 # Função para converter strings numéricas em inteiros
