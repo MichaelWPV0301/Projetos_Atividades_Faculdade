@@ -51,22 +51,19 @@ def encode_immediate(opcode, reg, raw, line, signed=False):
     if reg not in REG:
         print(f"Linha {line}: registrador inválido '{reg}'")
         sys.exit(1)
-    # Primeiro byte: opcode + reg
-    b1 = opcode + format(int(REG[reg], 2), 'x')
+    b1 = opcode + format(int(REG[reg], 2), 'x')  # Primeiro byte: opcode + reg
     num = parse_num(raw, line)  # Converte raw para inteiro
-    # Se valor decimal e signed, checa -128..127
+    # Validação de intervalo para valores decimais
     if signed and not raw.lower().startswith(('0x','0b')):
         if not -128 <= num <= 127:
             print(f"Linha {line}: valor fora do intervalo -128 a 127")
             sys.exit(1)
         num &= 0xFF  # Ajusta para complemento de 2
-    # Se decimal e não signed, checa 0..255
     elif not signed and not raw.lower().startswith(('0x','0b')):
         if not 0 <= num <= 255:
             print(f"Linha {line}: valor fora do intervalo 0 a 255")
             sys.exit(1)
-    # Retorna lista de dois bytes: primeiro byte e imediato formatado
-    return [b1, '0x' + format(num, '02x')]
+    return [b1, '0x' + format(num, '02x')]  # Retorna opcode+imediato
 
 # Codifica instruções de salto (JMP ou CLF)
 def encode_jump(opcode, raw, line):
@@ -76,10 +73,9 @@ def encode_jump(opcode, raw, line):
     """
     if opcode == INSTR2['CLF']:
         return [opcode]  # CLF não tem segundo byte
-    
+
     addr = raw
     if(('0x' in addr) or ('0b' in addr)):
-    
         addr = parse_num(raw, line)  # Converte endereço
         if not 0 <= addr <= 255:
             print(f"Linha {line}: endereço fora do intervalo 0 a 255")
@@ -124,56 +120,75 @@ def encode_io(kind, port, reg, line):
 
 # Função para montar linhas em códigos hex
 def assemble(lines):
-    out = []
-    endereco = 0
+    out = []  # Lista final de instruções em hexa
+    endereco = 0  # Contador de endereço
     for i, raw in enumerate(lines, 1):
-        txt = raw.replace(',', ' ').strip()  # Remove vírgulas e espaços
+        txt = raw.replace(',', ' ').strip()  # Remove vírgulas e espaços desnecessários
         parts = txt.split(';')
-        parts = parts[0].strip().split()
+        parts = parts[0].strip().split()  # Divide instrução e argumentos
         if not parts or parts[0].startswith(';'):
-            continue  # Ignora comentários/vazias
+            continue  # Ignora comentários e linhas vazias
 
-        if(":" in parts[0]):
-            LABEL[parts[0]] = f"0x{endereco:02x}"
+        if ":" in parts[0]:  # Detecta label
+            LABEL[parts[0]] = f"0x{endereco:02x}"  # Salva endereço do label
             print(LABEL)
-            parts = parts[1:]
+            parts = parts[1:]  # Remove label da instrução
 
-        op = parts[0].upper()  # Opcode em maiúsculas
-        # Roteia para função adequada
+        op = parts[0].upper()  # Converte opcode para maiúsculo
+
+        # Instruções com registradores
         if op in INSTR1:
             out.append(encode_reg_pair(INSTR1[op], parts[1].upper(), parts[2].upper(), i))
-            endereco+=1
+            endereco += 1
+
+        # Instrução com valor imediato (DATA)
         elif op == 'DATA':
             out.extend(encode_immediate(INSTR2['DATA'], parts[1].upper(), parts[2], i, signed=True))
-            endereco+=2
+            endereco += 2
+
+        # Salto relativo (JMPR) com imediato zero
         elif op == 'JMPR':
             out.append(encode_immediate(INSTR2['JMPR'], parts[1].upper(), '0', i, signed=False)[0])
-            endereco+=1
+            endereco += 1
+
+        # Saltos absolutos (JMP e CLF)
         elif op in ('JMP','CLF'):
             out.extend(encode_jump(INSTR2[op], parts[1] if op=='JMP' else '', i))
-            if op=='JMP':
-                endereco+=2
-            elif op=='CLF':
-                endereco+=1
+            if op == 'JMP':
+                endereco += 2
+            elif op == 'CLF':
+                endereco += 1
+
+        # Saltos condicionais JCAEZ (ex: JZ, JCE, etc.)
         elif op.startswith('J') and op not in ('JMP','JMPR','DATA'):
             out.extend(encode_conditional(op[1:], parts[1], i))
-            endereco+=2
+            endereco += 2
+
+        # Instruções de I/O
         elif op in ('IN','OUT'):
             out.extend(encode_io(op, parts[1].upper(), parts[2].upper(), i))
-            endereco+=1
+            endereco += 1
+
+        # MOVE RX, RY -> simulado por XOR triplo
         elif op == "MOVE":
             out.append(encode_reg_pair(INSTR1['XOR'], parts[2].upper(), parts[1].upper(), i))
             out.append(encode_reg_pair(INSTR1['XOR'], parts[1].upper(), parts[2].upper(), i))
-            endereco+=2
+            endereco += 2
+
+        # CLR RX -> simulado como DATA RX, 0x00
         elif op == 'CLR':
             out.extend(encode_immediate(INSTR2['DATA'], parts[1].upper(), '0x00', i, signed=True))
-            endereco+=2
-        elif op=='HALT':
+            endereco += 2
+
+        # HALT -> simulado como JMP para próxima linha
+        elif op == 'HALT':
             out.extend(encode_jump(INSTR2['JMP'], f"0x{endereco+1:02x}", i))
-            endereco+=2
+            endereco += 2
+
         else:
             print(f"Linha {i}: instrução não reconhecida '{op}'")
             sys.exit(1)
+
     return out
 
 # Função principal de execução
@@ -191,7 +206,7 @@ def main():
             for c in codes:
                 if('0x' not in c):
                     try:
-                        c = LABEL[f'{c}:']
+                        c = LABEL[f'{c}:']  # Resolve labels se necessário
                     except Exception:
                         print(c)
                         print(LABEL)
