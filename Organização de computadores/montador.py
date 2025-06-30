@@ -56,7 +56,7 @@ def main():
 
     # Processa cada linha do arquivo aberto
     with arquivo:
-        endereco = 0
+        endereco = -1
         for num_linha, linha in enumerate(arquivo, start=1):
             # Substitui vírgulas por espaços para facilitar o split
             linha = linha.replace(",", " ")
@@ -68,7 +68,7 @@ def main():
                 continue
             
             if(':' in partes[0] ):
-                enderecos[partes[0]] =  f"0x{endereco:02x}"
+                enderecos[partes[0]] =  f"0x{endereco+1:02x}"
                 partes = partes[1:]
 
             # Extrai o opcode e normaliza para maiúsculas

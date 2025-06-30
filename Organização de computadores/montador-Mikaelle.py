@@ -121,7 +121,7 @@ def encode_io(kind, port, reg, line):
 # Função para montar linhas em códigos hex
 def assemble(lines):
     out = []  # Lista final de instruções em hexa
-    endereco = 0  # Contador de endereço
+    endereco = -1  # Contador de endereço
     for i, raw in enumerate(lines, 1):
         txt = raw.replace(',', ' ').strip()  # Remove vírgulas e espaços desnecessários
         parts = txt.split(';')
@@ -130,8 +130,7 @@ def assemble(lines):
             continue  # Ignora comentários e linhas vazias
 
         if ":" in parts[0]:  # Detecta label
-            LABEL[parts[0]] = f"0x{endereco:02x}"  # Salva endereço do label
-            print(LABEL)
+            LABEL[parts[0]] = f"0x{endereco+1:02x}"  # Salva endereço do label
             parts = parts[1:]  # Remove label da instrução
 
         op = parts[0].upper()  # Converte opcode para maiúsculo

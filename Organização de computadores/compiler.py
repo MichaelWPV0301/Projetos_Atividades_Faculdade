@@ -38,7 +38,7 @@ label = {}
 
 # Abre o arquivo .asm de entrada
 with open(entrada) as arquivo:
-    endereco = 0  # Endereço atual (contador de instruções)
+    endereco = -1  # Endereço atual (contador de instruções)
 
     for linha in arquivo:
         linha = linha.replace(",", " ")  # Substitui vírgulas por espaços para facilitar o split
@@ -53,7 +53,7 @@ with open(entrada) as arquivo:
 
             # Verifica se há label no início da linha (ex: INICIO: ...)
             if ":" in partes[0]:
-                label[partes[0]] = f"0x{endereco:02x}"  # Salva o endereço do label
+                label[partes[0]] = f"0x{endereco+1:02x}"  # Salva o endereço do label
                 partes = partes[1:]  # Remove o label da linha
 
             instrucao = partes[0].upper()  # Converte a instrução para maiúsculo
@@ -193,13 +193,8 @@ with open(entrada) as arquivo:
                     else:
                         print("Erro: valor fora do intervalo permitido (0 a 255)")
                         break
-
-            print(partes)
-            print(hexa)
             instrucoes_hex.append(hexa)  # Adiciona último byte da instrução
             endereco += 1
-            print(endereco)
-            print(label)
 
 # Gera arquivo de saída no formato compatível com o Logisim
 print(instrucoes_hex)
