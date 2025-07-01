@@ -144,7 +144,6 @@ def montador(instrucao):
         elif instrucoes[instrucao[0]] == 0b00100000: #Data
             codbinario = int(instrucoes[instrucao[0]]) + int(instrucao[1][1])
             numeros_hexa.append(converter_para_hexa(codbinario))
-            print(instrucao[2])
             numeros_hexa.append(converter_para_hexa(instrucao[2]))
             endereco+=2
         elif instrucoes[instrucao[0]] == 0b00110000: #Jmpr
@@ -181,7 +180,6 @@ for elemento in range(numero_instrucoes):
             int(numeros_hexa[elemento], 16)
             numero_hexa = numeros_hexa[elemento]
         except Exception:
-            print(numeros_hexa[elemento])
             print("AVIS0: algum endereço fornecido nos JMP ou JCAEZ está incorreto.")    
     arquivo_texto.write(numero_hexa + "\n")
 print("Conversão feita com sucesso!")
