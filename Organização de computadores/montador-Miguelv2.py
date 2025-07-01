@@ -91,23 +91,23 @@ def montador(instrucao):
     """
     instrucao = instrucao.replace(',', ' ').split()
     if(":" in instrucao[0]):
-        enderecos[instrucao[0]] = f"0x{endereco+1:02x}"
+        enderecos[instrucao[0]] = converter_para_hexa(f"0x{endereco+1:02x}")
         instrucao = instrucao[1:]
 
-    if instrucao[0] in ["in", "out"]:
+    if instrucao[0].lower() in ["in", "out"]:
         codbinario = 0b01110000
-        if instrucao[0] == "in":
+        if instrucao[0].lower() == "in":
             codbinario += 0b0000
-        elif instrucao[0] == "out":
+        elif instrucao[0].lower() == "out":
             codbinario += 0b1000
-        if instrucao[1] == "data":
+        if instrucao[1].lower() == "data":
             codbinario += 0b0000
-        elif instrucao[1] == "addr":
+        elif instrucao[1].lower() == "addr":
             codbinario += 0b0100
         codbinario += int(instrucao[2][1])
         numeros_hexa.append(converter_para_hexa(codbinario))
         endereco+=1
-    elif instrucao[0][0] == "j" and "mp" not in instrucao[0]:
+    elif instrucao[0][0].lower() == "j" and "mp" not in instrucao[0]:
         numeros_hexa.append(flags_caez(instrucao[0]))
         numeros_hexa.append(converter_para_hexa(instrucao[1]) if ('0x' in instrucao[1]) or ('0b' in instrucao[1]) else instrucao[1])
         endereco+=2
@@ -132,7 +132,7 @@ def montador(instrucao):
     elif instrucao[0].upper() == 'HALT':
         numeros_hexa.append(converter_para_hexa(0b01000000))
         endereco+=1
-        numeros_hexa.append(f"0b{endereco:08b}")
+        numeros_hexa.append(converter_para_hexa(f"0b{endereco:09b}"))
         endereco+=1
     else:
         if instrucoes[instrucao[0]] > 0b01110000 or instrucoes[instrucao[0]] < 0b00100000:
@@ -144,6 +144,7 @@ def montador(instrucao):
         elif instrucoes[instrucao[0]] == 0b00100000: #Data
             codbinario = int(instrucoes[instrucao[0]]) + int(instrucao[1][1])
             numeros_hexa.append(converter_para_hexa(codbinario))
+            print(instrucao[2])
             numeros_hexa.append(converter_para_hexa(instrucao[2]))
             endereco+=2
         elif instrucoes[instrucao[0]] == 0b00110000: #Jmpr
@@ -173,5 +174,14 @@ arquivo_texto = open(arquivo_saida, "w")
 arquivo_texto.write("v3.0 hex words plain\n")
 numero_instrucoes = len(numeros_hexa)
 for elemento in range(numero_instrucoes):
-    arquivo_texto.write(numeros_hexa[elemento] + "\n")
+    if(f'{numeros_hexa[elemento]}:' in enderecos):
+        numero_hexa = enderecos[f'{numeros_hexa[elemento]}:']
+    else:
+        try:
+            int(numeros_hexa[elemento], 16)
+            numero_hexa = numeros_hexa[elemento]
+        except Exception:
+            print(numeros_hexa[elemento])
+            print("AVIS0: algum endereço fornecido nos JMP ou JCAEZ está incorreto.")    
+    arquivo_texto.write(numero_hexa + "\n")
 print("Conversão feita com sucesso!")
