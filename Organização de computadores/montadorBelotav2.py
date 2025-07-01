@@ -150,7 +150,7 @@ def montar_instrucao(instrucao, memoria, posicao, labels):
     if instrucao.operacao == "MOVE":
         r1 = obter_registrador(instrucao.arg1)
         r2 = obter_registrador(instrucao.arg2)
-        for a, b in [(r2, r1), (r1, r2), (r2, r1)]:
+        for a, b in [(r2, r1), (r1, r2)]:
             byte = CodigoInstrucao.XOR.value | (a << 2) | b
             memoria[posicao] = byte
             posicao += 1
@@ -248,7 +248,7 @@ def main():
                 elif isinstance(item, LinhaInstrucao):
                     instrucoes_lidas.append(item)
                     if item.operacao == "MOVE":
-                        pos_tmp += 3
+                        pos_tmp += 2
                     elif item.operacao == "CLR":
                         pos_tmp += 2
                     elif item.operacao == "HALT":
@@ -262,7 +262,7 @@ def main():
         elif isinstance(resultado, LinhaInstrucao):
             instrucoes_lidas.append(resultado)
             if resultado.operacao == "MOVE":
-                pos_tmp += 3
+                pos_tmp += 2
             elif resultado.operacao == "CLR":
                 pos_tmp += 2
             elif resultado.operacao == "HALT":
