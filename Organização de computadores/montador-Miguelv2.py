@@ -106,9 +106,11 @@ def montador(instrucao):
             codbinario += 0b0100
         codbinario += int(instrucao[2][1])
         numeros_hexa.append(converter_para_hexa(codbinario))
+        endereco+=1
     elif instrucao[0][0] == "j" and "mp" not in instrucao[0]:
         numeros_hexa.append(flags_caez(instrucao[0]))
-        numeros_hexa.append(converter_para_hexa(instrucao[1]))
+        numeros_hexa.append(converter_para_hexa(instrucao[1]) if ('0x' in instrucao[1]) or ('0b' in instrucao[1]) else instrucao[1])
+        endereco+=2
     elif instrucao[0].upper() == 'MOVE':
         ra = int(instrucao[2][1])
         rb = int(instrucao[1][1])
@@ -119,33 +121,42 @@ def montador(instrucao):
         rb = int(instrucao[2][1])
         codbinario = int(instrucoes['xor']) + (ra<<2) + rb
         numeros_hexa.append(converter_para_hexa(codbinario))
+        endereco+=2
 
 
     elif instrucao[0].upper() == 'CLR':
         codbinario = int(instrucoes['data']) + int(instrucao[1][1])
         numeros_hexa.append(converter_para_hexa(codbinario))
         numeros_hexa.append(converter_para_hexa('0x00'))
-
+        endereco+=2
     elif instrucao[0].upper() == 'HALT':
         numeros_hexa.append(converter_para_hexa(0b01000000))
+        endereco+=1
+        numeros_hexa.append(f"0b{endereco:08b}")
+        endereco+=1
     else:
         if instrucoes[instrucao[0]] > 0b01110000 or instrucoes[instrucao[0]] < 0b00100000:
             ra = int(instrucao[1][1])
             rb = int(instrucao[2][1])
             codbinario = int(instrucoes[instrucao[0]]) + (ra<<2) + rb
             numeros_hexa.append(converter_para_hexa(codbinario))
+            endereco+=1
         elif instrucoes[instrucao[0]] == 0b00100000: #Data
             codbinario = int(instrucoes[instrucao[0]]) + int(instrucao[1][1])
             numeros_hexa.append(converter_para_hexa(codbinario))
             numeros_hexa.append(converter_para_hexa(instrucao[2]))
+            endereco+=2
         elif instrucoes[instrucao[0]] == 0b00110000: #Jmpr
             codbinario = int(instrucoes[instrucao[0]]) + int(instrucao[1][1])
             numeros_hexa.append(converter_para_hexa(codbinario))
+            endereco+=1
         elif instrucoes[instrucao[0]] == 0b01000000: #Jmp
             numeros_hexa.append(converter_para_hexa(0b01000000))
-            numeros_hexa.append(instrucao[1][2:])
+            numeros_hexa.append(converter_para_hexa(instrucao[1]) if ('0x' in instrucao[1]) or ('0b' in instrucao[1]) else instrucao[1])
+            endereco+=2
         elif instrucoes[instrucao[0]] == 0b01100000: #CLF
             numeros_hexa.append(converter_para_hexa(0b01100000))
+            endereco+=1
 
 arquivo_assembly = open(arquivo_entrada, "r")
 linhas = arquivo_assembly.readlines()
