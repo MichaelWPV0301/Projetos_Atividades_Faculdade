@@ -49,7 +49,6 @@ with open(entrada) as arquivo:
         partes = partes[0].strip().split()  # Separa os elementos da instrução
 
         if partes:  # Se houver instrução na linha
-            print(partes)
 
             # Verifica se há label no início da linha (ex: INICIO: ...)
             if ":" in partes[0]:
@@ -57,7 +56,6 @@ with open(entrada) as arquivo:
                 partes = partes[1:]  # Remove o label da linha
 
             instrucao = partes[0].upper()  # Converte a instrução para maiúsculo
-            print(instrucao)
 
             # INSTRUÇÕES COM DOIS REGISTRADORES (1 BYTE)
             if instrucao in instrucoes1:
