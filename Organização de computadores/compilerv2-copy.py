@@ -154,6 +154,8 @@ with open(entrada) as arquivo:
             print(f"Instrução a ser executada: {instrucao}")
             # INSTRUÇÕES COM DOIS REGISTRADORES (1 BYTE)
             if instrucao in instrucoes1:
+                if(instrucao=="JMPR"):
+                    partes.append("r0")
                 hexainstru = instru_com_regs(instrucao, partes[1], partes[2])
                     
                 instrucoes_hex.append(hexainstru)
@@ -171,20 +173,18 @@ with open(entrada) as arquivo:
                         break
 
             
-            # INSTRUÇÕES COM DOIS BYTES (JMPR, DATA, JMP, CLF, JCAEZ)
+            # INSTRUÇÕES COM DOIS BYTES ( JMP, CLF, JCAEZ)
             elif instrucao in instrucoes2 or instrucao[0] == "J":
                 hexainstru = instru_sem_regs(instrucao)
                 instrucoes_hex.append(hexainstru)
                 endereco += 1
                 if(instrucao[0] == "J"):
-                    hexainstru = partes[2]
-                    if(verifica_intervalo_data(hexainstru)):
-                        instrucoes_hex.append(hexainstru)
-                        endereco+=1
-                    else:
-                        print("Endereço fora do intervalo de 0 e 255")
-                        break
-            
+                    print(partes)
+                    hexainstru = partes[1]
+                    if(("0b" in hexainstru) or ("0x" in hexainstru) or (hexainstru.isnumeric())):
+                        hexainstru = "0x" + converte_hexadecimal(hexainstru)
+                    instrucoes_hex.append(hexainstru)
+                    endereco+=1
             # INSTRUÇÕES DE PERIFÉRICOS: IN/OUT/DATA/ADDR
             elif instrucao in outside:
                 hexainstru = instru_outside(partes)
@@ -205,7 +205,7 @@ with open(entrada) as arquivo:
 
                 # CLR RX: limpa registrador (gera 0x2X)
                 elif instrucao == 'CLR':
-                    hexainstru = instru_com_regs("DATA", partes[1])
+                    hexainstru = instru_com_regs("DATA", partes[1], "r0")
                     instrucoes_hex.append(hexainstru)
                     instrucoes_hex.append("0x00")
                     endereco += 2
@@ -217,13 +217,14 @@ with open(entrada) as arquivo:
                     hexainstru = instru_sem_regs("JMP")
                     instrucoes_hex.append(hexainstru)
                     endereco += 1
-                    if(verifica_intervalo_data(endereco)):
+                    if(verifica_intervalo_data(f"0x{endereco:02x}")):
                         instrucoes_hex.append(f"0x{endereco:02x}")
                         endereco +=1
                     else:
                         print("Erro: valor fora do intervalo permitido (0 a 255)")
                         break
             print(f"Instrução: {partes}. hexadecimal final: {hexainstru}")
+            print("A label está dessa forma: ", label)
             
 # Gera arquivo de saída no formato compatível com o Logisim
 print(instrucoes_hex)
@@ -232,4 +233,7 @@ with open(saida, "w") as f:
     for hexa in instrucoes_hex:
         if '0x' not in hexa:  # Se for label, resolve o endereço
             hexa = label[f'{hexa}:']
+            if(not verifica_intervalo_data(hexa)):
+                print("Erro no intervalo colocado no endereço da Label")
+                break
         f.write(f"{hexa}\n")
