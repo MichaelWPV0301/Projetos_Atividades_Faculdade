@@ -70,18 +70,17 @@ def verifica_label(partes):
 
 def converte_registradores(ra, rb):
     regs = registradores[ra] + registradores[rb]
-    print(regs)
-    hexaregs = converte_hexadecimal(regs)
+    hexaregs = converte_hexadecimal(f"0b{regs}")
     return hexaregs
 
 
 def instru_com_regs(instrucao, ra, rb):
-    if(instrucao=="DATA"):
+    if((instrucao=="DATA") or (instrucao=="JMPR")):
         rb = ra
         ra = "r0"
-    print(ra, rb)
     hexaregs = converte_registradores(ra.upper(), rb.upper())
-    hexainstru = instrucoes1[instrucao] + hexaregs
+    print(hexaregs)
+    hexainstru = instrucoes1[instrucao] + hexaregs[1:]
     return hexainstru
 
 def complemento_de_dois(valor):
@@ -152,10 +151,11 @@ with open(entrada) as arquivo:
 
             # Converte a instrução para maiúsculo
             instrucao = partes[0].upper() 
-
+            print(f"Instrução a ser executada: {instrucao}")
             # INSTRUÇÕES COM DOIS REGISTRADORES (1 BYTE)
             if instrucao in instrucoes1:
                 hexainstru = instru_com_regs(instrucao, partes[1], partes[2])
+                    
                 instrucoes_hex.append(hexainstru)
                 endereco+=1
                 if(instrucao == "DATA"):
