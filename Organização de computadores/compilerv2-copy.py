@@ -44,7 +44,10 @@ def converte_hexadecimal(valor):
 
     try:   
         # Converte para decimal
-        decimal = int(valor, 0)
+        if(("x" in valor) or ("b" in valor)):
+            decimal = int(valor, 0)
+        else:
+            decimal = int(valor) 
     except ValueError:
         raise ValueError("Formato inválido. Use binário (0b...), hexadecimal (0x...), ou decimal.")
     
@@ -67,14 +70,16 @@ def verifica_label(partes):
 
 def converte_registradores(ra, rb):
     regs = registradores[ra] + registradores[rb]
+    print(regs)
     hexaregs = converte_hexadecimal(regs)
     return hexaregs
 
 
-def instru_com_regs(instrucao, ra=0, rb=0):
+def instru_com_regs(instrucao, ra, rb):
     if(instrucao=="DATA"):
         rb = ra
-        ra = 0
+        ra = "r0"
+    print(ra, rb)
     hexaregs = converte_registradores(ra.upper(), rb.upper())
     hexainstru = instrucoes1[instrucao] + hexaregs
     return hexainstru
