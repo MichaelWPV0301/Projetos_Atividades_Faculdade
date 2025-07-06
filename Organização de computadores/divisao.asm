@@ -11,7 +11,7 @@ ADD R2, R3
 ; DEZENA(PRIMEIRO VALOR)
 IN DATA,R1 
 CMP R1,R0
-JE FINAL
+JE ERRADO
 
 ; UNIDADE(SE EXISTIR NO SEGUNUDO VALOR)
 IN DATA, R2
@@ -29,7 +29,7 @@ CONVERSAO:  ADD R3, R1
             NOT R3,R3
             ADD R0, R3
 
-LOOP1:       DATA R0, 0x00
+LOOP:       DATA R0, 0x00
             CMP R1,R0
             JE SEGUNDOVALOR
             DATA R0, 0x0a
@@ -44,13 +44,30 @@ UMDIGITO:   MOVE R1, R2
 
 
 SEGUNDOVALOR:   MOVE R2, R0
-                DATA R2, 0x2f
                 IN DATA, R1
-                CMP R2, R1
+                DATA R2, 0xd0 ; 0xd0 = -30
+                ADD R2, R1
+                DATA R2, 0x2f
+                CMP R2,R1
                 JA DIVISAO
                 IN DATA, R1; Oque o teclado passa quando nao tem nada?
+                DATA R3, 0x00 
+                CMP R3, R1
+                JE ERRADO
+                DATA R2, 0xd0
+                ADD R2, R1
                 JMP DIVISAO
 
 
+
+
+
+ERRADO: DATA R0, 0x21
+        DATA R1, 0x01
+        OUT ADDR, R1
+        OUT DATA, R0
+        JMP FINAL
+
+DIVISAO: HALT
 FINAL: HALT
 
