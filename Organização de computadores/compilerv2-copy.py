@@ -297,6 +297,7 @@ with open(entrada) as arquivo:
     endereco = -1  # Endereço atual (contador de instruções)
 
     for linha in arquivo:
+        print(linha)
         if not linha:
             continue  # Ignora linhas vazias
 
@@ -308,8 +309,10 @@ with open(entrada) as arquivo:
             partes = verifica_label(partes)
 
             # Converte a instrução para maiúsculo
-            instrucao = partes[0].upper() 
-
+            if(partes):
+                instrucao = partes[0].upper() 
+            else:
+                continue
 
             print(f"Instrução a ser executada: {instrucao}")
             # INSTRUÇÕES COM DOIS REGISTRADORES (1 BYTE)
