@@ -30,8 +30,7 @@ JMP PROCESSO_DE_VALORES
     ; Inicia a sequencia de ajuste dos valores de entrada.
 
 ; === FLUXO DE PROCESSAMENTO DE VALORES ===
-PROCESSO_DE_VALORES:
-    ADD R3, R1
+PROCESSO_DE_VALORES: ADD R3, R1
         ; Converte o primeiro dado de entrada de ASCII para seu formato binario.
 
     CMP R2, R0
@@ -52,8 +51,7 @@ PROCESSO_DE_VALORES:
         ; Zera R0 (1 + -1).
 
 ; === CADEIA ITERATIVA DE CALCULO ===
-CADEIA_ITERATIVA_CALCULO:
-    DATA R0, 0x00
+CADEIA_ITERATIVA_CALCULO: DATA R0, 0x00
         ; Zera R0 para a condicao de parada da cadeia.
     CMP R1, R0
         ; Compara o primeiro dado (dezena) com zero.
@@ -70,8 +68,7 @@ CADEIA_ITERATIVA_CALCULO:
         ; Continua a cadeia.
 
 ; === MANIPULACAO DE VALORES DE DIGITO UNICO ===
-TRATAR_DADO_SIMPLES:
-    MOVE R1, R2
+TRATAR_DADO_SIMPLES: MOVE R1, R2
         ; Move o valor unico (ja em R2) para R1.
     DATA R1, 0x30
         ; Carrega o valor ASCII '0' em R1.
@@ -82,8 +79,7 @@ TRATAR_DADO_SIMPLES:
         ; Retorna ao inicio do processo de valores. RISCO DE LOOP INDESEJADO!
 
 ; === PREPARACAO PARA A PROXIMA LEITURA (DIVISOR) ===
-AVANCAR_PARA_SEGUNDA_ENTRADA:
-    MOVE R2, R0
+AVANCAR_PARA_SEGUNDA_ENTRADA: MOVE R2, R0
         ; Move o valor total acumulado para R2.
     DATA R3, 0x00
         ; Zera R3 para reutilizacao.
@@ -91,8 +87,7 @@ AVANCAR_PARA_SEGUNDA_ENTRADA:
     DATA R2, 0x2F
         ; Recarrega o byte de controle ('/') em R2.
 
-CADEIA_LEITURA_DIVISOR:
-    IN DATA, R1
+CADEIA_LEITURA_DIVISOR: IN DATA, R1
         ; Obtem o caractere que representa o divisor.
     CMP R1, R3
         ; Compara o divisor com zero.
@@ -112,8 +107,7 @@ CADEIA_LEITURA_DIVISOR:
         ; Prossegue para o procedimento de calculo.
 
 ; === ROTA DE TRATAMENTO DE ERROS ===
-ROTA_DE_ERRO:
-    DATA R0, 0x21
+ROTA_DE_ERRO: DATA R0, 0x21
         ; Caractere '!' para sinalizar um erro.
     DATA R1, 0x01
         ; Endereco de memoria para exibicao no console.
@@ -123,8 +117,7 @@ ROTA_DE_ERRO:
         ; Finaliza a execucao do programa.
 
 ; === PROCEDIMENTO MATEMATICO PRINCIPAL (DIVISAO) ===
-INICIAR_PROCEDIMENTO_MATEMATICO:
-    DATA R2, 0x00
+INICIAR_PROCEDIMENTO_MATEMATICO: DATA R2, 0x00
         ; Inicializa o registrador para o quociente em zero.
     CMP R1, R2
         ; Verifica se o divisor (R1) e zero.
@@ -134,8 +127,7 @@ INICIAR_PROCEDIMENTO_MATEMATICO:
     DATA R3, 0x01
         ; Carrega uma constante auxiliar para incremento.
 
-CADEIA_DE_OPERACAO:
-    CMP R1, R0
+CADEIA_DE_OPERACAO: CMP R1, R0
         ; Compara o dividendo (R1) com o divisor (R0).
     JA RESULTADO_DE_SAIDA
         ; Se o dividendo for menor, a operacao esta concluida.
@@ -158,8 +150,7 @@ CADEIA_DE_OPERACAO:
         ; Continua o ciclo de operacao.
 
 ; === ROTINA DE EXIBICAO DE RESULTADO ===
-RESULTADO_DE_SAIDA:
-    MOVE R2, R0
+RESULTADO_DE_SAIDA: MOVE R2, R0
         ; Move o valor final (quociente) de R0 para R2.
     DATA R2, 0x09
         ; Define um valor limite para a dezena (9).
@@ -176,8 +167,7 @@ RESULTADO_DE_SAIDA:
     DATA R1, 0x00
         ; Zera R1, presumindo que seja um contador de dezenas.
 
-CICLO_DE_MOSTRAGEM:
-    CMP R0, R2
+CICLO_DE_MOSTRAGEM: CMP R0, R2
         ; Compara o quociente (R0) com o limite de dezena (9 em R2).
     JA EMITIR_DEZENAS
         ; Se o quociente for maior que 9, ha uma dezena para exibir.
@@ -198,8 +188,7 @@ CICLO_DE_MOSTRAGEM:
     JMP FIM_DO_OPERACIONAL
         ; Finaliza a execucao.
 
-EMITIR_DEZENAS:
-    ADD R3, R0
+EMITIR_DEZENAS: ADD R3, R0
         ; Reduz o quociente (R0) em 10 (R3 e -10).
     DATA R2, 0x01
         ; Define R2 como o valor unitario.
@@ -211,6 +200,5 @@ EMITIR_DEZENAS:
         ; Continua o ciclo de exibicao.
 
 ; === PONTO DE FINALIZACAO ===
-FIM_DO_OPERACIONAL:
-    HALT
+FIM_DO_OPERACIONAL: HALT
         ; Interrompe a execucao do programa.
