@@ -54,7 +54,8 @@ int main() {
     // Abertura dos arquivos CSV
     FILE *csv_bfs = fopen("tempos_bfs.csv", "w");
     FILE *csv_dfs = fopen("tempos_dfs.csv", "w");
-    if (!csv_bfs || !csv_dfs) {
+    FILE *csv_matadj = fopen("matrizes_adjacencia.csv", "w");
+    if (!csv_bfs || !csv_dfs || !csv_matadj) {
         perror("Erro ao abrir arquivo CSV");
         return 1;
     }
@@ -68,7 +69,7 @@ int main() {
     }
     fprintf(csv_bfs, ",Media\n");
     fprintf(csv_dfs, ",Media\n");
-
+    
     printf("==== INICIO DAS MEDICOES ====\n");
 
     // Loop principal de teste
@@ -110,9 +111,9 @@ int main() {
                 mostra_sequencia_dfs(seq);
             }
             libera_lista(&seq);
+            imprimirMatrizAdjacencia(&g, csv_matadj);
             libera_grafo(&g);
-
-            printf("Tempos (s): BFS = %.9f | DFS = %.9f\n", tempo_bfs, tempo_dfs);
+            printf("\nTempos (s): BFS = %.9f | DFS = %.9f\n", tempo_bfs, tempo_dfs);
             printf("-----------------------------------------------------\n");
         }
 
@@ -143,6 +144,7 @@ int main() {
 
     fclose(csv_bfs);
     fclose(csv_dfs);
+    fclose(csv_matadj);
 
     // Exibe resumo final das médias
     printf("\n         ====== RESUMO FINAL DAS MEDIAS ======\n\n");

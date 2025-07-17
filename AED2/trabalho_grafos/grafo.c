@@ -89,6 +89,21 @@ void gera_arestas_aleatorias(Grafo* grafo, float grau_conexidade) {
 
     free(vertices);
 }
+void imprimirMatrizAdjacencia(Grafo* grafo, FILE* arquivo) {
+    if (grafo == NULL || grafo->matrizAdj == NULL) {
+        fprintf(arquivo, "Grafo ou matriz inválida.\n");
+        return;
+    }
+
+    fprintf(arquivo, "Matriz de Adjacência (%d vértices):\n", grafo->numVertices);
+
+    for (int i = 0; i < grafo->numVertices; i++) {
+        for (int j = 0; j < grafo->numVertices; j++) {
+            fprintf(arquivo, "%d ", grafo->matrizAdj[i][j] ? 1 : 0);
+        }
+        fprintf(arquivo, "\n");
+    }
+}
 
 /**
  * @brief Gera uma árvore aleatória (sem ciclos), conectando todos os vértices.

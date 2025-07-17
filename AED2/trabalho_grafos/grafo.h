@@ -68,6 +68,12 @@ void adiciona_aresta_grafo(Grafo* grafo, int origem, int destino);
 void gera_arestas_aleatorias(Grafo* grafo, float grau_conexidade);
 
 /**
+ * @brief Escreve em um arquivo a matriz de adjacência de um grafo.
+ * @param grafo Ponteiro para o grafo.
+ * @param arquivo Ponteiro para o arquivo
+ */
+void imprimirMatrizAdjacencia(Grafo* grafo, FILE* arquivo);
+/**
  * @brief Gera uma árvore aleatória (grafo conexo e sem ciclos).
  * @param grafo Ponteiro para o grafo.
  */
